@@ -2950,7 +2950,7 @@ function openStmtEmail(e) {
     while (i) { j = Math.floor(Math.random()*i--); x=b[i]; b[i]=b[j]; b[j]=x; }
     return b;
   }
-  var Q = shuffle(T), idx = 0, timer, INTV = 9000;
+  var Q = shuffle(T), idx = 0, timer, INTV = 40000;
 
   function setText(i) {
     var el = document.getElementById('dykTxt');
@@ -3125,7 +3125,7 @@ var DYK_TIPS=[
 (function(){
   var q=DYK_TIPS.slice(),i=q.length,j,x;
   while(i){j=Math.floor(Math.random()*i--);x=q[i];q[i]=q[j];q[j]=x;}
-  var cur=0,tmr,IV=9000;
+  var cur=0,tmr,IV=40000;
   function show(n){
     var el=document.getElementById('dykTxt');
     var bar=document.getElementById('dykBar2');
