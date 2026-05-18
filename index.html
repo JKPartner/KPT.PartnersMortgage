@@ -844,16 +844,18 @@ footer p{font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,255,2
   50%      { transform: translateY(-4px); opacity: 1; }
 }
 .kpt-bot-suggestions {
-  display: flex; gap: 6px; flex-wrap: wrap;
-  padding: 10px 16px 4px;
+  display: flex; gap: 5px; flex-wrap: nowrap;
+  overflow-x: auto; scrollbar-width: none;
+  padding: 6px 12px;
   background: var(--warm);
   border-top: 1px solid rgba(200,168,152,.15);
 }
+.kpt-bot-suggestions::-webkit-scrollbar { display: none; }
 .kpt-suggest-btn {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 600;
-  letter-spacing: .04em;
-  padding: 5px 10px;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .03em;
+  padding: 4px 9px;
   border-radius: 20px;
   border: 1px solid rgba(0,129,141,.25);
   background: var(--teal-lt);
@@ -861,6 +863,7 @@ footer p{font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,255,2
   cursor: pointer;
   transition: all .15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .kpt-suggest-btn:hover {
   background: var(--teal);
@@ -3259,7 +3262,7 @@ var DYK_TIPS=[
   var isOpen = false;
   var isTyping = false;
 
-  var SYSTEM_PROMPT = "You are KPT Bot, a friendly and knowledgeable mortgage assistant for Katie Pastor Trinidad at Partners Mortgage in Roseville, California. Katie is a Senior Mortgage Advisor with 20+ years of experience, NMLS# 885654, licensed in CA, AL, and CO. Her phone is 916.850.5956 and email is kpastor@partnersmortgage.com. Partners Mortgage was founded in 1988.\n\nYour job is to answer mortgage questions in a warm, clear, jargon-free way. You help people understand the home buying and refinancing process, loan types, credit, down payments, and everything in between.\n\nIMPORTANT RULES:\n- NEVER quote specific interest rates or APRs. If asked about rates, warmly explain that rates are personalized and change daily, and encourage them to reach out to Katie directly for a real conversation.\n- You can explain how rates work in general (factors that affect them, how to get a better rate, etc.) but never give a specific number.\n- Always be encouraging and positive. Homeownership is achievable and Katie can help.\n- When relevant, mention that Katie would be the perfect person to help and include her contact info.\n- Keep answers conversational and concise — 2 to 4 short paragraphs max. Use plain language.\n- If someone seems ready to take action, encourage them to fill out the questionnaire or book a call with Katie.\n- You are not a licensed lender yourself. You provide education and information only.";
+  var SYSTEM_PROMPT = "You are KPT Bot, a friendly mortgage assistant for Katie Pastor Trinidad at Partners Mortgage in Roseville, CA. Katie is a Senior Mortgage Advisor with 20+ years of experience, NMLS# 885654, licensed in CA, AL, and CO. Phone: 916.850.5956 | Email: kpastor@partnersmortgage.com. Partners Mortgage founded 1988.\n\nAnswer mortgage questions in a warm, clear, jargon-free way.\n\nRULES:\n- Be concise. 2-3 short sentences per answer max. Get to the point fast.\n- Use a smiley or relevant emoji naturally in some responses (not every one — just where it fits).\n- NEVER quote specific rates or APRs. Explain rates change daily and are personalized — point them to Katie.\n- Be encouraging. Homeownership is achievable.\n- Mention Katie and her contact info when relevant.\n- If they seem ready to act, suggest booking a call or filling out the questionnaire.\n- You provide education only, not licensed lending advice.";
 
   function init() {
     addBotMsg("Hi! I'm KPT Bot — Katie's mortgage assistant. I'm here to answer any questions you have about buying a home, refinancing, loan types, credit, and more. What can I help you with today?");
