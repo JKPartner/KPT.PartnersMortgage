@@ -22,6 +22,21 @@ function pipedriveGet(path, apiToken) {
   });
 }
 
+// Field names we want to display (must match Pipedrive exactly)
+const CUSTOM_FIELD_NAMES = [
+  'Locked',
+  'Appraisal Ordered/Due',
+  'Disclosed',
+  'Sub. to Processing',
+  'Sub. to UW',
+  '1st Loan Approval',
+  'COE',
+  'Loan Cont.',
+  'Appraisal Cont.'
+];
+
+const ALLOWED_PIPELINES = ['Loan Pipeline', 'Lead Pipeline'];
+
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -41,6 +56,15 @@ exports.handler = async function(event) {
     const apiToken = process.env.PIPEDRIVE_API_KEY;
 
     if (action === 'search') {
+      // Fetch deal field definitions to build name->key map
+      const fieldsResult = await pipedriveGet('dealFields?limit=200', apiToken);
+      const fieldMap = {}; // name -> api key
+      if (fieldsResult.success && fieldsResult.data) {
+        fieldsResult.data.forEach(f => {
+          fieldMap[f.name] = f.key;
+        });
+      }
+
       // Search for person by name or email
       const searchResult = await pipedriveGet(
         `persons/search?term=${encodeURIComponent(query)}&fields=name,email&limit=10`,
@@ -55,23 +79,28 @@ exports.handler = async function(event) {
         };
       }
 
-      // For each person found, get their deals
       const persons = searchResult.data.items.slice(0, 5);
       const results = [];
 
       for (const item of persons) {
         const person = item.item;
+
         // Get deals for this person
         const dealsResult = await pipedriveGet(
-          `persons/${person.id}/deals?status=all_not_deleted&limit=3`,
+          `persons/${person.id}/deals?status=all_not_deleted&limit=10`,
           apiToken
         );
 
-        const deals = dealsResult.success && dealsResult.data ? dealsResult.data : [];
+        const allDeals = dealsResult.success && dealsResult.data ? dealsResult.data : [];
 
-        // Get latest note for each deal
-        const dealsWithNotes = [];
-        for (const deal of deals.slice(0, 2)) {
+        // Filter to Loan Pipeline and Lead Pipeline only
+        const filteredDeals = allDeals.filter(deal =>
+          ALLOWED_PIPELINES.includes(deal.pipeline_name)
+        );
+
+        const dealsWithDetails = [];
+        for (const deal of filteredDeals.slice(0, 3)) {
+          // Get latest note
           let latestNote = null;
           try {
             const notesResult = await pipedriveGet(
@@ -80,14 +109,21 @@ exports.handler = async function(event) {
             );
             if (notesResult.success && notesResult.data && notesResult.data.length) {
               latestNote = notesResult.data[0].content;
-              // Strip HTML tags
               latestNote = latestNote.replace(/<[^>]*>/g, '').trim();
-              // Truncate to 150 chars
               if (latestNote.length > 150) latestNote = latestNote.substring(0, 150) + '...';
             }
           } catch(e) {}
 
-          dealsWithNotes.push({
+          // Extract custom fields using the field map
+          const customFields = {};
+          CUSTOM_FIELD_NAMES.forEach(name => {
+            const key = fieldMap[name];
+            if (key && deal[key] !== undefined && deal[key] !== null && deal[key] !== '') {
+              customFields[name] = deal[key];
+            }
+          });
+
+          dealsWithDetails.push({
             id: deal.id,
             title: deal.title,
             stage: deal.stage_name || deal.stage_id,
@@ -100,7 +136,8 @@ exports.handler = async function(event) {
             won_time: deal.won_time,
             lost_time: deal.lost_time,
             latest_note: latestNote,
-            pipeline: deal.pipeline_name
+            pipeline: deal.pipeline_name,
+            custom_fields: customFields
           });
         }
 
@@ -109,7 +146,7 @@ exports.handler = async function(event) {
           name: person.name,
           email: person.emails ? person.emails[0] : null,
           phone: person.phones ? person.phones[0] : null,
-          deals: dealsWithNotes
+          deals: dealsWithDetails
         });
       }
 
