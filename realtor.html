@@ -169,6 +169,17 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
   border-left: 3px solid var(--teal);
   font-size: 13px; color: var(--text); line-height: 1.65;
 }
+
+.deal-custom-fields {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px; margin-bottom: 12px;
+  background: var(--white); border-radius: 8px; padding: 14px 16px;
+  border: 1px solid rgba(200,168,152,.2);
+}
+.deal-cf-item { display: flex; flex-direction: column; gap: 2px; }
+.deal-cf-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.deal-cf-value { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--text); }
+
 .deal-note-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
 .no-deals { font-style: italic; color: var(--muted); font-size: 13px; padding: 12px 0; }
 .no-results {
@@ -418,6 +429,20 @@ function searchClient() {
             html += '<div class="deal-meta-item"><div class="deal-meta-label">Pipeline</div><div class="deal-meta-value">' + escHtml(deal.pipeline) + '</div></div>';
           }
           html += '</div>';
+
+          // Custom fields section
+          if (deal.custom_fields && Object.keys(deal.custom_fields).length) {
+            html += '<div class="deal-custom-fields">';
+            var fieldOrder = ['Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing','Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'];
+            fieldOrder.forEach(function(fname) {
+              var val = deal.custom_fields[fname];
+              if (val) {
+                html += '<div class="deal-cf-item"><span class="deal-cf-label">' + escHtml(fname) + '</span><span class="deal-cf-value">' + escHtml(val) + '</span></div>';
+              }
+            });
+            html += '</div>';
+          }
+
           if (deal.latest_note) {
             html += '<div class="deal-note"><div class="deal-note-label">Latest Update</div>' + escHtml(deal.latest_note) + '</div>';
           }
