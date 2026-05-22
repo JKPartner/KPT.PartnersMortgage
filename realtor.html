@@ -170,6 +170,32 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
   font-size: 13px; color: var(--text); line-height: 1.65;
 }
 
+.pipeline-badge {
+  font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px;
+  border-radius: 20px; margin-right: 8px;
+}
+.badge-loan { background: rgba(13,110,93,.12); color: #0d6e5d; border: 1px solid rgba(13,110,93,.25); }
+.badge-lead { background: rgba(255,172,39,.15); color: #b87a00; border: 1px solid rgba(255,172,39,.3); }
+.next-step-value { color: var(--teal); font-weight: 800; }
+
+@media (max-width: 640px) {
+  .login-box { padding: 32px 20px; }
+  .search-bar { flex-direction: column; gap: 10px; }
+  .search-bar input { width: 100%; }
+  .search-btn { width: 100%; justify-content: center; }
+  .client-card { border-radius: 12px; }
+  .client-card-head { padding: 14px 16px; gap: 10px; }
+  .client-avatar { width: 36px; height: 36px; font-size: 13px; }
+  .client-name { font-size: 13px; }
+  .deal-card { padding: 14px 16px; }
+  .deal-header { flex-wrap: wrap; gap: 6px; }
+  .deal-meta { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deal-custom-fields { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .portal-footer { flex-direction: column; gap: 12px; text-align: center; }
+  .portal-footer-btn { width: 100%; justify-content: center; }
+}
+
 .deal-custom-fields {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 8px; margin-bottom: 12px;
@@ -404,7 +430,7 @@ function searchClient() {
       if (!person.deals || !person.deals.length) return;
       // One card per deal, using deal title as the header
       person.deals.forEach(function(deal) {
-        var initials = deal.title.split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
+        var initials = deal.title.split(' ').map(function(w){ return w[0]; }).join('').replace(/[^A-Z]/gi,'').substring(0,2).toUpperCase() || '??';
         html += '<div class="client-card">';
         html += '<div class="client-card-head">';
         html += '<div class="client-avatar">' + initials + '</div>';
@@ -414,6 +440,11 @@ function searchClient() {
         html += '<div class="deals-wrap">';
         html += '<div class="deal-card">';
         html += '<div class="deal-header">';
+        // Pipeline badge
+        var pipelineBadge = deal.pipeline_id === 2
+          ? '<span class="pipeline-badge badge-loan">Loan Pipeline</span>'
+          : '<span class="pipeline-badge badge-lead">Lead Pipeline</span>';
+        html += pipelineBadge;
         html += '<span class="deal-stage ' + stageClass(deal.status) + '">' + escHtml(stageLabel(deal)) + '</span>';
         html += '</div>';
         html += '<div class="deal-meta">';
@@ -423,8 +454,13 @@ function searchClient() {
         if (deal.close_date) {
           html += '<div class="deal-meta-item"><div class="deal-meta-label">Est. Close</div><div class="deal-meta-value">' + escHtml(formatDate(deal.close_date)) + '</div></div>';
         }
-        if (deal.pipeline) {
-          html += '<div class="deal-meta-item"><div class="deal-meta-label">Pipeline</div><div class="deal-meta-value">' + escHtml(deal.pipeline) + '</div></div>';
+        if (deal.stage) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Current Stage</div><div class="deal-meta-value">' + escHtml(deal.stage) + '</div></div>';
+        }
+        if (deal.next_stage) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Next Step</div><div class="deal-meta-value next-step-value">' + escHtml(deal.next_stage) + '</div></div>';
+        } else if (deal.status === 'open') {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Next Step</div><div class="deal-meta-value">Final Stage</div></div>';
         }
         html += '</div>';
 
