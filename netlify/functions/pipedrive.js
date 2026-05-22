@@ -23,18 +23,10 @@ function pipedriveGet(path, apiToken) {
 }
 
 const CUSTOM_FIELD_NAMES = [
-  'Locked',
-  'Appraisal Ordered/Due',
-  'Disclosed',
-  'Sub. to Processing',
-  'Sub. to UW',
-  '1st Loan Approval',
-  'COE',
-  'Loan Cont.',
-  'Appraisal Cont.'
+  'Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing',
+  'Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'
 ];
 
-// Loan Pipeline = 2, Lead Pipeline = 3
 const ALLOWED_PIPELINE_IDS = [2, 3];
 
 exports.handler = async function(event) {
@@ -56,20 +48,43 @@ exports.handler = async function(event) {
     const apiToken = process.env.PIPEDRIVE_API_KEY;
 
     if (action === 'search') {
-      // Fetch deal field definitions to build name->key map
-      const fieldsResult = await pipedriveGet('dealFields?limit=200', apiToken);
+      // Fetch deal fields, pipeline stages for both pipelines, in parallel
+      const [fieldsResult, loanStagesResult, leadStagesResult, searchResult] = await Promise.all([
+        pipedriveGet('dealFields?limit=200', apiToken),
+        pipedriveGet('stages?pipeline_id=2', apiToken),
+        pipedriveGet('stages?pipeline_id=3', apiToken),
+        pipedriveGet(`persons/search?term=${encodeURIComponent(query)}&fields=name,email&limit=10`, apiToken)
+      ]);
+
+      // Build field name -> key map
       const fieldMap = {};
       if (fieldsResult.success && fieldsResult.data) {
-        fieldsResult.data.forEach(f => {
-          fieldMap[f.name] = f.key;
-        });
+        fieldsResult.data.forEach(f => { fieldMap[f.name] = f.key; });
       }
 
-      // Search for person by name or email
-      const searchResult = await pipedriveGet(
-        `persons/search?term=${encodeURIComponent(query)}&fields=name,email&limit=10`,
-        apiToken
-      );
+      // Build stage maps: stageId -> {name, order, pipelineId}
+      // and pipelineId -> ordered array of stages
+      const stageById = {};
+      const pipelineStages = { 2: [], 3: [] };
+
+      [loanStagesResult, leadStagesResult].forEach(result => {
+        if (result.success && result.data) {
+          result.data.forEach(s => {
+            stageById[s.id] = { name: s.name, order: s.order_nr, pipelineId: s.pipeline_id };
+          });
+          const pid = result.data[0] && result.data[0].pipeline_id;
+          if (pid) {
+            pipelineStages[pid] = result.data.sort((a, b) => a.order_nr - b.order_nr);
+          }
+        }
+      });
+
+      function getNextStage(stageId, pipelineId) {
+        const stages = pipelineStages[pipelineId] || [];
+        const idx = stages.findIndex(s => s.id === stageId);
+        if (idx === -1 || idx >= stages.length - 1) return null;
+        return stages[idx + 1].name;
+      }
 
       if (!searchResult.success || !searchResult.data || !searchResult.data.items.length) {
         return {
@@ -85,36 +100,26 @@ exports.handler = async function(event) {
       for (const item of persons) {
         const person = item.item;
 
-        // Get ALL deals for this person
         const dealsResult = await pipedriveGet(
-          `persons/${person.id}/deals?status=all_not_deleted&limit=50`,
-          apiToken
+          `persons/${person.id}/deals?status=all_not_deleted&limit=50`, apiToken
         );
 
         const allDeals = dealsResult.success && dealsResult.data ? dealsResult.data : [];
-
-        // Filter to pipeline IDs 2 (Loan) and 3 (Lead) only
-        const filteredDeals = allDeals.filter(deal =>
-          ALLOWED_PIPELINE_IDS.includes(deal.pipeline_id)
-        );
+        const filteredDeals = allDeals.filter(deal => ALLOWED_PIPELINE_IDS.includes(deal.pipeline_id));
 
         const dealsWithDetails = [];
         for (const deal of filteredDeals) {
-          // Get latest note
           let latestNote = null;
           try {
             const notesResult = await pipedriveGet(
-              `notes?deal_id=${deal.id}&limit=1&sort=add_time DESC`,
-              apiToken
+              `notes?deal_id=${deal.id}&limit=1&sort=add_time DESC`, apiToken
             );
             if (notesResult.success && notesResult.data && notesResult.data.length) {
-              latestNote = notesResult.data[0].content;
-              latestNote = latestNote.replace(/<[^>]*>/g, '').trim();
+              latestNote = notesResult.data[0].content.replace(/<[^>]*>/g, '').trim();
               if (latestNote.length > 150) latestNote = latestNote.substring(0, 150) + '...';
             }
           } catch(e) {}
 
-          // Extract custom fields, mark empty as TBD
           const customFields = {};
           CUSTOM_FIELD_NAMES.forEach(name => {
             const key = fieldMap[name];
@@ -122,10 +127,14 @@ exports.handler = async function(event) {
             customFields[name] = (val !== undefined && val !== null && val !== '') ? val : 'TBD';
           });
 
+          const currentStageName = stageById[deal.stage_id] ? stageById[deal.stage_id].name : (deal.stage_name || null);
+          const nextStageName = getNextStage(deal.stage_id, deal.pipeline_id);
+
           dealsWithDetails.push({
             id: deal.id,
             title: deal.title,
-            stage: deal.stage_name || deal.stage_id,
+            stage: currentStageName,
+            next_stage: nextStageName,
             status: deal.status,
             value: deal.value,
             currency: deal.currency,
