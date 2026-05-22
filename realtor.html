@@ -401,55 +401,52 @@ function searchClient() {
 
     var html = '<div class="results-wrap">';
     results.forEach(function(person) {
-      var initials = person.name.split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
-      html += '<div class="client-card">';
-      html += '<div class="client-card-head">';
-      html += '<div class="client-avatar">' + initials + '</div>';
-      html += '<div><div class="client-name">' + escHtml(person.name) + '</div>';
-      if (person.email) html += '<div class="client-contact">' + escHtml(person.email) + '</div>';
-      html += '</div></div>';
-      html += '<div class="deals-wrap">';
-      if (!person.deals || !person.deals.length) {
-        html += '<div class="no-deals">No active deals found for this client.</div>';
-      } else {
-        person.deals.forEach(function(deal) {
-          html += '<div class="deal-card">';
-          html += '<div class="deal-header">';
-          html += '<div class="deal-title">' + escHtml(deal.title) + '</div>';
-          html += '<span class="deal-stage ' + stageClass(deal.status) + '">' + escHtml(stageLabel(deal)) + '</span>';
-          html += '</div>';
-          html += '<div class="deal-meta">';
-          if (deal.update_time) {
-            html += '<div class="deal-meta-item"><div class="deal-meta-label">Last Updated</div><div class="deal-meta-value">' + escHtml(formatDate(deal.update_time)) + '</div></div>';
-          }
-          if (deal.close_date) {
-            html += '<div class="deal-meta-item"><div class="deal-meta-label">Est. Close</div><div class="deal-meta-value">' + escHtml(formatDate(deal.close_date)) + '</div></div>';
-          }
-          if (deal.pipeline) {
-            html += '<div class="deal-meta-item"><div class="deal-meta-label">Pipeline</div><div class="deal-meta-value">' + escHtml(deal.pipeline) + '</div></div>';
-          }
-          html += '</div>';
+      if (!person.deals || !person.deals.length) return;
+      // One card per deal, using deal title as the header
+      person.deals.forEach(function(deal) {
+        var initials = deal.title.split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
+        html += '<div class="client-card">';
+        html += '<div class="client-card-head">';
+        html += '<div class="client-avatar">' + initials + '</div>';
+        html += '<div><div class="client-name">' + escHtml(deal.title) + '</div>';
+        if (person.email) html += '<div class="client-contact">' + escHtml(person.email) + '</div>';
+        html += '</div></div>';
+        html += '<div class="deals-wrap">';
+        html += '<div class="deal-card">';
+        html += '<div class="deal-header">';
+        html += '<span class="deal-stage ' + stageClass(deal.status) + '">' + escHtml(stageLabel(deal)) + '</span>';
+        html += '</div>';
+        html += '<div class="deal-meta">';
+        if (deal.update_time) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Last Updated</div><div class="deal-meta-value">' + escHtml(formatDate(deal.update_time)) + '</div></div>';
+        }
+        if (deal.close_date) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Est. Close</div><div class="deal-meta-value">' + escHtml(formatDate(deal.close_date)) + '</div></div>';
+        }
+        if (deal.pipeline) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Pipeline</div><div class="deal-meta-value">' + escHtml(deal.pipeline) + '</div></div>';
+        }
+        html += '</div>';
 
-          // Custom fields section
-          if (deal.custom_fields && Object.keys(deal.custom_fields).length) {
-            html += '<div class="deal-custom-fields">';
-            var fieldOrder = ['Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing','Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'];
-            fieldOrder.forEach(function(fname) {
-              var val = deal.custom_fields[fname];
-              if (val) {
-                html += '<div class="deal-cf-item"><span class="deal-cf-label">' + escHtml(fname) + '</span><span class="deal-cf-value">' + escHtml(val) + '</span></div>';
-              }
-            });
-            html += '</div>';
-          }
-
-          if (deal.latest_note) {
-            html += '<div class="deal-note"><div class="deal-note-label">Latest Update</div>' + escHtml(deal.latest_note) + '</div>';
-          }
+        // Custom fields grid
+        if (deal.custom_fields && Object.keys(deal.custom_fields).length) {
+          html += '<div class="deal-custom-fields">';
+          var fieldOrder = ['Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing','Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'];
+          fieldOrder.forEach(function(fname) {
+            var val = deal.custom_fields[fname];
+            if (val) {
+              html += '<div class="deal-cf-item"><span class="deal-cf-label">' + escHtml(fname) + '</span><span class="deal-cf-value">' + escHtml(val) + '</span></div>';
+            }
+          });
           html += '</div>';
-        });
-      }
-      html += '</div></div>';
+        }
+
+        if (deal.latest_note) {
+          html += '<div class="deal-note"><div class="deal-note-label">Latest Update</div>' + escHtml(deal.latest_note) + '</div>';
+        }
+        html += '</div>';
+        html += '</div></div>';
+      });
     });
     html += '</div>';
     wrap.innerHTML = html;
