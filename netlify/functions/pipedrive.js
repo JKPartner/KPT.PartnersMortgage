@@ -22,7 +22,6 @@ function pipedriveGet(path, apiToken) {
   });
 }
 
-// Field names we want to display (must match Pipedrive exactly)
 const CUSTOM_FIELD_NAMES = [
   'Locked',
   'Appraisal Ordered/Due',
@@ -35,7 +34,8 @@ const CUSTOM_FIELD_NAMES = [
   'Appraisal Cont.'
 ];
 
-const ALLOWED_PIPELINES = ['Loan Pipeline', 'Lead Pipeline'];
+// Loan Pipeline = 2, Lead Pipeline = 3
+const ALLOWED_PIPELINE_IDS = [2, 3];
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
@@ -58,7 +58,7 @@ exports.handler = async function(event) {
     if (action === 'search') {
       // Fetch deal field definitions to build name->key map
       const fieldsResult = await pipedriveGet('dealFields?limit=200', apiToken);
-      const fieldMap = {}; // name -> api key
+      const fieldMap = {};
       if (fieldsResult.success && fieldsResult.data) {
         fieldsResult.data.forEach(f => {
           fieldMap[f.name] = f.key;
@@ -85,21 +85,21 @@ exports.handler = async function(event) {
       for (const item of persons) {
         const person = item.item;
 
-        // Get deals for this person
+        // Get ALL deals for this person
         const dealsResult = await pipedriveGet(
-          `persons/${person.id}/deals?status=all_not_deleted&limit=10`,
+          `persons/${person.id}/deals?status=all_not_deleted&limit=50`,
           apiToken
         );
 
         const allDeals = dealsResult.success && dealsResult.data ? dealsResult.data : [];
 
-        // Filter to Loan Pipeline and Lead Pipeline only
+        // Filter to pipeline IDs 2 (Loan) and 3 (Lead) only
         const filteredDeals = allDeals.filter(deal =>
-          ALLOWED_PIPELINES.includes(deal.pipeline_name)
+          ALLOWED_PIPELINE_IDS.includes(deal.pipeline_id)
         );
 
         const dealsWithDetails = [];
-        for (const deal of filteredDeals.slice(0, 3)) {
+        for (const deal of filteredDeals) {
           // Get latest note
           let latestNote = null;
           try {
@@ -114,13 +114,12 @@ exports.handler = async function(event) {
             }
           } catch(e) {}
 
-          // Extract custom fields using the field map
+          // Extract custom fields, mark empty as TBD
           const customFields = {};
           CUSTOM_FIELD_NAMES.forEach(name => {
             const key = fieldMap[name];
-            if (key && deal[key] !== undefined && deal[key] !== null && deal[key] !== '') {
-              customFields[name] = deal[key];
-            }
+            const val = key ? deal[key] : null;
+            customFields[name] = (val !== undefined && val !== null && val !== '') ? val : 'TBD';
           });
 
           dealsWithDetails.push({
@@ -137,17 +136,20 @@ exports.handler = async function(event) {
             lost_time: deal.lost_time,
             latest_note: latestNote,
             pipeline: deal.pipeline_name,
+            pipeline_id: deal.pipeline_id,
             custom_fields: customFields
           });
         }
 
-        results.push({
-          id: person.id,
-          name: person.name,
-          email: person.emails ? person.emails[0] : null,
-          phone: person.phones ? person.phones[0] : null,
-          deals: dealsWithDetails
-        });
+        if (dealsWithDetails.length > 0) {
+          results.push({
+            id: person.id,
+            name: person.name,
+            email: person.emails ? person.emails[0] : null,
+            phone: person.phones ? person.phones[0] : null,
+            deals: dealsWithDetails
+          });
+        }
       }
 
       return {
