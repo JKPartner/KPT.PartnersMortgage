@@ -95,6 +95,29 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 }
 .logout-btn:hover { background: rgba(255,255,255,.2); color: white; }
 
+/* PORTAL TABS */
+.portal-tabs {
+  display: flex; gap: 4px; margin-bottom: 28px;
+  background: var(--white); border-radius: 12px; padding: 6px;
+  border: 1px solid rgba(200,168,152,.2);
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.portal-tab {
+  flex: 1; background: transparent; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  padding: 10px 16px; border-radius: 8px;
+  transition: all .15s; white-space: nowrap;
+}
+.portal-tab:hover { background: var(--sand-lt); color: var(--navy); }
+.portal-tab.active {
+  background: linear-gradient(135deg, var(--navy), #0e2f50);
+  color: var(--white);
+  box-shadow: 0 3px 12px rgba(12,35,64,.3);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
 /* Search */
 .search-card {
   background: var(--white); border-radius: 14px; padding: 32px;
@@ -169,7 +192,6 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
   border-left: 3px solid var(--teal);
   font-size: 13px; color: var(--text); line-height: 1.65;
 }
-
 .pipeline-badge {
   font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 800;
   letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px;
@@ -178,24 +200,6 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 .badge-loan { background: rgba(13,110,93,.12); color: #0d6e5d; border: 1px solid rgba(13,110,93,.25); }
 .badge-lead { background: rgba(255,172,39,.15); color: #b87a00; border: 1px solid rgba(255,172,39,.3); }
 .next-step-value { color: var(--teal); font-weight: 800; }
-
-@media (max-width: 640px) {
-  .login-box { padding: 32px 20px; }
-  .search-bar { flex-direction: column; gap: 10px; }
-  .search-bar input { width: 100%; }
-  .search-btn { width: 100%; justify-content: center; }
-  .client-card { border-radius: 12px; }
-  .client-card-head { padding: 14px 16px; gap: 10px; }
-  .client-avatar { width: 36px; height: 36px; font-size: 13px; }
-  .client-name { font-size: 13px; }
-  .deal-card { padding: 14px 16px; }
-  .deal-header { flex-wrap: wrap; gap: 6px; }
-  .deal-meta { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .deal-custom-fields { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .portal-footer { flex-direction: column; gap: 12px; text-align: center; }
-  .portal-footer-btn { width: 100%; justify-content: center; }
-}
-
 .deal-custom-fields {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 8px; margin-bottom: 12px;
@@ -205,7 +209,6 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 .deal-cf-item { display: flex; flex-direction: column; gap: 2px; }
 .deal-cf-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .deal-cf-value { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--text); }
-
 .deal-note-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
 .no-deals { font-style: italic; color: var(--muted); font-size: 13px; padding: 12px 0; }
 .no-results {
@@ -243,12 +246,179 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ===== PRE-APPROVAL LETTER TAB ===== */
+.pal-wrap {
+  display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start;
+}
+.pal-form-card {
+  background: var(--white); border-radius: 14px; padding: 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+  position: sticky; top: 20px;
+}
+.pal-form-card h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px;
+}
+.pal-field { margin-bottom: 14px; }
+.pal-label {
+  display: block; font-family: 'Montserrat', sans-serif; font-size: 10px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px;
+}
+.pal-input, .pal-select {
+  width: 100%; background: var(--warm); border: 1.5px solid rgba(200,168,152,.35);
+  border-radius: 8px; padding: 10px 13px; font-family: 'Lora', serif;
+  font-size: 13px; color: var(--text); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.pal-input:focus, .pal-select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,129,141,.1); }
+.pal-auto {
+  width: 100%; background: rgba(0,129,141,.06); border: 1.5px solid rgba(0,129,141,.2);
+  border-radius: 8px; padding: 10px 13px; font-family: 'Montserrat', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--teal-dk);
+}
+.pal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pal-download-btn {
+  width: 100%; background: linear-gradient(135deg, var(--navy), #0e2f50);
+  color: white; font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 14px; border-radius: 10px; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(12,35,64,.3); margin-top: 6px;
+  transition: transform .15s;
+}
+.pal-download-btn:hover { transform: translateY(-1px); }
+
+/* PAL Preview */
+.pal-preview-card {
+  background: var(--white); border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+  overflow: hidden;
+}
+.pal-preview-label {
+  background: var(--sand-lt); padding: 14px 24px;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--navy);
+  border-bottom: 1px solid rgba(200,168,152,.2);
+  display: flex; align-items: center; gap: 8px;
+}
+.pal-preview-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+
+/* PAL Document Styles */
+.pal-doc {
+  padding: 48px 52px; font-family: 'Times New Roman', Times, serif;
+  font-size: 13px; line-height: 1.6; color: #000; background: white;
+  min-height: 860px;
+}
+.pal-doc-logo { margin-bottom: 28px; }
+.pal-doc-logo svg { height: 52px; width: auto; }
+.pal-doc-title {
+  text-align: center; font-size: 15px; font-weight: bold;
+  text-decoration: underline; margin-bottom: 22px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.pal-doc-meta { margin-bottom: 22px; }
+.pal-doc-meta table { border-collapse: collapse; }
+.pal-doc-meta td { padding: 2px 0; vertical-align: top; font-family: 'Times New Roman', Times, serif; font-size: 13px; }
+.pal-doc-meta td:first-child { font-weight: bold; width: 150px; padding-right: 12px; }
+.pal-doc-congrats { font-size: 14px; font-weight: bold; margin-bottom: 14px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-body { margin-bottom: 20px; font-size: 13px; line-height: 1.65; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-terms-label { font-weight: bold; font-size: 13px; margin-bottom: 10px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-terms { margin-bottom: 20px; }
+.pal-doc-terms table { border-collapse: collapse; }
+.pal-doc-terms td { padding: 3px 0; font-family: 'Times New Roman', Times, serif; font-size: 13px; vertical-align: top; }
+.pal-doc-terms td:first-child { width: 170px; }
+.pal-doc-terms td:last-child { font-weight: normal; }
+.pal-doc-closing { margin-bottom: 20px; font-size: 13px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-sig { margin-top: 24px; font-family: 'Times New Roman', Times, serif; font-size: 13px; }
+.pal-doc-sig-name { font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: .05em; margin-top: 6px; }
+.pal-doc-sig-line { font-size: 12px; line-height: 1.8; }
+.pal-doc-disclaimer {
+  font-size: 10px; color: #444; line-height: 1.5;
+  border-top: 1px solid #ccc; padding-top: 14px; margin-top: 32px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.pal-doc-footer {
+  text-align: center; font-size: 11px; font-weight: bold;
+  margin-top: 18px; padding-top: 12px;
+  border-top: 1px solid #000;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* ===== RATES TAB ===== */
+.rates-wrap {
+  background: var(--white); border-radius: 14px; padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+}
+.rates-header { margin-bottom: 24px; }
+.rates-header h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800;
+  color: var(--navy); margin-bottom: 6px;
+}
+.rates-header p { font-style: italic; font-size: 13px; color: var(--muted); }
+.rates-iframe-wrap {
+  width: 100%; overflow: hidden; border-radius: 10px;
+  border: 1px solid rgba(200,168,152,.2);
+}
+.rates-iframe-wrap iframe { display: block; width: 100%; border: none; }
+.rates-cta {
+  margin-top: 20px; padding: 18px 24px;
+  background: linear-gradient(135deg, var(--sand-lt), var(--warm));
+  border-radius: 10px; border: 1px solid rgba(200,168,152,.25);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.rates-cta p {
+  font-family: 'Lora', serif; font-size: 13px; font-style: italic; color: var(--text);
+}
+.rates-cta p strong { font-style: normal; font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--navy); font-size: 12px; }
+.rates-contact-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.rates-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  color: white; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 7px; text-decoration: none;
+  box-shadow: 0 3px 10px rgba(0,129,141,.3); transition: transform .15s;
+}
+.rates-btn:hover { transform: translateY(-1px); }
+
+/* Print styles for PAL */
+@media print {
+  body * { visibility: hidden !important; }
+  .pal-doc, .pal-doc * { visibility: visible !important; }
+  .pal-doc { position: fixed; top: 0; left: 0; width: 100%; padding: 48px 72px; font-size: 13px; }
+  .pal-preview-label { display: none !important; }
+}
+
+@media (max-width: 860px) {
+  .pal-wrap { grid-template-columns: 1fr; }
+  .pal-form-card { position: static; }
+}
+@media (max-width: 640px) {
+  .login-box { padding: 32px 20px; }
+  .search-bar { flex-direction: column; gap: 10px; }
+  .search-bar input { width: 100%; }
+  .search-btn { width: 100%; justify-content: center; }
+  .client-card { border-radius: 12px; }
+  .client-card-head { padding: 14px 16px; gap: 10px; }
+  .client-avatar { width: 36px; height: 36px; font-size: 13px; }
+  .client-name { font-size: 13px; }
+  .deal-card { padding: 14px 16px; }
+  .deal-header { flex-wrap: wrap; gap: 6px; }
+  .deal-meta { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deal-custom-fields { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .portal-footer { flex-direction: column; gap: 12px; text-align: center; }
+  .portal-footer-btn { width: 100%; justify-content: center; }
+  .portal-tabs { flex-wrap: wrap; }
+  .portal-tab { font-size: 10px; padding: 8px 10px; }
+  .rates-cta { flex-direction: column; }
+}
 @media(max-width:600px) {
   .portal-header { padding: 16px 20px; }
   .login-card { padding: 32px 24px; }
   .search-row { flex-direction: column; }
   .portal-wrap { padding: 24px 16px; }
   .quick-contact { flex-direction: column; }
+  .pal-doc { padding: 32px 28px; }
 }
 </style>
 </head>
@@ -285,7 +455,7 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
       onkeydown="if(event.key==='Enter') login()">
     <button class="login-btn" onclick="login()">Access Portal →</button>
     <div class="login-error" id="loginError">Incorrect access code. Contact Katie for access.</div>
-    <p class="login-contact">Need access? Contact <a href="mailto:kpastor@partnersmortgage.com">kpastor@partnersmortgage.com</a></p>
+    <p class="login-contact">Need access? Contact <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com">kpastor@partnersmortgage.com</a></p>
   </div>
 </div>
 
@@ -294,58 +464,265 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
   <div class="portal-welcome">
     <div>
       <h2>Welcome to the Partner Portal</h2>
-      <p>Search for your clients below to see their live pipeline status.</p>
+      <p>Search clients, generate pre-approval letters, and check today's rates.</p>
     </div>
     <button class="logout-btn" onclick="logout()">Sign Out</button>
   </div>
 
-  <div class="search-card">
-    <h3>Client Pipeline Lookup</h3>
-    <div class="search-row">
-      <input type="text" class="search-input" id="searchInput" placeholder="Search by client name or email..."
-        onkeydown="if(event.key==='Enter') searchClient()">
-      <button class="search-btn" onclick="searchClient()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Search
-      </button>
-    </div>
-    <p class="search-hint">Results are pulled live from our pipeline — updated in real time.</p>
+  <!-- TABS -->
+  <div class="portal-tabs">
+    <button class="portal-tab active" onclick="switchTab('search', this)">
+      🔍 &nbsp;Client Pipeline
+    </button>
+    <button class="portal-tab" onclick="switchTab('pal', this)">
+      📄 &nbsp;Pre-Approval Letter
+    </button>
+    <button class="portal-tab" onclick="switchTab('rates', this)">
+      📈 &nbsp;Today's Rates
+    </button>
   </div>
 
-  <div id="resultsWrap"></div>
-
-  <div class="quick-contact">
-    <div>
-      <h3>Need to reach Katie directly?</h3>
-      <p>Call, text, or email — she responds fast.</p>
+  <!-- TAB: CLIENT SEARCH -->
+  <div class="tab-panel active" id="tab-search">
+    <div class="search-card">
+      <h3>Client Pipeline Lookup</h3>
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search by client name or email..."
+          onkeydown="if(event.key==='Enter') searchClient()">
+        <button class="search-btn" onclick="searchClient()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+      </div>
+      <p class="search-hint">Shows active loans only — results pulled live from our pipeline.</p>
     </div>
-    <div class="quick-contact-btns">
-      <a href="tel:9168505956" class="qc-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
-        916.850.5956
-      </a>
-      <a href="mailto:kpastor@partnersmortgage.com" class="qc-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Email Katie
-      </a>
-      <a href="https://calendly.com/katiepastortrinidad" target="_blank" class="qc-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Book a Call
-      </a>
+    <div id="resultsWrap"></div>
+
+    <div class="quick-contact">
+      <div>
+        <h3>Need to reach Katie directly?</h3>
+        <p>Call, text, or email — she responds fast.</p>
+      </div>
+      <div class="quick-contact-btns">
+        <a href="tel:9168505956" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          916.850.5956
+        </a>
+        <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email Katie
+        </a>
+        <a href="https://calendly.com/katiepastortrinidad" target="_blank" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book a Call
+        </a>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- TAB: PRE-APPROVAL LETTER -->
+  <div class="tab-panel" id="tab-pal">
+    <div class="pal-wrap">
+      <!-- Form -->
+      <div class="pal-form-card">
+        <h3>Letter Details</h3>
+
+        <div class="pal-field">
+          <label class="pal-label">Date</label>
+          <input type="text" class="pal-input" id="pal-date" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Borrower(s)</label>
+          <input type="text" class="pal-input" id="pal-borrowers" placeholder="e.g. John Smith, Jane Smith" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Property Address</label>
+          <input type="text" class="pal-input" id="pal-address" placeholder="e.g. 123 Main St, Roseville, CA 95661" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Expiration</label>
+          <input type="text" class="pal-input" id="pal-expiration" value="90 Days" oninput="updatePAL()">
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Purchase Price</label>
+            <input type="text" class="pal-input" id="pal-purchase" placeholder="$0" oninput="updatePAL()">
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Loan Amount</label>
+            <input type="text" class="pal-input" id="pal-loan" placeholder="$0" oninput="updatePAL()">
+          </div>
+        </div>
+
+        <div class="pal-field">
+          <label class="pal-label">Down Payment % <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;">(auto)</span></label>
+          <div class="pal-auto" id="pal-dp-display">—</div>
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Loan Term</label>
+            <select class="pal-select" id="pal-term" onchange="updatePAL()">
+              <option value="30 years">30 years</option>
+              <option value="25 years">25 years</option>
+              <option value="20 years">20 years</option>
+              <option value="15 years" selected>15 years</option>
+              <option value="10 years">10 years</option>
+            </select>
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Loan Type</label>
+            <select class="pal-select" id="pal-type" onchange="updatePAL()">
+              <option value="Conventional" selected>Conventional</option>
+              <option value="FHA">FHA</option>
+              <option value="VA">VA</option>
+              <option value="USDA">USDA</option>
+              <option value="Jumbo">Jumbo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Seller Credits</label>
+            <input type="text" class="pal-input" id="pal-seller" value="$0.00" oninput="updatePAL()">
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Deposit</label>
+            <input type="text" class="pal-input" id="pal-deposit" placeholder="-$0.00" oninput="updatePAL()">
+          </div>
+        </div>
+
+        <button class="pal-download-btn" onclick="downloadPAL()">
+          ⬇ &nbsp;Download as PDF
+        </button>
+      </div>
+
+      <!-- Preview -->
+      <div class="pal-preview-card">
+        <div class="pal-preview-label">Live Preview</div>
+        <div class="pal-doc" id="palDoc">
+          <!-- Logo -->
+          <div class="pal-doc-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120">
+              <g transform="translate(0,5)">
+                <svg x="0" y="0" width="80" height="80" viewBox="0 0 1200 1200">
+                  <path fill="#00818D" d="M596.662 144.389c34.998-3.172 61.633 12.496 92.264 26.447l92.646 42.659 148.298 67.771c24.231 11.112 55.887 23.912 77.53 38.258 13.33 8.839 24.72 33.444 25.74 49.353 1.78 27.628.95 59.551.93 87.73l-.04 172.002-.01 232.228.09 70.326c.13 33.766 7.63 85.057-38.179 90.057-15.486 1.69-29.669 1.15-45.212 1.13l-74.309-.02-285.711-.03-86.45.01c-14.861.01-38.143-.55-52.35 1.07l-.046-165.707c19.573 1.577 50.149.697 70.701.7l127.415-.019 121.152.044c21.565.013 43.424.502 64.903-.442 18.695-.822 32.803-15.317 34.427-33.722 1.872-21.221 1.396-42.176 1.37-63.418l-.058-96.799.038-113.437c.027-24.681.763-55.347-1.605-79.567-12.076-45.993-37.565-49.775-76.888-67.799l-72.36-33.097-54.019-24.848c-9.531-4.383-22.948-10.989-32.496-14.364a96.2 96.2 0 0 0-33.498-5.572c-25.078.388-42.907 10.519-65.353 20.392l-64.644 28.356-71.674 31.049c-12.541 5.403-30.558 12.592-42.119 18.702a78.6 78.6 0 0 0-19.741 14.962c-9.545 10.062-13.98 19.273-14.725 32.864-1.192 21.728-.655 45.343-.657 67.163l-.011 131.777.001 230.009c.004 39.353-.966 83.426.274 122.493-42.124-2.7-86.002 1.52-128.054-1.62-21.241-1.59-34.093-22.682-35.179-42.768-1.814-33.543-.949-67.966-.947-101.836l-.018-196.325-.042-204.259.009-63.039c.024-39.48-2.981-79.379 39.039-100.877 17.503-8.954 35.936-16.19 53.963-24.053l106.559-46.34 136.739-59.616c29.428-12.846 71.164-34.849 102.307-37.978"/>
+                  <path fill="#8D807A" d="M595.645 451.22c1.691-.129 3.383-.179 5.078-.229 6.631-.197 13.421-.426 19.841 1.531 14.632 4.461 114.164 49.015 123.352 57.864 10.183 9.808 11.358 21.62 11.657 35.051.863 38.733-.121 77.697-.053 116.46.032 18.651 2.007 48.461-.496 65.954-.65 4.537-2.584 8.555-5.811 11.837-3.556 3.615-7.359 5.308-12.282 6.235-14.533 2.736-30.894 1.266-45.713 1.252l-78.718-.093-88.692.097c-16.25.029-32.393.216-48.658-.311-20.876-.677-25.795-12.942-25.444-31.885.12-6.488-.041-13.959-.045-20.49l.023-61.993-.042-64.309c.007-25.725-5.239-51.071 22.278-64.213 31.426-15.009 63.719-28.079 95.559-42.207 8.45-3.75 19.332-8.5 28.166-10.551"/>
+                </svg>
+                <text x="90" y="38" font-family="Montserrat,Arial,sans-serif" font-size="22" font-weight="800" fill="#0C2340">PARTNERS</text>
+                <text x="90" y="58" font-family="Montserrat,Arial,sans-serif" font-size="13" font-weight="600" fill="#6b7280" letter-spacing="2">MORTGAGE</text>
+                <line x1="90" y1="65" x2="310" y2="65" stroke="#D4B8A8" stroke-width="1"/>
+                <text x="90" y="80" font-family="Georgia,serif" font-size="12" font-style="italic" fill="#00818D">You matter.</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="pal-doc-title">Pre-Approval Letter</div>
+
+          <div class="pal-doc-meta">
+            <table>
+              <tr><td><strong>Date:</strong></td><td id="doc-date">&nbsp;</td></tr>
+              <tr><td><strong>Borrower(s):</strong></td><td id="doc-borrowers">&nbsp;</td></tr>
+              <tr><td><strong>Address:</strong></td><td id="doc-address">&nbsp;</td></tr>
+              <tr><td><strong>Expiration Date:</strong></td><td id="doc-expiration">90 Days</td></tr>
+            </table>
+          </div>
+
+          <div class="pal-doc-congrats">CONGRATULATIONS!</div>
+
+          <div class="pal-doc-body">
+            Thank you for choosing Partners Mortgage to represent you in securing your mortgage financing. As a direct lender, we are confident we can provide you with the most efficient home loan process available, along with some fabulous rates/terms.<br><br>
+            You have been pre-approved for the following loan terms based on the information and documentation that you provided regarding your income, employment, and overall credit. Your credit has been reviewed. Your financing is subject to final underwriting approval, clear &amp; marketable title, homeowner's insurance, appraisal review, and verification that your financial condition and creditworthiness has not changed between the date of this letter and closing/funding of the loan.
+          </div>
+
+          <div class="pal-doc-terms-label">Pre-approval Terms:</div>
+          <div class="pal-doc-terms">
+            <table>
+              <tr><td>Purchase Price:</td><td id="doc-purchase">&nbsp;</td></tr>
+              <tr><td>Loan Amount: <strong>Up to</strong></td><td id="doc-loan">&nbsp;</td></tr>
+              <tr><td>Down Payment:</td><td id="doc-dp">&nbsp;</td></tr>
+              <tr><td>Loan Term:</td><td id="doc-term">15 years</td></tr>
+              <tr><td>Loan Type:</td><td id="doc-type">Conventional</td></tr>
+              <tr><td>Seller Credits:</td><td id="doc-seller">$0.00</td></tr>
+              <tr><td>Deposit:</td><td id="doc-deposit">&nbsp;</td></tr>
+            </table>
+          </div>
+
+          <div class="pal-doc-closing">
+            We look forward to servicing your future real estate financing needs and the needs of your friends, family, and colleagues<br><br>
+            If you have any questions regarding this Pre-Approval, please do not hesitate to contact me at (916) 850-5956 or kpastor@partnersmortgage.com
+          </div>
+
+          <div class="pal-doc-sig">
+            Sincerely,
+            <div class="pal-doc-sig-name">KATIE PASTOR TRINIDAD</div>
+            <div class="pal-doc-sig-line">
+              Sr. Mortgage Planner<br>
+              NMLS: 885654<br>
+              Phone: (916) 850-5956<br>
+              Mobile: (916) 850-5956<br>
+              Email: kpastor@partnersmortgage.com
+            </div>
+          </div>
+
+          <div class="pal-doc-disclaimer">
+            This approval is not to be construed as a mortgage commitment. A loan commitment is subject to complete underwriting approval, including satisfactory appraisal and clear title work. Interest rates are subject to change.
+          </div>
+
+          <div class="pal-doc-footer">
+            1687 Eureka Road, Suite 100 Roseville, CA 95661 &nbsp;|&nbsp; NMLS 236669
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: TODAY'S RATES -->
+  <div class="tab-panel" id="tab-rates">
+    <div class="rates-wrap">
+      <div class="rates-header">
+        <h3>Today's Mortgage Rates</h3>
+        <p>Live market rate indices updated daily — powered by Optimal Blue OBMMI™</p>
+      </div>
+      <div class="rates-iframe-wrap">
+        <iframe src="https://www2.optimalblue.com/OBMMI/widgetConfig.php" width="750" height="462" frameBorder="0" style="width:100%;max-width:100%;"></iframe>
+      </div>
+      <div class="rates-cta">
+        <p><strong>Want a personalized rate?</strong><br>For a rate quote tailored to your client's specific scenario, contact Katie directly.</p>
+        <div class="rates-contact-btns">
+          <a href="tel:9168505956" class="rates-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+            Call Katie
+          </a>
+          <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com&subject=Rate%20Quote%20Request" class="rates-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email Katie
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end portal-wrap -->
 
 <script>
 var REALTOR_SECRET = '';
 
+/* ---- TAB SWITCHING ---- */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.portal-tab').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ---- LOGIN ---- */
 function login() {
   var code = document.getElementById('accessCode').value.trim().toUpperCase();
   if (!code) return;
-
-  // We'll verify against the Netlify function
   document.querySelector('.login-btn').textContent = 'Verifying...';
-
   fetch('/.netlify/functions/pipedrive', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -355,7 +732,6 @@ function login() {
       document.getElementById('loginError').style.display = 'block';
       document.querySelector('.login-btn').textContent = 'Access Portal \u2192';
     } else {
-      // Valid code
       REALTOR_SECRET = code;
       sessionStorage.setItem('realtorSecret', code);
       document.getElementById('loginWrap').style.display = 'none';
@@ -378,7 +754,6 @@ function logout() {
   document.getElementById('resultsWrap').innerHTML = '';
 }
 
-// Auto-login if session exists
 var saved = sessionStorage.getItem('realtorSecret');
 if (saved) {
   REALTOR_SECRET = saved;
@@ -386,18 +761,17 @@ if (saved) {
   document.getElementById('portalWrap').style.display = 'block';
 }
 
+/* ---- PIPELINE SEARCH ---- */
 function stageClass(status) {
   if (status === 'won') return 'stage-won';
   if (status === 'lost') return 'stage-lost';
   return 'stage-open';
 }
-
 function stageLabel(deal) {
   if (deal.status === 'won') return 'Funded \u2713';
   if (deal.status === 'lost') return 'Closed';
   return deal.stage || 'In Progress';
 }
-
 function formatDate(str) {
   if (!str) return null;
   var d = new Date(str);
@@ -409,7 +783,6 @@ function searchClient() {
   if (!q) return;
   var wrap = document.getElementById('resultsWrap');
   wrap.innerHTML = '<div class="loading"><div class="spinner"></div>Searching pipeline...</div>';
-
   fetch('/.netlify/functions/pipedrive', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -421,14 +794,12 @@ function searchClient() {
     }
     var results = data.results || [];
     if (!results.length) {
-      wrap.innerHTML = '<div class="no-results"><p>No clients found matching "' + escHtml(q) + '". Try a different name or email.</p></div>';
+      wrap.innerHTML = '<div class="no-results"><p>No active clients found matching "' + escHtml(q) + '". Try a different name or email.</p></div>';
       return;
     }
-
     var html = '<div class="results-wrap">';
     results.forEach(function(person) {
       if (!person.deals || !person.deals.length) return;
-      // One card per deal, using deal title as the header
       person.deals.forEach(function(deal) {
         var initials = deal.title.split(' ').map(function(w){ return w[0]; }).join('').replace(/[^A-Z]/gi,'').substring(0,2).toUpperCase() || '??';
         html += '<div class="client-card">';
@@ -440,7 +811,6 @@ function searchClient() {
         html += '<div class="deals-wrap">';
         html += '<div class="deal-card">';
         html += '<div class="deal-header">';
-        // Pipeline badge
         var pipelineBadge = deal.pipeline_id === 2
           ? '<span class="pipeline-badge badge-loan">Loan Pipeline</span>'
           : '<span class="pipeline-badge badge-lead">Lead Pipeline</span>';
@@ -463,8 +833,6 @@ function searchClient() {
           html += '<div class="deal-meta-item"><div class="deal-meta-label">Next Step</div><div class="deal-meta-value">Final Stage</div></div>';
         }
         html += '</div>';
-
-        // Custom fields grid
         if (deal.custom_fields && Object.keys(deal.custom_fields).length) {
           html += '<div class="deal-custom-fields">';
           var fieldOrder = ['Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing','Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'];
@@ -476,7 +844,6 @@ function searchClient() {
           });
           html += '</div>';
         }
-
         if (deal.latest_note) {
           html += '<div class="deal-note"><div class="deal-note-label">Latest Update</div>' + escHtml(deal.latest_note) + '</div>';
         }
@@ -499,6 +866,66 @@ function escHtml(s) {
 document.getElementById('searchInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') searchClient();
 });
+
+/* ---- PAL LOGIC ---- */
+function parseMoney(s) {
+  if (!s) return NaN;
+  return parseFloat(String(s).replace(/[$,\s]/g,''));
+}
+function formatMoney(n) {
+  if (isNaN(n)) return '';
+  return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function updatePAL() {
+  var date = document.getElementById('pal-date').value || '';
+  var borrowers = document.getElementById('pal-borrowers').value || '';
+  var address = document.getElementById('pal-address').value || '';
+  var expiration = document.getElementById('pal-expiration').value || '90 Days';
+  var purchase = document.getElementById('pal-purchase').value || '';
+  var loan = document.getElementById('pal-loan').value || '';
+  var term = document.getElementById('pal-term').value;
+  var type = document.getElementById('pal-type').value;
+  var seller = document.getElementById('pal-seller').value || '$0.00';
+  var deposit = document.getElementById('pal-deposit').value || '';
+
+  // Auto-calculate down payment
+  var pp = parseMoney(purchase);
+  var la = parseMoney(loan);
+  var dpPct = '';
+  if (!isNaN(pp) && !isNaN(la) && pp > 0) {
+    var dp = ((pp - la) / pp * 100);
+    dpPct = dp.toFixed(2) + '%';
+  }
+  document.getElementById('pal-dp-display').textContent = dpPct || '—';
+
+  // Update preview
+  document.getElementById('doc-date').textContent = date;
+  document.getElementById('doc-borrowers').textContent = borrowers;
+  document.getElementById('doc-address').textContent = address;
+  document.getElementById('doc-expiration').textContent = expiration;
+  document.getElementById('doc-purchase').textContent = purchase;
+  document.getElementById('doc-loan').textContent = loan;
+  document.getElementById('doc-dp').textContent = dpPct;
+  document.getElementById('doc-term').textContent = term;
+  document.getElementById('doc-type').textContent = type;
+  document.getElementById('doc-seller').textContent = seller;
+  document.getElementById('doc-deposit').textContent = deposit;
+}
+
+function downloadPAL() {
+  window.print();
+}
+
+// Set today's date on load
+(function() {
+  var today = new Date();
+  var mm = String(today.getMonth()+1).padStart(2,'0');
+  var dd = String(today.getDate()).padStart(2,'0');
+  var yyyy = today.getFullYear();
+  document.getElementById('pal-date').value = mm + '/' + dd + '/' + yyyy;
+  updatePAL();
+})();
 </script>
 </body>
 </html>
