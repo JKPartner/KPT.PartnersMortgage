@@ -101,7 +101,7 @@ exports.handler = async function(event) {
         const person = item.item;
 
         const dealsResult = await pipedriveGet(
-          `persons/${person.id}/deals?status=all_not_deleted&limit=50`, apiToken
+          `persons/${person.id}/deals?status=open&limit=50`, apiToken
         );
 
         const allDeals = dealsResult.success && dealsResult.data ? dealsResult.data : [];
@@ -182,3 +182,4 @@ exports.handler = async function(event) {
     };
   }
 };
+
