@@ -383,12 +383,10 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 
 /* Print styles for PAL */
 @media print {
-  html, body { height: auto !important; overflow: visible !important; }
-  body > * { display: none !important; }
-  #palDoc { display: block !important; visibility: visible !important; position: absolute; top: 0; left: 0; width: 100%; padding: 48px 72px; font-size: 13px; box-shadow: none !important; border: none !important; }
+  body * { visibility: hidden !important; }
+  #palDoc { visibility: visible !important; position: fixed; top: 0; left: 0; width: 100%; padding: 48px 72px; font-size: 13px; background: white; }
   #palDoc * { visibility: visible !important; }
-  .pal-preview-label { display: none !important; }
-  .pal-preview-card { box-shadow: none !important; border: none !important; }
+  .pal-preview-label { display: none !important; visibility: hidden !important; }
 }
 
 @media (max-width: 860px) {
@@ -468,7 +466,10 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
       <h2>Welcome to the Partner Portal</h2>
       <p>Search clients, generate pre-approval letters, and check today's rates.</p>
     </div>
-    <button class="logout-btn" onclick="logout()">Sign Out</button>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <a href="https://kpt-partnersmortgage.netlify.app/" style="background:linear-gradient(135deg,#FFAC27,#e89a1a);color:#0C2340;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:6px;text-decoration:none;white-space:nowrap;">&#8592; Home</a>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
   </div>
 
   <!-- TABS -->
