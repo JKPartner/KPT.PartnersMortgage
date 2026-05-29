@@ -310,7 +310,7 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
   min-height: 860px;
 }
 .pal-doc-logo { margin-bottom: 28px; }
-.pal-doc-logo svg { height: 52px; width: auto; }
+.pal-doc-logo svg { height: 80px; width: auto; }
 .pal-doc-title {
   text-align: center; font-size: 15px; font-weight: bold;
   text-decoration: underline; margin-bottom: 22px;
@@ -383,10 +383,12 @@ body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(
 
 /* Print styles for PAL */
 @media print {
-  body * { visibility: hidden !important; }
-  .pal-doc, .pal-doc * { visibility: visible !important; }
-  .pal-doc { position: fixed; top: 0; left: 0; width: 100%; padding: 48px 72px; font-size: 13px; }
+  html, body { height: auto !important; overflow: visible !important; }
+  body > * { display: none !important; }
+  #palDoc { display: block !important; visibility: visible !important; position: absolute; top: 0; left: 0; width: 100%; padding: 48px 72px; font-size: 13px; box-shadow: none !important; border: none !important; }
+  #palDoc * { visibility: visible !important; }
   .pal-preview-label { display: none !important; }
+  .pal-preview-card { box-shadow: none !important; border: none !important; }
 }
 
 @media (max-width: 860px) {
