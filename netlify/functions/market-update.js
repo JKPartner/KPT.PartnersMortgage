@@ -17,8 +17,7 @@ function anthropicCall(messages, system) {
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-beta': 'interleaved-thinking-2025-05-14'
+        'anthropic-version': '2023-06-01'
       }
     };
 
@@ -46,8 +45,8 @@ exports.handler = async function(event) {
     return { statusCode: 200, headers, body: '' };
   }
 
-  const system = `You are a real estate market analyst. Search for the most current housing market data available today. 
-Respond ONLY with valid JSON, no markdown, no backticks, no explanation. 
+  const system = `You are a real estate market analyst. Search for the most current housing market data available today.
+Respond ONLY with valid JSON, no markdown, no backticks, no explanation.
 Use this exact format:
 {
   "local": {
