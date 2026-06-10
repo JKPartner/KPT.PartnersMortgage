@@ -2,9 +2,6 @@
   functions = "netlify/functions"
   publish = "."
 
-[functions]
-  timeout = 26
-
 [[redirects]]
   from = "/realtor"
   to = "/realtor.html"
