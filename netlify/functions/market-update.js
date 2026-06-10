@@ -23,7 +23,7 @@ exports.handler = async function(event) {
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   const payload = JSON.stringify({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5',
     max_tokens: 1000,
     system: `You are a real estate market data analyst with knowledge through mid-2026. Today is ${today}. Respond ONLY with a single valid JSON object. No markdown, no backticks, no text before or after the JSON.`,
     messages: [{
