@@ -2818,7 +2818,7 @@ async function fetchMarketUpdate() {
     try {
       data = await doFetch();
     } catch(e2) {
-      contentEl.innerHTML = '<p style="font-family:Lora,serif;color:rgba(255,255,255,.7);">We\'re gathering the latest market data. For the most current information, reach out to Katie at <a href="tel:9168505956" style="color:#00818d;">916.850.5956</a>.</p>';
+      contentEl.innerHTML = '<p style="color:#f87171;font-size:13px;">Error: ' + e2.message + '</p>';
       btn.disabled = false;
       spinner.style.display = 'none';
       return;
