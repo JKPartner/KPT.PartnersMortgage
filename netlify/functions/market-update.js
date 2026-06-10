@@ -1,13 +1,47 @@
 const https = require('https');
 
-function anthropicCall(messages) {
+function callAnthropic(payload) {
   return new Promise((resolve, reject) => {
-    const body = JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      system: `You are a real estate market analyst. Search for the most current housing market data available today.
-After searching, respond ONLY with valid JSON, no markdown, no backticks, no explanation.
-Use this exact format:
+    const bodyStr = JSON.stringify(payload);
+    const options = {
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'Content-Length': Buffer.byteLength(bodyStr)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.error) {
+            reject(new Error('Anthropic API error: ' + parsed.error.message));
+          } else {
+            resolve(parsed);
+          }
+        } catch(e) {
+          reject(new Error('JSON parse error: ' + data.substring(0, 200)));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.write(bodyStr);
+    req.end();
+  });
+}
+
+const SYSTEM = `You are a real estate market data analyst. Search for the most current housing market data for Roseville/Sacramento CA, California statewide, and the US national market.
+
+After searching, respond ONLY with a single valid JSON object. No markdown, no backticks, no explanation before or after. Start your response with { and end with }.
+
+Required format:
 {
   "local": {
     "area": "Roseville / Sacramento, CA",
@@ -19,7 +53,8 @@ Use this exact format:
     "sale_to_list": "XX.X%",
     "compete_score": "XX/100",
     "inventory": "X,XXX homes",
-    "headline": "One sentence opportunity-focused insight about local market"
+    "headline": "One opportunity-focused sentence about the local market",
+    "source_url": "https://redfin.com or similar"
   },
   "california": {
     "median_price": "$XXX,XXX",
@@ -31,7 +66,8 @@ Use this exact format:
     "above_list_pct": "XX%",
     "inventory": "XXX,XXX homes",
     "affordability": "XX%",
-    "headline": "One sentence opportunity-focused insight about CA market"
+    "headline": "One opportunity-focused sentence about the CA market",
+    "source_url": "https://car.org or similar"
   },
   "national": {
     "median_price": "$XXX,XXX",
@@ -39,44 +75,19 @@ Use this exact format:
     "days_on_market": "XX days",
     "inventory_change": "+X% YoY",
     "market_sentiment": "Stabilizing",
-    "headline": "One sentence opportunity-focused national housing insight"
+    "headline": "One opportunity-focused sentence about the national market",
+    "source_url": "https://nar.realtor or similar"
   },
-  "updated": "Month DD, YYYY"
+  "updated": "June 10, 2026"
 }
-Do NOT include any mortgage rate percentages. Use only real data from your web search.`,
-      messages: messages,
-      tools: [{ type: 'web_search_20250305', name: 'web_search' }]
-    });
 
-    const options = {
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try { resolve(JSON.parse(data)); }
-        catch(e) { reject(new Error('Parse error: ' + data.substring(0, 300))); }
-      });
-    });
-    req.on('error', reject);
-    req.write(body);
-    req.end();
-  });
-}
+Do NOT include any mortgage rate percentages. Use only real data from your searches.`;
 
 exports.handler = async function(event) {
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type'
   };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -86,66 +97,75 @@ exports.handler = async function(event) {
   try {
     let messages = [{
       role: 'user',
-      content: 'Search for the latest Roseville CA housing market stats, California statewide housing market data, and national US housing market trends as of today. Return current median prices, days on market, inventory, and sales volume with year-over-year changes. Then respond with the JSON.'
+      content: 'Search for the latest housing market data for Roseville CA, California statewide, and US national. Get median prices, days on market, inventory levels, and sales volume with year-over-year changes. Then respond with the JSON only.'
     }];
 
     let finalText = null;
-    let attempts = 0;
+    const maxTurns = 8;
 
-    // Loop to handle multi-turn web search tool use
-    while (!finalText && attempts < 6) {
-      attempts++;
-      const result = await anthropicCall(messages);
+    for (let turn = 0; turn < maxTurns; turn++) {
+      const result = await callAnthropic({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: SYSTEM,
+        messages: messages,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }]
+      });
 
-      if (!result.content) throw new Error('No content in response');
-
-      // Check stop reason
+      // If stop_reason is end_turn, look for text with JSON
       if (result.stop_reason === 'end_turn') {
-        // Look for final text block
-        const textBlock = result.content.find(b => b.type === 'text');
-        if (textBlock && textBlock.text.trim().startsWith('{')) {
-          finalText = textBlock.text;
-          break;
+        const textBlocks = result.content.filter(b => b.type === 'text');
+        for (const block of textBlocks) {
+          const t = block.text.trim();
+          if (t.includes('"local"') && t.includes('"california"')) {
+            finalText = t;
+            break;
+          }
         }
-      }
-
-      // If tool_use, build next message with tool results
-      if (result.stop_reason === 'tool_use') {
-        const toolUseBlocks = result.content.filter(b => b.type === 'tool_use');
-        if (toolUseBlocks.length === 0) break;
-
-        // Add assistant message
+        if (finalText) break;
+        // If end_turn but no JSON yet, push and ask again
         messages.push({ role: 'assistant', content: result.content });
-
-        // Add tool results (empty - web search results are inline)
-        const toolResults = toolUseBlocks.map(tu => ({
-          type: 'tool_result',
-          tool_use_id: tu.id,
-          content: ''
-        }));
-        messages.push({ role: 'user', content: toolResults });
+        messages.push({ role: 'user', content: 'Now respond with only the JSON object.' });
         continue;
       }
 
-      // If end_turn but no JSON yet, check for any text
-      const textBlock = result.content && result.content.find(b => b.type === 'text');
-      if (textBlock) {
-        finalText = textBlock.text;
-        break;
+      // If tool_use, add assistant message and empty tool results to continue
+      if (result.stop_reason === 'tool_use') {
+        messages.push({ role: 'assistant', content: result.content });
+        const toolResults = result.content
+          .filter(b => b.type === 'tool_use')
+          .map(b => ({
+            type: 'tool_result',
+            tool_use_id: b.id,
+            content: ''
+          }));
+        messages.push({ role: 'user', content: toolResults });
+        continue;
       }
 
       break;
     }
 
-    if (!finalText) throw new Error('No final text after ' + attempts + ' attempts');
+    if (!finalText) {
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ success: false, error: 'No JSON response after ' + maxTurns + ' turns' })
+      };
+    }
 
-    // Clean and parse JSON
-    const clean = finalText.replace(/```json|```/g, '').trim();
-    const jsonStart = clean.indexOf('{');
-    const jsonEnd = clean.lastIndexOf('}');
-    if (jsonStart === -1 || jsonEnd === -1) throw new Error('No JSON found in response');
+    // Extract JSON robustly
+    const jsonStart = finalText.indexOf('{');
+    const jsonEnd = finalText.lastIndexOf('}');
+    if (jsonStart === -1 || jsonEnd === -1) {
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ success: false, error: 'No JSON brackets found in response' })
+      };
+    }
 
-    const parsed = JSON.parse(clean.substring(jsonStart, jsonEnd + 1));
+    const parsed = JSON.parse(finalText.substring(jsonStart, jsonEnd + 1));
 
     return {
       statusCode: 200,
