@@ -1492,51 +1492,61 @@ footer p{font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,255,2
     </div>
 
 <div id="panel-market" class="tool-panel">
-  <div class="tool-card" style="max-width:780px;margin:0 auto;">
-    <h3 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:var(--navy);margin-bottom:4px;">Housing Market Update</h3>
-    <p style="font-style:italic;color:var(--muted);font-family:'Lora',serif;margin-bottom:20px;">Live research · Opportunity-focused</p>
-    <button id="marketRefreshBtn" onclick="fetchMarketUpdate()" style="background:linear-gradient(135deg,var(--teal),var(--teal-dk));color:white;font-family:'Montserrat',sans-serif;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:24px;">
-      <svg id="marketSpinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-      Refresh Update
-    </button>
-    <div id="marketContent" style="font-family:'Lora',serif;color:var(--text);line-height:1.7;">Click Refresh Update to pull the latest housing market data.</div>
+  <div class="tool-card" style="max-width:820px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:white;margin-bottom:4px;">Housing Market Update</h3>
+        <p style="font-style:italic;color:rgba(255,255,255,.5);font-family:'Lora',serif;font-size:13px;margin:0;">Live research · Powered by AI web search</p>
+      </div>
+      <button id="marketRefreshBtn" onclick="fetchMarketUpdate()" style="background:linear-gradient(135deg,var(--teal),var(--teal-dk));color:white;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;">
+        <svg id="marketSpinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        Refresh Update
+      </button>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,.1);margin-bottom:24px;"></div>
+    <div id="marketContent" style="font-family:'Lora',serif;color:rgba(255,255,255,.6);line-height:1.7;font-style:italic;">Click Refresh Update to pull the latest housing market data.</div>
     <div id="marketChart" style="display:none;margin-top:20px;"></div>
-    <p style="margin-top:24px;font-size:11px;color:var(--muted);font-family:'Montserrat',sans-serif;border-top:1px solid rgba(200,168,152,.2);padding-top:16px;">Market data is sourced from publicly available information and summarized for general educational purposes. For personalized advice, speak directly with Katie at 916.850.5956.</p>
+    <p style="margin-top:24px;font-size:10px;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;letter-spacing:.04em;">Market data is sourced from publicly available information and summarized for general educational purposes. For personalized advice, speak directly with Katie at 916.850.5956.</p>
   </div>
 </div>
 
 <div id="panel-tips" class="tool-panel">
-  <div class="tool-card" style="max-width:900px;margin:0 auto;">
-    <p style="font-style:italic;color:var(--muted);font-family:'Lora',serif;margin-bottom:28px;text-align:center;">Timely tips for homeowners and home shoppers — updated seasonally.</p>
-    <div class="knowledge-grid">
-      <div class="knowledge-card" style="background:rgba(0,129,141,.08);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(0,129,141,.25);animation:tipFloat1 6s ease-in-out infinite;"></div>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" style="margin-bottom:12px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--navy);margin-bottom:8px;">Rates Are Always Moving — Here's What That Means for You</h4>
-        <p style="font-family:'Lora',serif;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:12px;">The market is always shifting and what made sense a year ago may not be the best fit today. A quick 5-minute review with Katie can tell you if there's an opportunity worth exploring right now.</p>
-        <span style="background:rgba(0,129,141,.15);color:var(--teal);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Stay Current</span>
+  <div class="tool-card" style="max-width:960px;margin:0 auto;">
+    <p style="font-style:italic;color:rgba(255,255,255,.6);font-family:'Lora',serif;margin-bottom:32px;text-align:center;font-size:15px;">Timely tips for homeowners and home shoppers — updated seasonally.</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;">
+
+      <div style="background:rgba(0,129,141,.12);border:1px solid rgba(0,129,141,.25);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:rgba(0,129,141,.2);pointer-events:none;"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" style="margin-bottom:14px;position:relative;z-index:1;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:white;margin-bottom:10px;font-size:14px;position:relative;z-index:1;">Rates Are Always Moving — Here's What That Means for You</h4>
+        <p style="font-family:'Lora',serif;font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:14px;position:relative;z-index:1;">The market is always shifting and what made sense a year ago may not be the best fit today. A quick 5-minute review with Katie can tell you if there's an opportunity worth exploring right now.</p>
+        <span style="background:rgba(0,129,141,.3);color:#5eead4;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;">Stay Current</span>
       </div>
-      <div class="knowledge-card" style="background:rgba(255,172,39,.08);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,172,39,.15);animation:tipFloat2 7s ease-in-out infinite;"></div>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b87a00" stroke-width="2" style="margin-bottom:12px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--navy);margin-bottom:8px;">Now Is a Great Time to Know Your Home's Equity</h4>
-        <p style="font-family:'Lora',serif;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:12px;">Home values have climbed significantly in many California markets. If you've owned for 3+ years, you likely have more equity than you think — which opens doors to cash-out options, PMI removal, or your next purchase.</p>
-        <span style="background:rgba(255,172,39,.2);color:#b87a00;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Equity</span>
+
+      <div style="background:rgba(255,172,39,.1);border:1px solid rgba(255,172,39,.25);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:rgba(255,172,39,.12);pointer-events:none;"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFAC27" stroke-width="2" style="margin-bottom:14px;position:relative;z-index:1;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:white;margin-bottom:10px;font-size:14px;position:relative;z-index:1;">Now Is a Great Time to Know Your Home's Equity</h4>
+        <p style="font-family:'Lora',serif;font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:14px;position:relative;z-index:1;">Home values have climbed significantly in many California markets. If you've owned for 3+ years, you likely have more equity than you think — which opens doors to cash-out options, PMI removal, or your next purchase.</p>
+        <span style="background:rgba(255,172,39,.2);color:#FFAC27;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;">Equity</span>
       </div>
-      <div class="knowledge-card" style="background:rgba(212,184,168,.08);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(212,184,168,.12);animation:tipFloat3 8s ease-in-out infinite;"></div>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4A882" stroke-width="2" style="margin-bottom:12px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--navy);margin-bottom:8px;">Summer Is Prime Time to Review Your Homeowner's Insurance</h4>
-        <p style="font-family:'Lora',serif;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:12px;">Most homeowners never revisit their insurance after closing. Costs change, home values rise, and coverage gaps appear. A quick annual review can save you money and make sure you're protected — especially heading into fire season in California.</p>
-        <span style="background:rgba(212,184,168,.2);color:#9a7a5a;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Annual Checkup</span>
+
+      <div style="background:rgba(212,184,168,.1);border:1px solid rgba(212,184,168,.2);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:rgba(212,184,168,.1);pointer-events:none;"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C4A882" stroke-width="2" style="margin-bottom:14px;position:relative;z-index:1;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:white;margin-bottom:10px;font-size:14px;position:relative;z-index:1;">Summer Is Prime Time to Review Your Homeowner's Insurance</h4>
+        <p style="font-family:'Lora',serif;font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:14px;position:relative;z-index:1;">Most homeowners never revisit their insurance after closing. Costs change, home values rise, and coverage gaps appear. A quick annual review can save you money and ensure you're protected — especially heading into fire season in California.</p>
+        <span style="background:rgba(212,184,168,.2);color:#C4A882;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;">Annual Checkup</span>
       </div>
-      <div class="knowledge-card" style="background:rgba(74,222,128,.06);position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(74,222,128,.1);animation:tipFloat1 9s ease-in-out infinite reverse;"></div>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" style="margin-bottom:12px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--navy);margin-bottom:8px;">Buying This Summer? Inventory Is Up — That's Good News</h4>
-        <p style="font-family:'Lora',serif;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:12px;">More homes hitting the market means more negotiating power for buyers than we've seen in years. If you've been on the sidelines, summer 2025 is worth a serious look. A pre-approval puts you in position to move fast when the right home appears.</p>
-        <span style="background:rgba(74,222,128,.15);color:#16a34a;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;">Buyers</span>
+
+      <div style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:90px;height:90px;border-radius:50%;background:rgba(74,222,128,.08);pointer-events:none;"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" style="margin-bottom:14px;position:relative;z-index:1;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <h4 style="font-family:'Montserrat',sans-serif;font-weight:800;color:white;margin-bottom:10px;font-size:14px;position:relative;z-index:1;">Buying This Summer? Inventory Is Up — That's Good News</h4>
+        <p style="font-family:'Lora',serif;font-size:13px;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:14px;position:relative;z-index:1;">More homes hitting the market means more negotiating power for buyers than we've seen in years. If you've been on the sidelines, this summer is worth a serious look. A pre-approval puts you in position to move fast when the right home appears.</p>
+        <span style="background:rgba(74,222,128,.15);color:#4ade80;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;">Buyers</span>
       </div>
+
     </div>
     <div style="text-align:center;margin-top:32px;">
       <a href="#get-started" style="background:linear-gradient(135deg,var(--teal),var(--teal-dk));color:white;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:15px 32px;border-radius:10px;text-decoration:none;display:inline-block;box-shadow:0 4px 16px rgba(0,129,141,.3);">Talk to Katie About Your Next Move →</a>
