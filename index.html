@@ -1492,21 +1492,29 @@ footer p{font-family:'Montserrat',sans-serif;font-size:10px;color:rgba(255,255,2
     </div>
 
 <div id="panel-market" class="tool-panel">
-  <div class="tool-card" style="max-width:820px;margin:0 auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
+  <div style="max-width:960px;margin:0 auto;padding:0 8px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
       <div>
-        <h3 style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:white;margin-bottom:4px;">Housing Market Update</h3>
-        <p style="font-style:italic;color:rgba(255,255,255,.5);font-family:'Lora',serif;font-size:13px;margin:0;">Live research · Powered by AI web search</p>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:white;margin-bottom:4px;">Housing Market Update</h3>
+        <p style="font-style:italic;color:rgba(255,255,255,.45);font-family:'Lora',serif;font-size:12px;margin:0;">Powered by AI · Data current as of today</p>
       </div>
-      <button id="marketRefreshBtn" onclick="fetchMarketUpdate()" style="background:linear-gradient(135deg,var(--teal),var(--teal-dk));color:white;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;">
-        <svg id="marketSpinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-        Refresh Update
+      <button id="marketRefreshBtn" onclick="window._marketLoaded=false;fetchMarketUpdate()" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);cursor:pointer;display:flex;align-items:center;gap:6px;">
+        <svg id="marketSpinner" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        Refresh
       </button>
     </div>
-    <div style="height:1px;background:rgba(255,255,255,.1);margin-bottom:24px;"></div>
-    <div id="marketContent" style="font-family:'Lora',serif;color:rgba(255,255,255,.6);line-height:1.7;font-style:italic;">Click Refresh Update to pull the latest housing market data.</div>
-    <div id="marketChart" style="display:none;margin-top:20px;"></div>
-    <p style="margin-top:24px;font-size:10px;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;letter-spacing:.04em;">Market data is sourced from publicly available information and summarized for general educational purposes. For personalized advice, speak directly with Katie at 916.850.5956.</p>
+    <div id="marketGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div id="mcard-local" class="mcard">
+        <div class="mcard-skeleton"></div>
+      </div>
+      <div id="mcard-california" class="mcard">
+        <div class="mcard-skeleton"></div>
+      </div>
+      <div id="mcard-national" class="mcard">
+        <div class="mcard-skeleton"></div>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:10px;color:rgba(255,255,255,.25);font-family:'Montserrat',sans-serif;letter-spacing:.04em;">Market data is for general educational purposes. For personalized advice speak with Katie at 916.850.5956.</p>
   </div>
 </div>
 
@@ -1884,6 +1892,10 @@ function switchTool(tab) {
   document.querySelectorAll('.tool-panel').forEach(function(p) { p.classList.remove('active'); });
   event.target.classList.add('active');
   document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'market' && !window._marketLoaded) {
+    window._marketLoaded = true;
+    fetchMarketUpdate();
+  }
 }
 
 /* ── Payment Calculator ── */
@@ -2189,7 +2201,7 @@ function openStmtEmail(e) {
       <div class="popover-applies-label">Does this apply to me?</div>
       <p class="popover-applies-text" id="popoverApplies"></p>
     </div>
-    <a href="#get-started" class="popover-cta" onclick="closeSpecialtyPop()" id="popoverCta">Talk to Katie about this →</a>
+    <a href="#get-started" class="popover-cta" onclick="closeSpecPop()" id="popoverCta">Talk to Katie about this →</a>
   </div>
 </div>
 
@@ -2797,100 +2809,90 @@ function handleReferSubmit(e) {
 async function fetchMarketUpdate() {
   var btn = document.getElementById('marketRefreshBtn');
   var spinner = document.getElementById('marketSpinner');
-  var contentEl = document.getElementById('marketContent');
-  btn.disabled = true;
-  spinner.style.display = 'inline-block';
-  contentEl.innerHTML = '<em style="color:rgba(255,255,255,.5)">Searching for the latest market data...</em>';
+  if (btn) btn.disabled = true;
+  if (spinner) spinner.style.display = 'inline-block';
 
-  async function doFetch() {
+  // Show skeletons
+  ['local','california','national'].forEach(function(key) {
+    var card = document.getElementById('mcard-' + key);
+    if (card) card.innerHTML = '<div class="mcard-skeleton"></div>';
+  });
+
+  try {
     var resp = await fetch('/.netlify/functions/market-update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'market' })
     });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
     var json = await resp.json();
-    if (!json.success) throw new Error(json.error || 'API error');
-    return json.data;
-  }
 
-  var data = null;
-  try {
-    data = await doFetch();
-  } catch(e1) {
-    try {
-      data = await doFetch();
-    } catch(e2) {
-      contentEl.innerHTML = '<p style="font-family:Lora,serif;color:rgba(255,255,255,.7);">We\'re gathering the latest market data. For the most current information, reach out to Katie at <a href="tel:9168505956" style="color:#00818d;">916.850.5956</a>.</p>';
-      btn.disabled = false;
-      spinner.style.display = 'none';
-      return;
+    if (!json.success || !json.data) {
+      throw new Error(json.error || 'success=false, data=' + JSON.stringify(json).substring(0,100));
     }
+
+    var d = json.data;
+
+    function renderCard(cardId, title, icon, color, stats, headline) {
+      var card = document.getElementById(cardId);
+      if (!card) return;
+      var statsHtml = stats.map(function(s) {
+        var changeHtml = s[2] ? '<div style="font-size:10px;font-weight:600;color:' + (s[2].startsWith('+') ? '#4ade80' : '#f87171') + ';margin-top:2px;">' + s[2] + '</div>' : '';
+        return '<div style="background:rgba(255,255,255,.05);border-radius:8px;padding:10px 12px;">' +
+          '<div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px;">' + s[0] + '</div>' +
+          '<div style="font-size:16px;font-weight:900;color:white;">' + s[1] + '</div>' +
+          changeHtml + '</div>';
+      }).join('');
+      card.innerHTML =
+        '<div style="border-top:3px solid ' + color + ';border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-top:3px solid ' + color + ';padding:18px;">' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">' +
+        '<span style="font-size:18px;">' + icon + '</span>' +
+        '<div><div style="font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:white;">' + title + '</div></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">' + statsHtml + '</div>' +
+        '<div style="background:rgba(0,129,141,.1);border-left:2px solid ' + color + ';padding:8px 10px;border-radius:0 6px 6px 0;">' +
+        '<p style="font-size:12px;font-style:italic;color:rgba(255,255,255,.75);margin:0;">✦ ' + headline + '</p>' +
+        '</div></div>';
+    }
+
+    renderCard('mcard-local', 'Local · Roseville / Sacramento', '🏘', '#00818d',
+      [['Median Price', d.local.median_price, d.local.median_price_change],
+       ['Days on Market', d.local.days_on_market, null],
+       ['Compete Score', d.local.compete_score, null],
+       ['Inventory', d.local.inventory, null]],
+      d.local.headline);
+
+    renderCard('mcard-california', 'California Statewide', '🌴', '#FFAC27',
+      [['Median Price', d.california.median_price, d.california.median_price_change],
+       ['Days on Market', d.california.days_on_market, null],
+       ['Sold Above List', d.california.above_list_pct, null],
+       ['Affordability', d.california.affordability, null]],
+      d.california.headline);
+
+    renderCard('mcard-national', 'National Overview', '🇺🇸', '#4ade80',
+      [['Median Price', d.national.median_price, d.national.median_price_change],
+       ['Days on Market', d.national.days_on_market, null],
+       ['Inventory Change', d.national.inventory_change, null],
+       ['Sentiment', d.national.market_sentiment, null]],
+      d.national.headline);
+
+  } catch(e) {
+    var errMsg = e.message || 'Unknown error';
+    ['local','california','national'].forEach(function(key) {
+      var card = document.getElementById('mcard-' + key);
+      if (card) card.innerHTML = '<div style="padding:20px;color:rgba(255,100,100,.8);font-size:11px;font-family:monospace;">Error: ' + errMsg + '</div>';
+    });
   }
 
-  function statCard(label, value, change) {
-    var changeColor = change && change.startsWith('+') ? '#4ade80' : change && change.startsWith('-') ? '#f87171' : 'rgba(255,255,255,.5)';
-    var changeHtml = change ? '<div style="font-size:11px;font-weight:600;color:' + changeColor + ';margin-top:4px;">' + change + '</div>' : '';
-    return '<div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 18px;min-width:140px;">' +
-      '<div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px;">' + label + '</div>' +
-      '<div style="font-size:22px;font-weight:900;color:white;line-height:1;">' + value + '</div>' +
-      changeHtml +
-      '</div>';
-  }
-
-  function section(title, areaLabel, stats, headline) {
-    var cards = stats.map(function(s) { return statCard(s[0], s[1], s[2]); }).join('');
-    return '<div style="margin-bottom:32px;">' +
-      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">' +
-      '<div style="width:4px;height:20px;background:#00818d;border-radius:2px;"></div>' +
-      '<h4 style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:white;margin:0;">' + title + '</h4>' +
-      '</div>' +
-      '<p style="font-size:12px;color:rgba(255,255,255,.45);margin:0 0 14px 14px;">' + areaLabel + '</p>' +
-      '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;">' + cards + '</div>' +
-      '<div style="background:rgba(0,129,141,.12);border-left:3px solid #00818d;padding:10px 14px;border-radius:0 8px 8px 0;">' +
-      '<p style="font-size:13px;font-style:italic;color:rgba(255,255,255,.8);margin:0;">\u2746 ' + headline + '</p>' +
-      '</div>' +
-      '</div>';
-  }
-
-  var L = data.local, CA = data.california, N = data.national;
-  var html = '';
-
-  html += section('Local Market', L.area,
-    [['Median Sale Price', L.median_price, L.median_price_change],
-     ['Days on Market', L.days_on_market, null],
-     ['Homes Sold', L.homes_sold, L.homes_sold_change],
-     ['Sale-to-List', L.sale_to_list, null],
-     ['Compete Score', L.compete_score, null],
-     ['Inventory', L.inventory, null]],
-    L.headline);
-
-  html += section('California Statewide', 'California Association of Realtors \u00b7 Redfin',
-    [['Median Sale Price', CA.median_price, CA.median_price_change],
-     ['Days on Market', CA.days_on_market, null],
-     ['Homes Sold', CA.homes_sold, CA.homes_sold_change],
-     ['Sale-to-List', CA.sale_to_list, null],
-     ['Sold Above List', CA.above_list_pct, null],
-     ['Affordability Index', CA.affordability, null]],
-    CA.headline);
-
-  html += section('National Overview', 'United States \u00b7 Redfin \u00b7 NAR',
-    [['Median Sale Price', N.median_price, N.median_price_change],
-     ['Days on Market', N.days_on_market, null],
-     ['Inventory Change', N.inventory_change, null],
-     ['Market Sentiment', N.market_sentiment, null]],
-    N.headline);
-
-  html += '<p style="font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;margin-top:8px;">Data updated: ' + data.updated + '</p>';
-
-  contentEl.innerHTML = html;
-  btn.disabled = false;
-  spinner.style.display = 'none';
+  if (btn) btn.disabled = false;
+  if (spinner) spinner.style.display = 'none';
 }
-
 </script>
 <style>
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.mcard { min-height: 200px; }
+.mcard-skeleton { height: 200px; background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 12px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@media (max-width: 700px) { #marketGrid { grid-template-columns: 1fr !important; } }
 @keyframes tipFloat1 { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-12px) scale(1.05); } }
 @keyframes tipFloat2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes tipFloat3 { 0%,100% { transform: translateY(-50%); } 50% { transform: translateY(calc(-50% - 10px)); } }
