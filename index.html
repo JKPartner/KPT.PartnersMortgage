@@ -2856,13 +2856,12 @@ async function fetchMarketUpdate() {
     }
   }
 
-  var results = await Promise.all([
-    fetchSection('local'),
-    fetchSection('california'),
-    fetchSection('national')
-  ]);
-
-  var L = results[0], CA = results[1], N = results[2];
+  // Sequential with delay to avoid rate limits
+  var L = await fetchSection('local');
+  await new Promise(function(r){ setTimeout(r, 600); });
+  var CA = await fetchSection('california');
+  await new Promise(function(r){ setTimeout(r, 600); });
+  var N = await fetchSection('national');
 
   if (L && !L.error) {
     renderCard('mcard-local', 'Local - Roseville / Sacramento', String.fromCodePoint(0x1F3D8), '#00818d',
