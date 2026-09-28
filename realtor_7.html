@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPT Partner Portal | Partners Mortgage</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0C2340; --teal: #00818D; --teal-dk: #005f6b; --teal-lt: #d8f4f6;
+  --gold: #FFAC27; --warm: #FAF5F2; --sand-lt: #F5EDE8; --blush: #D4B8A8;
+  --white: #ffffff; --text: #1a1f2e; --muted: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Lora', Georgia, serif; background: var(--warm); color: var(--text); min-height: 100vh; }
+
+/* Header */
+.portal-header {
+  background: linear-gradient(135deg, var(--navy), #0e2f50);
+  padding: 20px 36px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,.2);
+}
+.portal-logo { display: flex; align-items: center; gap: 12px; }
+.portal-logo svg { height: 36px; width: auto; }
+.portal-logo-text strong { display: block; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: var(--white); }
+.portal-logo-text span { font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: rgba(255,255,255,.6); }
+.portal-badge {
+  background: linear-gradient(135deg, var(--gold), #e89a1a);
+  color: var(--navy); font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 20px;
+}
+
+/* Login screen */
+.login-wrap {
+  min-height: calc(100vh - 80px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px;
+}
+.login-card {
+  background: var(--white); border-radius: 16px;
+  padding: 48px 40px; max-width: 440px; width: 100%;
+  box-shadow: 0 16px 64px rgba(0,0,0,.12);
+  border: 1px solid rgba(200,168,152,.2);
+  text-align: center;
+}
+.login-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(0,129,141,.35);
+}
+.login-icon svg { color: white; width: 28px; height: 28px; }
+.login-card h2 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.login-card p { font-style: italic; font-size: 14px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+.login-input {
+  width: 100%; background: var(--warm); border: 1.5px solid rgba(200,168,152,.4);
+  border-radius: 10px; padding: 14px 18px; font-family: 'Montserrat', sans-serif;
+  font-size: 16px; font-weight: 600; letter-spacing: .15em; text-align: center;
+  color: var(--text); outline: none; margin-bottom: 16px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.login-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,129,141,.12); }
+.login-input::placeholder { color: var(--muted); font-weight: 400; letter-spacing: 0; }
+.login-btn {
+  width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  color: var(--white); font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 15px; border-radius: 10px; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,129,141,.35);
+  transition: transform .15s, box-shadow .15s;
+}
+.login-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,129,141,.45); }
+.login-error { color: #e53e3e; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; margin-top: 12px; display: none; }
+.login-contact { margin-top: 24px; font-size: 12px; color: var(--muted); }
+.login-contact a { color: var(--teal); text-decoration: none; font-weight: 600; }
+
+/* Portal content */
+.portal-wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px; display: none; }
+.portal-welcome {
+  background: linear-gradient(135deg, var(--navy), #0e2f50);
+  border-radius: 14px; padding: 28px 32px; margin-bottom: 32px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.portal-welcome h2 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.portal-welcome p { font-style: italic; font-size: 13px; color: rgba(255,255,255,.6); }
+.logout-btn {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.7); font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 6px; cursor: pointer;
+  transition: all .15s;
+}
+.logout-btn:hover { background: rgba(255,255,255,.2); color: white; }
+
+/* PORTAL TABS */
+.portal-tabs {
+  display: flex; gap: 4px; margin-bottom: 28px;
+  background: var(--white); border-radius: 12px; padding: 6px;
+  border: 1px solid rgba(200,168,152,.2);
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.portal-tab {
+  flex: 1; background: transparent; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  padding: 10px 16px; border-radius: 8px;
+  transition: all .15s; white-space: nowrap;
+}
+.portal-tab:hover { background: var(--sand-lt); color: var(--navy); }
+.portal-tab.active {
+  background: linear-gradient(135deg, var(--navy), #0e2f50);
+  color: var(--white);
+  box-shadow: 0 3px 12px rgba(12,35,64,.3);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Search */
+.search-card {
+  background: var(--white); border-radius: 14px; padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+  margin-bottom: 28px;
+}
+.search-card h3 { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+.search-row { display: flex; gap: 12px; }
+.search-input {
+  flex: 1; background: var(--warm); border: 1.5px solid rgba(200,168,152,.35);
+  border-radius: 8px; padding: 13px 18px; font-family: 'Lora', serif;
+  font-size: 14px; color: var(--text); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,129,141,.1); }
+.search-input::placeholder { color: var(--muted); font-style: italic; }
+.search-btn {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  color: white; font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 13px 24px; border-radius: 8px; border: none; cursor: pointer;
+  white-space: nowrap; box-shadow: 0 3px 12px rgba(0,129,141,.35);
+  transition: transform .15s;
+}
+.search-btn:hover { transform: translateY(-1px); }
+.search-hint { font-size: 12px; font-style: italic; color: var(--muted); margin-top: 10px; }
+
+/* Results */
+.results-wrap { display: flex; flex-direction: column; gap: 20px; }
+.client-card {
+  background: var(--white); border-radius: 14px;
+  border: 1px solid rgba(200,168,152,.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,.07);
+  overflow: hidden;
+}
+.client-card-head {
+  background: var(--sand-lt); padding: 18px 24px;
+  display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid rgba(200,168,152,.2);
+}
+.client-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 900;
+  color: white; flex-shrink: 0;
+}
+.client-name { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: var(--navy); }
+.client-contact { font-size: 12px; color: var(--muted); margin-top: 2px; font-style: italic; }
+.deals-wrap { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+.deal-card {
+  background: var(--warm); border-radius: 10px; padding: 18px 20px;
+  border: 1px solid rgba(200,168,152,.2);
+}
+.deal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.deal-title { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: var(--navy); }
+.deal-stage {
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px;
+  white-space: nowrap;
+}
+.stage-open { background: rgba(0,129,141,.12); color: var(--teal-dk); border: 1px solid rgba(0,129,141,.2); }
+.stage-won { background: rgba(52,211,153,.15); color: #065f46; border: 1px solid rgba(52,211,153,.3); }
+.stage-lost { background: rgba(239,68,68,.1); color: #991b1b; border: 1px solid rgba(239,68,68,.2); }
+.deal-meta { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+.deal-meta-item { }
+.deal-meta-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.deal-meta-value { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); }
+.deal-note {
+  background: var(--white); border-radius: 8px; padding: 12px 14px;
+  border-left: 3px solid var(--teal);
+  font-size: 13px; color: var(--text); line-height: 1.65;
+}
+.pipeline-badge {
+  font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px;
+  border-radius: 20px; margin-right: 8px;
+}
+.badge-loan { background: rgba(13,110,93,.12); color: #0d6e5d; border: 1px solid rgba(13,110,93,.25); }
+.badge-lead { background: rgba(255,172,39,.15); color: #b87a00; border: 1px solid rgba(255,172,39,.3); }
+.next-step-value { color: var(--teal); font-weight: 800; }
+.deal-custom-fields {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px; margin-bottom: 12px;
+  background: var(--white); border-radius: 8px; padding: 14px 16px;
+  border: 1px solid rgba(200,168,152,.2);
+}
+.deal-cf-item { display: flex; flex-direction: column; gap: 2px; }
+.deal-cf-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.deal-cf-value { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--text); }
+.deal-note-label { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 5px; }
+.no-deals { font-style: italic; color: var(--muted); font-size: 13px; padding: 12px 0; }
+.no-results {
+  background: var(--white); border-radius: 14px; padding: 40px;
+  text-align: center; border: 1px solid rgba(200,168,152,.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,.07);
+}
+.no-results p { font-style: italic; color: var(--muted); font-size: 15px; }
+
+/* Quick contact */
+.quick-contact {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  border-radius: 14px; padding: 28px 32px; margin-top: 28px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+}
+.quick-contact h3 { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: white; margin-bottom: 4px; }
+.quick-contact p { font-style: italic; font-size: 13px; color: rgba(255,255,255,.7); }
+.quick-contact-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.qc-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  color: white; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 10px 16px; border-radius: 8px; text-decoration: none;
+  transition: background .15s;
+}
+.qc-btn:hover { background: rgba(255,255,255,.25); }
+
+/* Loading */
+.loading { text-align: center; padding: 32px; font-style: italic; color: var(--muted); }
+.spinner {
+  width: 32px; height: 32px; border: 3px solid rgba(0,129,141,.2);
+  border-top-color: var(--teal); border-radius: 50%;
+  animation: spin .8s linear infinite; margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== PRE-APPROVAL LETTER TAB ===== */
+.pal-wrap {
+  display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start;
+}
+.pal-form-card {
+  background: var(--white); border-radius: 14px; padding: 28px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+  position: sticky; top: 20px;
+}
+.pal-form-card h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 20px;
+}
+.pal-field { margin-bottom: 14px; }
+.pal-label {
+  display: block; font-family: 'Montserrat', sans-serif; font-size: 10px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px;
+}
+.pal-input, .pal-select {
+  width: 100%; background: var(--warm); border: 1.5px solid rgba(200,168,152,.35);
+  border-radius: 8px; padding: 10px 13px; font-family: 'Lora', serif;
+  font-size: 13px; color: var(--text); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.pal-input:focus, .pal-select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,129,141,.1); }
+.pal-auto {
+  width: 100%; background: rgba(0,129,141,.06); border: 1.5px solid rgba(0,129,141,.2);
+  border-radius: 8px; padding: 10px 13px; font-family: 'Montserrat', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--teal-dk);
+}
+.pal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pal-download-btn {
+  width: 100%; background: linear-gradient(135deg, var(--navy), #0e2f50);
+  color: white; font-family: 'Montserrat', sans-serif; font-weight: 800;
+  font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 14px; border-radius: 10px; border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(12,35,64,.3); margin-top: 6px;
+  transition: transform .15s;
+}
+.pal-download-btn:hover { transform: translateY(-1px); }
+
+/* PAL Preview */
+.pal-preview-card {
+  background: var(--white); border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+  overflow: hidden;
+}
+.pal-preview-label {
+  background: var(--sand-lt); padding: 14px 24px;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--navy);
+  border-bottom: 1px solid rgba(200,168,152,.2);
+  display: flex; align-items: center; gap: 8px;
+}
+.pal-preview-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+
+/* PAL Document Styles */
+.pal-doc {
+  padding: 48px 52px; font-family: 'Times New Roman', Times, serif;
+  font-size: 13px; line-height: 1.6; color: #000; background: white;
+  min-height: 860px;
+}
+.pal-doc-logo { margin-bottom: 28px; }
+.pal-doc-logo svg { height: 80px; width: auto; }
+.pal-doc-title {
+  text-align: center; font-size: 15px; font-weight: bold;
+  text-decoration: underline; margin-bottom: 22px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.pal-doc-meta { margin-bottom: 22px; }
+.pal-doc-meta table { border-collapse: collapse; }
+.pal-doc-meta td { padding: 2px 0; vertical-align: top; font-family: 'Times New Roman', Times, serif; font-size: 13px; }
+.pal-doc-meta td:first-child { font-weight: bold; width: 150px; padding-right: 12px; }
+.pal-doc-congrats { font-size: 14px; font-weight: bold; margin-bottom: 14px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-body { margin-bottom: 20px; font-size: 13px; line-height: 1.65; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-terms-label { font-weight: bold; font-size: 13px; margin-bottom: 10px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-terms { margin-bottom: 20px; }
+.pal-doc-terms table { border-collapse: collapse; }
+.pal-doc-terms td { padding: 3px 0; font-family: 'Times New Roman', Times, serif; font-size: 13px; vertical-align: top; }
+.pal-doc-terms td:first-child { width: 170px; }
+.pal-doc-terms td:last-child { font-weight: normal; }
+.pal-doc-closing { margin-bottom: 20px; font-size: 13px; font-family: 'Times New Roman', Times, serif; }
+.pal-doc-sig { margin-top: 24px; font-family: 'Times New Roman', Times, serif; font-size: 13px; }
+.pal-doc-sig-name { font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: .05em; margin-top: 6px; }
+.pal-doc-sig-line { font-size: 12px; line-height: 1.8; }
+.pal-doc-disclaimer {
+  font-size: 10px; color: #444; line-height: 1.5;
+  border-top: 1px solid #ccc; padding-top: 14px; margin-top: 32px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.pal-doc-footer {
+  text-align: center; font-size: 11px; font-weight: bold;
+  margin-top: 18px; padding-top: 12px;
+  border-top: 1px solid #000;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* ===== RATES TAB ===== */
+.rates-wrap {
+  background: var(--white); border-radius: 14px; padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+}
+.rates-header { margin-bottom: 24px; }
+.rates-header h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800;
+  color: var(--navy); margin-bottom: 6px;
+}
+.rates-header p { font-style: italic; font-size: 13px; color: var(--muted); }
+.rates-iframe-wrap {
+  width: 100%; overflow: hidden; border-radius: 10px;
+  border: 1px solid rgba(200,168,152,.2);
+}
+.rates-iframe-wrap iframe { display: block; width: 100%; border: none; }
+.rates-cta {
+  margin-top: 20px; padding: 18px 24px;
+  background: linear-gradient(135deg, var(--sand-lt), var(--warm));
+  border-radius: 10px; border: 1px solid rgba(200,168,152,.25);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.rates-cta p {
+  font-family: 'Lora', serif; font-size: 13px; font-style: italic; color: var(--text);
+}
+.rates-cta p strong { font-style: normal; font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--navy); font-size: 12px; }
+.rates-contact-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.rates-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+  color: white; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 16px; border-radius: 7px; text-decoration: none;
+  box-shadow: 0 3px 10px rgba(0,129,141,.3); transition: transform .15s;
+}
+.rates-btn:hover { transform: translateY(-1px); }
+
+/* Print styles for PAL */
+
+
+@media (max-width: 860px) {
+  .pal-wrap { grid-template-columns: 1fr; }
+  .pal-form-card { position: static; }
+}
+@media (max-width: 640px) {
+  .login-box { padding: 32px 20px; }
+  .search-bar { flex-direction: column; gap: 10px; }
+  .search-bar input { width: 100%; }
+  .search-btn { width: 100%; justify-content: center; }
+  .client-card { border-radius: 12px; }
+  .client-card-head { padding: 14px 16px; gap: 10px; }
+  .client-avatar { width: 36px; height: 36px; font-size: 13px; }
+  .client-name { font-size: 13px; }
+  .deal-card { padding: 14px 16px; }
+  .deal-header { flex-wrap: wrap; gap: 6px; }
+  .deal-meta { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .deal-custom-fields { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .portal-footer { flex-direction: column; gap: 12px; text-align: center; }
+  .portal-footer-btn { width: 100%; justify-content: center; }
+  .portal-tabs { flex-wrap: wrap; }
+  .portal-tab { font-size: 10px; padding: 8px 10px; }
+  .rates-cta { flex-direction: column; }
+}
+@media(max-width:600px) {
+  .portal-header { padding: 16px 20px; }
+  .login-card { padding: 32px 24px; }
+  .search-row { flex-direction: column; }
+  .portal-wrap { padding: 24px 16px; }
+  .quick-contact { flex-direction: column; }
+  .pal-doc { padding: 32px 28px; }
+}
+/* OPEN HOUSE FLYER (portal UI) */
+.ohf-wrap { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
+.ohf-form { display: flex; flex-direction: column; gap: 16px; }
+.ohf-card {
+  background: var(--white); border-radius: 14px; padding: 22px 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+}
+.ohf-card-title {
+  display: block; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px;
+}
+.ohf-muted { font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.ohf-block { display: block; margin-top: 3px; }
+.ohf-hint { font-style: italic; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+.ohf-drop {
+  border: 1.5px dashed rgba(0,129,141,.4); border-radius: 12px; background: rgba(0,129,141,.04);
+  padding: 18px 16px; text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center;
+  transition: background .15s, border-color .15s;
+}
+.ohf-drop.drag { background: rgba(0,129,141,.12); border-color: var(--teal); }
+.ohf-drop-title { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: var(--navy); }
+.ohf-drop-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.ohf-btn {
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  background: var(--white); color: var(--navy); border: 1.5px solid rgba(12,35,64,.2); border-radius: 8px; padding: 9px 14px; cursor: pointer;
+}
+.ohf-btn:hover { border-color: var(--teal); }
+.ohf-btn-gold { background: var(--gold); border-color: var(--gold); }
+.ohf-btn:focus-visible, .ohf-loan-tab:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.ohf-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.ohf-gallery:empty { display: none; }
+.ohf-thumb { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; border: 2px solid transparent; background: var(--sand-lt); }
+.ohf-thumb.main { border-color: var(--gold); }
+.ohf-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ohf-thumb-tag { position: absolute; left: 4px; top: 4px; background: var(--gold); color: var(--navy); font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 800; letter-spacing: .08em; padding: 2px 5px; border-radius: 4px; }
+.ohf-thumb-actions { position: absolute; right: 3px; top: 3px; display: flex; gap: 3px; }
+.ohf-thumb-actions button {
+  width: 22px; height: 22px; border-radius: 50%; border: none; cursor: pointer; font-size: 11px; line-height: 22px; padding: 0;
+  background: rgba(12,35,64,.8); color: #fff;
+}
+.ohf-status { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; color: var(--teal-dk); margin-top: 8px; min-height: 1em; }
+.ohf-switch-row { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+.ohf-switch-row input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.ohf-switch { flex: none; width: 38px; height: 22px; border-radius: 11px; background: rgba(107,114,128,.35); position: relative; transition: background .15s; margin-top: 1px; }
+.ohf-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s; }
+.ohf-switch-row input:checked + .ohf-switch { background: var(--teal); }
+.ohf-switch-row input:checked + .ohf-switch::after { transform: translateX(16px); }
+.ohf-switch-row input:focus-visible + .ohf-switch { outline: 2px solid var(--teal); outline-offset: 2px; }
+.ohf-switch-sm { align-items: center; margin-top: 10px; font-size: 13px; color: var(--text); }
+.ohf-loan-tabs { display: flex; gap: 4px; margin: 6px 0 14px; flex-wrap: wrap; }
+.ohf-loan-tab {
+  flex: 1; font-family: 'Montserrat', sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  background: var(--warm); color: var(--muted); border: 1.5px solid rgba(200,168,152,.35); border-radius: 8px; padding: 8px 6px; cursor: pointer; position: relative;
+}
+.ohf-loan-tab.on::before { content: ''; position: absolute; top: 5px; right: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.ohf-loan-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.ohf-loan-form[hidden] { display: none; }
+.ohf-loan-form .ohf-switch-row { margin-bottom: 14px; font-size: 13px; color: var(--text); align-items: center; }
+.ohf-lo { display: flex; gap: 14px; align-items: center; }
+.ohf-lo img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--teal); flex: none; }
+.ohf-lo-name { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+.ohf-agent-row { display: flex; gap: 14px; align-items: flex-start; }
+.ohf-agent-photo {
+  flex: none; width: 64px; height: 64px; border-radius: 50%; border: 1.5px dashed rgba(0,129,141,.5); background: rgba(0,129,141,.05);
+  display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; position: relative; overflow: hidden; margin-top: 18px;
+  font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--teal-dk);
+}
+.ohf-agent-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ohf-preview-card { position: sticky; top: 20px; }
+.ohf-stage { padding: 20px; background: #eef0f2; overflow: hidden; }
+.ohf-scale { transform-origin: top left; width: 8.5in; }
+@media (max-width: 860px) {
+  .ohf-wrap { grid-template-columns: 1fr; }
+  .ohf-preview-card { position: static; }
+}
+@media (max-width: 600px) {
+  .ohf-card { padding: 20px 18px; }
+  .ohf-stage { padding: 10px; }
+  .ohf-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+.ohf-themes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ohf-theme { cursor: pointer; border: 1.5px solid rgba(200,168,152,.35); border-radius: 10px; padding: 8px 4px 7px; text-align: center; background: var(--warm); }
+.ohf-theme input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.ohf-theme:has(input:checked) { border-color: var(--teal); background: rgba(0,129,141,.06); box-shadow: 0 0 0 3px rgba(0,129,141,.1); }
+.ohf-theme:has(input:focus-visible) { outline: 2px solid var(--teal); outline-offset: 2px; }
+.ohf-theme-sw { display: flex; height: 22px; border-radius: 6px; overflow: hidden; margin: 0 4px 6px; border: 1px solid rgba(0,0,0,.08); }
+.ohf-theme-sw i { flex: 1; }
+.ohf-theme-name { font-family: 'Montserrat', sans-serif; font-size: 9.5px; font-weight: 700; color: var(--navy); line-height: 1.25; }
+.ohf-addr-wrap { position: relative; }
+.ohf-addr-list { position: absolute; z-index: 20; left: 0; right: 0; top: 100%; margin-top: 4px; background: var(--white); border: 1px solid rgba(200,168,152,.4); border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.14); overflow: hidden; }
+.ohf-addr-item { padding: 10px 13px; cursor: pointer; border-bottom: 1px solid rgba(200,168,152,.2); }
+.ohf-addr-item:last-child { border-bottom: 0; }
+.ohf-addr-item:hover, .ohf-addr-item.active { background: rgba(0,129,141,.07); }
+.ohf-addr-main { font-size: 13px; color: var(--text); }
+.ohf-addr-sub { font-size: 11px; color: var(--muted); font-style: italic; }
+.ohf-addr-foot { padding: 6px 13px; font-size: 10px; color: var(--muted); background: var(--warm); }
+.ohf-url-row { display: flex; gap: 8px; }
+.ohf-url-row .pal-input { flex: 1; min-width: 0; }
+.ohf-seg { display: flex; background: var(--warm); border: 1.5px solid rgba(200,168,152,.35); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
+.ohf-seg label { flex: 1; cursor: pointer; }
+.ohf-seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.ohf-seg span { display: block; text-align: center; padding: 8px 6px; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; color: var(--muted); }
+.ohf-seg input:checked + span { background: var(--navy); color: #fff; }
+.ohf-seg input:focus-visible + span { outline: 2px solid var(--teal); }
+.ohf-sugs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.ohf-sug { display: inline-flex; align-items: center; gap: 6px; font-family: 'Lora', serif; font-size: 12px; color: var(--text); background: var(--warm); border: 1.5px solid rgba(200,168,152,.35); border-radius: 20px; padding: 5px 10px 5px 6px; cursor: pointer; }
+.ohf-sug:hover { border-color: var(--teal); }
+.ohf-sug[disabled] { opacity: .4; cursor: default; }
+.ohf-ic { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+.ohf-ic svg { width: 13px; height: 13px; }
+.ohf-feat-list { display: flex; flex-direction: column; gap: 8px; }
+.ohf-feat-row { display: flex; align-items: center; gap: 6px; }
+.ohf-feat-row .pal-select { width: 92px; flex: none; padding: 9px 6px; font-size: 12px; }
+.ohf-feat-row .pal-input { flex: 1; min-width: 0; }
+.ohf-feat-row button { flex: none; width: 30px; height: 30px; border-radius: 50%; border: none; background: rgba(12,35,64,.08); color: var(--navy); cursor: pointer; font-size: 12px; }
+@media (max-width: 600px) { .ohf-themes { grid-template-columns: repeat(3, 1fr); } }
+
+/* PURCHASE SCENARIO REQUEST */
+.sc-type { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.sc-type-opt {
+  display: block; cursor: pointer; background: var(--warm);
+  border: 1.5px solid rgba(200,168,152,.35); border-radius: 12px; padding: 16px 18px;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.sc-type-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.sc-type-opt:hover { border-color: var(--teal); }
+.sc-type-opt:has(input:checked) { border-color: var(--teal); background: rgba(0,129,141,.06); box-shadow: 0 0 0 3px rgba(0,129,141,.1); }
+.sc-type-opt:has(input:focus-visible) { outline: 2px solid var(--teal); outline-offset: 2px; }
+.sc-type-title { display: flex; align-items: center; gap: 10px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 800; color: var(--navy); }
+.sc-type-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(107,114,128,.5); flex: none; }
+.sc-type-opt:has(input:checked) .sc-type-dot { border-color: var(--teal); background: radial-gradient(circle, var(--teal) 45%, transparent 50%); }
+.sc-type-desc { font-style: italic; font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 6px; padding-left: 26px; }
+.sc-body { display: none; }
+#scenarioForm.mode-new .sc-body, #scenarioForm.mode-existing .sc-body { display: block; }
+#scenarioForm.mode-existing .sc-new-only { display: none; }
+.sc-mode-note { display: none; margin-top: 18px; font-size: 13px; color: var(--teal-dk); background: rgba(0,129,141,.06); border-left: 3px solid var(--teal); padding: 10px 14px; border-radius: 0 8px 8px 0; font-style: italic; }
+#scenarioForm.mode-new .sc-note-new, #scenarioForm.mode-existing .sc-note-existing { display: block; }
+.sc-other-input { margin-top: 10px; display: none; }
+.sc-other-input.show { display: block; }
+@media (max-width: 700px) { .sc-type { grid-template-columns: 1fr; } }
+.sc-card {
+  background: var(--white); border-radius: 14px; padding: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.07); border: 1px solid rgba(200,168,152,.2);
+}
+.sc-intro h3 { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+.sc-intro p { font-style: italic; font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.sc-group { border-top: 1px solid rgba(200,168,152,.3); padding-top: 20px; margin-top: 22px; }
+.sc-group-title {
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 800;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px;
+}
+.sc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 14px; }
+.sc-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 14px; }
+.sc-full { grid-column: 1 / -1; }
+.sc-req { color: #c2410c; }
+.sc-hint { font-family: 'Lora', serif; font-style: italic; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.sc-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-check {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  background: var(--warm); border: 1.5px solid rgba(200,168,152,.35); border-radius: 8px;
+  padding: 9px 13px; font-family: 'Lora', serif; font-size: 13px; color: var(--text);
+}
+.sc-check input { accent-color: var(--teal); width: 15px; height: 15px; }
+.sc-check:has(input:checked) { border-color: var(--teal); background: rgba(0,129,141,.06); }
+textarea.pal-input { min-height: 96px; resize: vertical; line-height: 1.5; }
+.sc-submit-row { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.sc-submit-row .pal-download-btn { width: auto; padding: 15px 32px; margin-top: 0; }
+.sc-note { font-size: 12px; color: var(--muted); font-style: italic; }
+.sc-error { color: #e53e3e; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; display: none; margin-top: 12px; }
+.sc-success { text-align: center; padding: 40px 20px; display: none; }
+.sc-success-icon {
+  width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-dk)); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+}
+.sc-success h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.sc-success p { font-style: italic; font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 460px; margin: 0 auto 20px; }
+@media (max-width: 700px) {
+  .sc-grid, .sc-grid-3 { grid-template-columns: 1fr; }
+  .sc-card { padding: 24px 18px; }
+  .sc-submit-row .pal-download-btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="portal-header">
+  <div class="portal-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200">
+      <path fill="#00818D" d="M596.662 144.389c34.998-3.172 61.633 12.496 92.264 26.447l92.646 42.659 148.298 67.771c24.231 11.112 55.887 23.912 77.53 38.258 13.33 8.839 24.72 33.444 25.74 49.353 1.78 27.628.95 59.551.93 87.73l-.04 172.002-.01 232.228.09 70.326c.13 33.766 7.63 85.057-38.179 90.057-15.486 1.69-29.669 1.15-45.212 1.13l-74.309-.02-285.711-.03-86.45.01c-14.861.01-38.143-.55-52.35 1.07l-.046-165.707c19.573 1.577 50.149.697 70.701.7l127.415-.019 121.152.044c21.565.013 43.424.502 64.903-.442 18.695-.822 32.803-15.317 34.427-33.722 1.872-21.221 1.396-42.176 1.37-63.418l-.058-96.799.038-113.437c.027-24.681.763-55.347-1.605-79.567-12.076-45.993-37.565-49.775-76.888-67.799l-72.36-33.097-54.019-24.848c-9.531-4.383-22.948-10.989-32.496-14.364a96.2 96.2 0 0 0-33.498-5.572c-25.078.388-42.907 10.519-65.353 20.392l-64.644 28.356-71.674 31.049c-12.541 5.403-30.558 12.592-42.119 18.702a78.6 78.6 0 0 0-19.741 14.962c-9.545 10.062-13.98 19.273-14.725 32.864-1.192 21.728-.655 45.343-.657 67.163l-.011 131.777.001 230.009c.004 39.353-.966 83.426.274 122.493-42.124-2.7-86.002 1.52-128.054-1.62-21.241-1.59-34.093-22.682-35.179-42.768-1.814-33.543-.949-67.966-.947-101.836l-.018-196.325-.042-204.259.009-63.039c.024-39.48-2.981-79.379 39.039-100.877 17.503-8.954 35.936-16.19 53.963-24.053l106.559-46.34 136.739-59.616c29.428-12.846 71.164-34.849 102.307-37.978"/>
+      <path fill="#8D807A" d="M595.645 451.22c1.691-.129 3.383-.179 5.078-.229 6.631-.197 13.421-.426 19.841 1.531 14.632 4.461 114.164 49.015 123.352 57.864 10.183 9.808 11.358 21.62 11.657 35.051.863 38.733-.121 77.697-.053 116.46.032 18.651 2.007 48.461-.496 65.954-.65 4.537-2.584 8.555-5.811 11.837-3.556 3.615-7.359 5.308-12.282 6.235-14.533 2.736-30.894 1.266-45.713 1.252l-78.718-.093-88.692.097c-16.25.029-32.393.216-48.658-.311-20.876-.677-25.795-12.942-25.444-31.885.12-6.488-.041-13.959-.045-20.49l.023-61.993-.042-64.309c.007-25.725-5.239-51.071 22.278-64.213 31.426-15.009 63.719-28.079 95.559-42.207 8.45-3.75 19.332-8.5 28.166-10.551"/>
+    </svg>
+    <div class="portal-logo-text">
+      <strong>Partners Mortgage</strong>
+      <span>Partner Portal</span>
+    </div>
+  </div>
+  <div class="portal-badge">Realtor Access</div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    </div>
+    <h2>Partner Portal</h2>
+    <p>Enter your partner access code to view client pipeline status and resources.</p>
+    <input type="password" class="login-input" id="accessCode" placeholder="Enter access code" maxlength="20"
+      onkeydown="if(event.key==='Enter') login()">
+    <button class="login-btn" onclick="login()">Access Portal →</button>
+    <div class="login-error" id="loginError">Incorrect access code. Contact Katie for access.</div>
+    <p class="login-contact">Need access? Contact <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com">kpastor@partnersmortgage.com</a></p>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div class="portal-wrap" id="portalWrap">
+  <div class="portal-welcome">
+    <div>
+      <h2>Welcome to the Partner Portal</h2>
+      <p>Search clients, request purchase scenarios, create pre-approval letters and open house flyers, and check today's rates.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <a href="https://kpt-partnersmortgage.netlify.app/" style="background:linear-gradient(135deg,#FFAC27,#e89a1a);color:#0C2340;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 16px;border-radius:6px;text-decoration:none;white-space:nowrap;">&#8592; Home</a>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="portal-tabs">
+    <button class="portal-tab active" onclick="switchTab('search', this)">
+      🔍 &nbsp;Client Pipeline
+    </button>
+    <button class="portal-tab" onclick="switchTab('scenario', this)">
+      🏡 &nbsp;Request a Scenario
+    </button>
+    <button class="portal-tab" onclick="switchTab('pal', this)">
+      📄 &nbsp;Pre-Approval Letter
+    </button>
+    <button class="portal-tab" onclick="switchTab('flyer', this)">
+      🏠 &nbsp;Open House Flyer
+    </button>
+    <button class="portal-tab" onclick="switchTab('rates', this)">
+      📈 &nbsp;Today's Rates
+    </button>
+  </div>
+
+  <!-- TAB: CLIENT SEARCH -->
+  <div class="tab-panel active" id="tab-search">
+    <div class="search-card">
+      <h3>Client Pipeline Lookup</h3>
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search by client name or email..."
+          onkeydown="if(event.key==='Enter') searchClient()">
+        <button class="search-btn" onclick="searchClient()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
+      </div>
+      <p class="search-hint">Shows active loans only — results pulled live from our pipeline.</p>
+    </div>
+    <div id="resultsWrap"></div>
+
+    <div class="quick-contact">
+      <div>
+        <h3>Need to reach Katie directly?</h3>
+        <p>Call, text, or email — she responds fast.</p>
+      </div>
+      <div class="quick-contact-btns">
+        <a href="tel:9168505956" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          916.850.5956
+        </a>
+        <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email Katie
+        </a>
+        <a href="https://calendly.com/katiepastortrinidad" target="_blank" class="qc-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book a Call
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PURCHASE SCENARIO REQUEST -->
+  <div class="tab-panel" id="tab-scenario">
+    <div class="sc-card">
+      <form name="purchase-scenario" id="scenarioForm" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="purchase-scenario">
+        <input type="hidden" name="subject" id="sc-subject" value="Purchase Scenario Request">
+        <input type="hidden" name="down-payment-percent" id="sc-dp-pct-h">
+        <input type="hidden" name="est-loan-amount" id="sc-loan-h">
+        <input type="hidden" name="programs-to-compare" id="sc-programs-h">
+        <input type="hidden" name="extras-requested" id="sc-extras-h">
+        <p style="display:none"><label>Leave blank <input name="bot-field"></label></p>
+
+        <div class="sc-intro">
+          <h3>Request a Purchase Scenario</h3>
+          <p>Writing an offer or prepping a buyer? Send us the property and the numbers. Katie's team will send back payment estimates, cash to close and program options, usually the same business day.</p>
+                    <div class="sc-type" role="radiogroup" aria-label="Client type">
+            <label class="sc-type-opt"><input type="radio" name="client-type" value="New Client (no application yet)" data-mode="new">
+              <span class="sc-type-title"><span class="sc-type-dot"></span>New Client</span>
+              <span class="sc-type-desc">Your buyer has not applied with Katie yet.</span>
+            </label>
+            <label class="sc-type-opt"><input type="radio" name="client-type" value="Existing Client (has application)" data-mode="existing">
+              <span class="sc-type-title"><span class="sc-type-dot"></span>Existing Client</span>
+              <span class="sc-type-desc">Your buyer already has an application with Katie.</span>
+            </label>
+          </div>
+          <div class="sc-mode-note sc-note-new">New client: tell us a bit about your buyer so we can run accurate numbers before they apply.</div>
+          <div class="sc-mode-note sc-note-existing">Existing client: we already have their file, so we only need the property and the numbers.</div>
+        </div>
+
+        <div class="sc-body">
+
+        <div class="sc-group">
+          <div class="sc-group-title">Your Information</div>
+          <div class="sc-grid">
+            <div class="pal-field"><label class="pal-label" for="sc-agent">Agent Name <span class="sc-req">*</span></label><input class="pal-input" id="sc-agent" name="agent-name" type="text" autocomplete="name" required placeholder="Full name"></div>
+            <div class="pal-field"><label class="pal-label" for="sc-agent-email">Email</label><input class="pal-input" id="sc-agent-email" name="agent-email" type="email" autocomplete="email" placeholder="you@brokerage.com"></div>
+            <div class="pal-field sc-new-only"><label class="pal-label" for="sc-agent-phone">Phone</label><input class="pal-input" id="sc-agent-phone" name="agent-phone" type="tel" autocomplete="tel" placeholder="(916) 555-0123"></div>
+            <div class="pal-field sc-new-only sc-full"><label class="pal-label" for="sc-reply">Best Way to Send Results</label><select class="pal-select" id="sc-reply" name="preferred-reply"><option value="Email">Email</option><option value="Call">Call</option><option value="Text">Text</option></select></div>
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-group-title">Buyer</div>
+          <div class="sc-grid">
+            <div class="pal-field sc-full"><label class="pal-label" for="sc-buyer">Buyer Name(s) <span class="sc-req">*</span></label><input class="pal-input" id="sc-buyer" name="buyer-names" type="text" required placeholder="e.g. John &amp; Jane Smith"></div>
+            <div class="pal-field sc-new-only"><label class="pal-label" for="sc-fthb">First-Time Buyer?</label><select class="pal-select" id="sc-fthb" name="first-time-buyer"><option value="Not sure">Not sure</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
+            <div class="pal-field sc-new-only"><label class="pal-label" for="sc-credit">Est. Credit Score</label><select class="pal-select" id="sc-credit" name="est-credit-score"><option value="Unknown">Unknown</option><option value="760+">760+</option><option value="740–759">740–759</option><option value="720–739">720–739</option><option value="700–719">700–719</option><option value="680–699">680–699</option><option value="660–679">660–679</option><option value="640–659">640–659</option><option value="620–639">620–639</option><option value="Below 620">Below 620</option></select></div>
+            <div class="pal-field sc-full sc-new-only"><label class="pal-label" for="sc-veteran">Veteran / VA Eligible?</label><select class="pal-select" id="sc-veteran" name="va-eligible"><option value="No">No</option><option value="Yes">Yes</option><option value="Not sure">Not sure</option></select></div>
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-group-title">Property</div>
+          <div class="sc-grid">
+            <div class="pal-field sc-full"><label class="pal-label" for="sc-address">Property Address <span class="sc-req">*</span></label><input class="pal-input" id="sc-address" name="property-address" type="text" autocomplete="street-address" required placeholder="123 Main St, Roseville, CA 95661"></div>
+            <div class="pal-field"><label class="pal-label" for="sc-ptype">Property Type</label><select class="pal-select" id="sc-ptype" name="property-type"><option value="Single Family">Single Family</option><option value="Condo">Condo</option><option value="Townhome / PUD">Townhome / PUD</option><option value="2–4 Units">2–4 Units</option><option value="Manufactured">Manufactured</option><option value="Other">Other</option></select></div>
+            <div class="pal-field"><label class="pal-label" for="sc-occ">Occupancy</label><select class="pal-select" id="sc-occ" name="occupancy"><option value="Primary Residence">Primary Residence</option><option value="Second Home">Second Home</option><option value="Investment Property">Investment Property</option></select></div>
+            <div class="pal-field"><label class="pal-label" for="sc-hoa">HOA Dues (Monthly)</label><input class="pal-input sc-money" id="sc-hoa" name="hoa-monthly" type="text" inputmode="decimal" placeholder="$0"></div>
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-group-title">The Numbers</div>
+          <div class="sc-grid-3">
+            <div class="pal-field"><label class="pal-label" for="sc-price">Purchase Price <span class="sc-req">*</span></label><input class="pal-input sc-money" id="sc-price" name="purchase-price" type="text" inputmode="decimal" required placeholder="$0"></div>
+            <div class="pal-field"><label class="pal-label" for="sc-dp">Down Payment ($) <span class="sc-req">*</span></label><input class="pal-input sc-money" id="sc-dp" name="down-payment" type="text" inputmode="decimal" required placeholder="$0"></div>
+            <div class="pal-field"><label class="pal-label" for="sc-seller">Seller Credits ($)</label><input class="pal-input sc-money" id="sc-seller" name="seller-credits" type="text" inputmode="decimal" placeholder="$0"></div>
+          </div>
+          <div class="sc-grid">
+            <div class="pal-field"><span class="pal-label">Down Payment % <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;">(auto)</span></span><div class="pal-auto" id="sc-dp-pct">—</div></div>
+            <div class="pal-field"><span class="pal-label">Est. Loan Amount <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;">(auto)</span></span><div class="pal-auto" id="sc-loan">—</div></div>
+            <div class="pal-field"><label class="pal-label" for="sc-emd">Earnest Money Deposit ($)</label><input class="pal-input sc-money" id="sc-emd" name="earnest-money" type="text" inputmode="decimal" placeholder="$0"></div>
+            <div class="pal-field"><label class="pal-label" for="sc-coe">Target Close of Escrow</label><input class="pal-input" id="sc-coe" name="target-coe" type="text" placeholder="e.g. 30 days or 11/15/2026"></div>
+          </div>
+          <div class="pal-field" style="margin-top:4px">
+            <span class="pal-label">Programs to Compare</span>
+            <div class="sc-checks" id="sc-programs"><label class="sc-check"><input type="checkbox" value="Katie’s Recommendation" checked> Katie’s Recommendation</label><label class="sc-check"><input type="checkbox" value="Conventional"> Conventional</label><label class="sc-check"><input type="checkbox" value="FHA"> FHA</label><label class="sc-check"><input type="checkbox" value="VA"> VA</label><label class="sc-check"><input type="checkbox" value="Jumbo"> Jumbo</label></div>
+          </div>
+          <div class="pal-field">
+            <span class="pal-label">Also Include</span>
+            <div class="sc-checks" id="sc-extras" data-other="1"><label class="sc-check"><input type="checkbox" value="Seller-paid rate buydown"> Seller-paid rate buydown</label><label class="sc-check"><input type="checkbox" value="2-1 temporary buydown"> 2-1 temporary buydown</label><label class="sc-check"><input type="checkbox" value="Max purchase price"> Max purchase price</label><label class="sc-check"><input type="checkbox" value="Cash to close breakdown"> Cash to close breakdown</label><label class="sc-check"><input type="checkbox" value="Other" id="sc-extras-other"> Other</label></div>
+            <input class="pal-input sc-other-input" id="sc-extras-other-text" name="extras-other" type="text" placeholder="Tell us what else you need">
+          </div>
+        </div>
+
+        <div class="sc-group">
+          <div class="sc-group-title">Timing &amp; Notes</div>
+          <div class="sc-grid">
+            <div class="pal-field sc-full"><label class="pal-label" for="sc-urgency">Needed By</label><select class="pal-select" id="sc-urgency" name="needed-by"><option value="Today (offer pending)">Today (offer pending)</option><option value="Within 24 hours" selected>Within 24 hours</option><option value="This week">This week</option><option value="No rush">No rush</option></select></div>
+            <div class="pal-field sc-full"><label class="pal-label" for="sc-notes">Notes</label><textarea class="pal-input" id="sc-notes" name="notes" placeholder="Competing offers, Mello-Roos, buyer's target payment, gift funds…"></textarea></div>
+          </div>
+        </div>
+
+        <div class="sc-submit-row">
+          <button type="submit" class="pal-download-btn" id="scSubmitBtn">Send Scenario Request &#8594;</button>
+        </div>
+        <div class="sc-error" id="scError" role="alert"></div>
+        </div><!-- /sc-body -->
+      </form>
+
+      <div class="sc-success" id="scSuccess">
+        <div class="sc-success-icon">&#10003;</div>
+        <h3>Scenario Request Received</h3>
+        <p>Thank you. Katie's team has your request and will send numbers back shortly. For anything urgent, call or text Katie at 916.850.5956.</p>
+        <button type="button" class="pal-download-btn" style="width:auto;padding:13px 28px" onclick="resetScenario()">Submit Another Scenario</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PRE-APPROVAL LETTER -->
+  <div class="tab-panel" id="tab-pal">
+    <div class="pal-wrap">
+      <!-- Form -->
+      <div class="pal-form-card">
+        <h3>Letter Details</h3>
+
+        <div class="pal-field">
+          <label class="pal-label">Date</label>
+          <input type="text" class="pal-input" id="pal-date" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Borrower(s)</label>
+          <input type="text" class="pal-input" id="pal-borrowers" placeholder="e.g. John Smith, Jane Smith" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Property Address</label>
+          <input type="text" class="pal-input" id="pal-address" placeholder="e.g. 123 Main St, Roseville, CA 95661" oninput="updatePAL()">
+        </div>
+        <div class="pal-field">
+          <label class="pal-label">Expiration</label>
+          <input type="text" class="pal-input" id="pal-expiration" value="90 Days" oninput="updatePAL()">
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Purchase Price</label>
+            <input type="text" class="pal-input" id="pal-purchase" placeholder="$0" oninput="formatCurrencyInput(this); onPurchaseChange(); updatePAL()">
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Loan Amount <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;">(auto)</span></label>
+            <input type="text" class="pal-input" id="pal-loan" placeholder="$0" oninput="formatCurrencyInput(this); onLoanChange(); updatePAL()">
+          </div>
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Down Payment $</label>
+            <input type="text" class="pal-input" id="pal-downpayment" placeholder="$0" oninput="formatCurrencyInput(this); onDownPaymentChange(); updatePAL()">
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Down Payment % <span style="font-weight:400;text-transform:none;letter-spacing:0;font-style:italic;">(auto)</span></label>
+            <div class="pal-auto" id="pal-dp-display">—</div>
+          </div>
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Loan Term</label>
+            <select class="pal-select" id="pal-term" onchange="updatePAL()">
+              <option value="30 years">30 years</option>
+              <option value="25 years">25 years</option>
+              <option value="20 years">20 years</option>
+              <option value="15 years" selected>15 years</option>
+              <option value="10 years">10 years</option>
+            </select>
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Loan Type</label>
+            <select class="pal-select" id="pal-type" onchange="updatePAL()">
+              <option value="Conventional" selected>Conventional</option>
+              <option value="FHA">FHA</option>
+              <option value="VA">VA</option>
+              <option value="USDA">USDA</option>
+              <option value="Jumbo">Jumbo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pal-row">
+          <div class="pal-field">
+            <label class="pal-label">Seller Credits</label>
+            <input type="text" class="pal-input" id="pal-seller" placeholder="$0.00" oninput="formatCurrencyInput(this); updatePAL()">
+          </div>
+          <div class="pal-field">
+            <label class="pal-label">Deposit</label>
+            <input type="text" class="pal-input" id="pal-deposit" placeholder="-$0.00" oninput="formatCurrencyInput(this); updatePAL()">
+          </div>
+        </div>
+
+        <button class="pal-download-btn" onclick="downloadPAL()">
+          ⬇ &nbsp;Download as PDF
+        </button>
+      </div>
+
+      <!-- Preview -->
+      <div class="pal-preview-card">
+        <div class="pal-preview-label">Live Preview</div>
+        <div class="pal-doc" id="palDoc">
+          <!-- Logo -->
+          <div class="pal-doc-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120">
+              <g transform="translate(0,5)">
+                <svg x="0" y="0" width="80" height="80" viewBox="0 0 1200 1200">
+                  <path fill="#00818D" d="M596.662 144.389c34.998-3.172 61.633 12.496 92.264 26.447l92.646 42.659 148.298 67.771c24.231 11.112 55.887 23.912 77.53 38.258 13.33 8.839 24.72 33.444 25.74 49.353 1.78 27.628.95 59.551.93 87.73l-.04 172.002-.01 232.228.09 70.326c.13 33.766 7.63 85.057-38.179 90.057-15.486 1.69-29.669 1.15-45.212 1.13l-74.309-.02-285.711-.03-86.45.01c-14.861.01-38.143-.55-52.35 1.07l-.046-165.707c19.573 1.577 50.149.697 70.701.7l127.415-.019 121.152.044c21.565.013 43.424.502 64.903-.442 18.695-.822 32.803-15.317 34.427-33.722 1.872-21.221 1.396-42.176 1.37-63.418l-.058-96.799.038-113.437c.027-24.681.763-55.347-1.605-79.567-12.076-45.993-37.565-49.775-76.888-67.799l-72.36-33.097-54.019-24.848c-9.531-4.383-22.948-10.989-32.496-14.364a96.2 96.2 0 0 0-33.498-5.572c-25.078.388-42.907 10.519-65.353 20.392l-64.644 28.356-71.674 31.049c-12.541 5.403-30.558 12.592-42.119 18.702a78.6 78.6 0 0 0-19.741 14.962c-9.545 10.062-13.98 19.273-14.725 32.864-1.192 21.728-.655 45.343-.657 67.163l-.011 131.777.001 230.009c.004 39.353-.966 83.426.274 122.493-42.124-2.7-86.002 1.52-128.054-1.62-21.241-1.59-34.093-22.682-35.179-42.768-1.814-33.543-.949-67.966-.947-101.836l-.018-196.325-.042-204.259.009-63.039c.024-39.48-2.981-79.379 39.039-100.877 17.503-8.954 35.936-16.19 53.963-24.053l106.559-46.34 136.739-59.616c29.428-12.846 71.164-34.849 102.307-37.978"/>
+                  <path fill="#8D807A" d="M595.645 451.22c1.691-.129 3.383-.179 5.078-.229 6.631-.197 13.421-.426 19.841 1.531 14.632 4.461 114.164 49.015 123.352 57.864 10.183 9.808 11.358 21.62 11.657 35.051.863 38.733-.121 77.697-.053 116.46.032 18.651 2.007 48.461-.496 65.954-.65 4.537-2.584 8.555-5.811 11.837-3.556 3.615-7.359 5.308-12.282 6.235-14.533 2.736-30.894 1.266-45.713 1.252l-78.718-.093-88.692.097c-16.25.029-32.393.216-48.658-.311-20.876-.677-25.795-12.942-25.444-31.885.12-6.488-.041-13.959-.045-20.49l.023-61.993-.042-64.309c.007-25.725-5.239-51.071 22.278-64.213 31.426-15.009 63.719-28.079 95.559-42.207 8.45-3.75 19.332-8.5 28.166-10.551"/>
+                </svg>
+                <text x="90" y="38" font-family="Montserrat,Arial,sans-serif" font-size="22" font-weight="800" fill="#0C2340">PARTNERS</text>
+                <text x="90" y="58" font-family="Montserrat,Arial,sans-serif" font-size="13" font-weight="600" fill="#6b7280" letter-spacing="2">MORTGAGE</text>
+                <line x1="90" y1="65" x2="310" y2="65" stroke="#D4B8A8" stroke-width="1"/>
+                <text x="90" y="80" font-family="Georgia,serif" font-size="12" font-style="italic" fill="#00818D">You matter.</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="pal-doc-title">Pre-Approval Letter</div>
+
+          <div class="pal-doc-meta">
+            <table>
+              <tr><td><strong>Date:</strong></td><td id="doc-date">&nbsp;</td></tr>
+              <tr><td><strong>Borrower(s):</strong></td><td id="doc-borrowers">&nbsp;</td></tr>
+              <tr><td><strong>Address:</strong></td><td id="doc-address">&nbsp;</td></tr>
+              <tr><td><strong>Expiration Date:</strong></td><td id="doc-expiration">90 Days</td></tr>
+            </table>
+          </div>
+
+          <div class="pal-doc-congrats">CONGRATULATIONS!</div>
+
+          <div class="pal-doc-body">
+            Thank you for choosing Partners Mortgage to represent you in securing your mortgage financing. As a direct lender, we are confident we can provide you with the most efficient home loan process available, along with some fabulous rates/terms.<br><br>
+            You have been pre-approved for the following loan terms based on the information and documentation that you provided regarding your income, employment, and overall credit. Your credit has been reviewed. Your financing is subject to final underwriting approval, clear &amp; marketable title, homeowner's insurance, appraisal review, and verification that your financial condition and creditworthiness has not changed between the date of this letter and closing/funding of the loan.
+          </div>
+
+          <div class="pal-doc-terms-label">Pre-approval Terms:</div>
+          <div class="pal-doc-terms">
+            <table>
+              <tr><td>Purchase Price:</td><td id="doc-purchase">&nbsp;</td></tr>
+              <tr><td>Loan Amount: <strong>Up to</strong></td><td id="doc-loan">&nbsp;</td></tr>
+              <tr><td>Down Payment:</td><td id="doc-dp">&nbsp;</td></tr>
+              <tr><td>Loan Term:</td><td id="doc-term">15 years</td></tr>
+              <tr><td>Loan Type:</td><td id="doc-type">Conventional</td></tr>
+              <tr id="row-seller"><td>Seller Credits:</td><td id="doc-seller">$0.00</td></tr>
+              <tr id="row-deposit"><td>Deposit:</td><td id="doc-deposit">&nbsp;</td></tr>
+            </table>
+          </div>
+
+          <div class="pal-doc-closing">
+            We look forward to servicing your future real estate financing needs and the needs of your friends, family, and colleagues<br><br>
+            If you have any questions regarding this Pre-Approval, please do not hesitate to contact me at (916) 850-5956 or kpastor@partnersmortgage.com
+          </div>
+
+          <div class="pal-doc-sig">
+            Sincerely,
+            <div class="pal-doc-sig-name">KATIE PASTOR TRINIDAD</div>
+            <div class="pal-doc-sig-line">
+              Sr. Mortgage Planner<br>
+              NMLS: 885654<br>
+              Phone: (916) 850-5956<br>
+              Mobile: (916) 850-5956<br>
+              Email: kpastor@partnersmortgage.com
+            </div>
+          </div>
+
+          <div class="pal-doc-disclaimer">
+            This approval is not to be construed as a mortgage commitment. A loan commitment is subject to complete underwriting approval, including satisfactory appraisal and clear title work. Interest rates are subject to change.
+          </div>
+
+          <div class="pal-doc-footer">
+            1687 Eureka Road, Suite 100 Roseville, CA 95661 &nbsp;|&nbsp; NMLS 236669
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: OPEN HOUSE FLYER -->
+  <div class="tab-panel" id="tab-flyer">
+    <div class="ohf-wrap">
+      <div class="ohf-form">
+
+        <div class="ohf-card">
+          <div class="ohf-card-title">Flyer Colors</div>
+          <div class="ohf-themes" id="ohf-themes" role="radiogroup" aria-label="Flyer color theme"></div>
+        </div>
+
+        <div class="ohf-card">
+          <div class="ohf-card-title">Property &amp; Photos</div>
+          <div class="pal-field ohf-addr-wrap">
+            <label class="pal-label" for="ohf-address">Property Address <span class="sc-req">*</span></label>
+            <input class="pal-input" id="ohf-address" type="text" placeholder="Start typing: 123 Main St, Roseville…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ohf-addr-list">
+            <div class="ohf-addr-list" id="ohf-addr-list" role="listbox" hidden></div>
+          </div>
+          <div class="pal-field">
+            <label class="pal-label" for="ohf-url">Listing Link <span class="ohf-muted">(optional)</span></label>
+            <div class="ohf-url-row"><input class="pal-input" id="ohf-url" type="url" placeholder="Paste a Zillow, Redfin or Realtor.com link"><button type="button" class="ohf-btn" id="ohf-url-btn">Fill Details</button></div>
+            <div class="ohf-hint" style="margin-top:4px">Pulls the address, price, beds, baths, square feet and main photo when the listing site allows it.</div>
+          </div>
+          <span class="pal-label">Listing Photos <span class="ohf-muted">(up to 7 · first is the main photo)</span></span>
+          <div class="ohf-drop" id="ohf-drop">
+            <input type="file" id="ohf-photo-input" accept="image/*" multiple hidden>
+            <div class="ohf-drop-title">Add Photos</div>
+            <div class="ohf-drop-btns">
+              <button type="button" class="ohf-btn ohf-btn-gold" id="ohf-paste-btn">Paste (Ctrl+V)</button>
+              <button type="button" class="ohf-btn" id="ohf-browse-btn">Browse Files</button>
+            </div>
+            <div class="ohf-hint">Or drag photos here. From Zillow or Redfin: right-click a photo, Copy Image, then Paste.</div>
+          </div>
+          <div class="ohf-gallery" id="ohf-gallery"></div>
+          <div class="ohf-status" id="ohf-status" role="status"></div>
+        </div>
+
+        <div class="ohf-card">
+          <div class="ohf-card-title">Property Details</div>
+          <div class="pal-row">
+            <div class="pal-field"><label class="pal-label" for="ohf-price">Sales Price <span class="sc-req">*</span></label><input class="pal-input ohf-money" id="ohf-price" type="text" inputmode="decimal" placeholder="$500,000"></div>
+            <div class="pal-field"><label class="pal-label" for="ohf-ptype">Property Type</label><select class="pal-select" id="ohf-ptype"><option>Single Family</option><option>Condo</option><option>Townhome</option><option>2-4 Units</option><option>Manufactured</option></select></div>
+          </div>
+          <div class="sc-grid-3">
+            <div class="pal-field"><label class="pal-label" for="ohf-beds">Beds</label><input class="pal-input" id="ohf-beds" type="text" inputmode="decimal" placeholder="3"></div>
+            <div class="pal-field"><label class="pal-label" for="ohf-baths">Baths</label><input class="pal-input" id="ohf-baths" type="text" inputmode="decimal" placeholder="2"></div>
+            <div class="pal-field"><label class="pal-label" for="ohf-sqft">Sq Ft</label><input class="pal-input" id="ohf-sqft" type="text" inputmode="numeric" placeholder="1,650"></div>
+          </div>
+          <div class="pal-field"><label class="pal-label" for="ohf-county">County / Area</label><input class="pal-input" id="ohf-county" type="text" placeholder="e.g. Placer County"></div>
+          <div class="pal-field"><label class="pal-label" for="ohf-headline">Listing Headline</label><input class="pal-input" id="ohf-headline" type="text" placeholder="e.g. STUNNING CORNER HOME"></div>
+          <span class="pal-label">Description Style</span>
+          <div class="ohf-seg" role="radiogroup" aria-label="Description style">
+            <label><input type="radio" name="ohf-dmode" value="text" checked><span>Paragraph</span></label>
+            <label><input type="radio" name="ohf-dmode" value="feats"><span>Highlights with Icons</span></label>
+          </div>
+          <div class="pal-field" id="ohf-desc-wrap"><label class="pal-label" for="ohf-desc">Property Description</label><textarea class="pal-input" id="ohf-desc" rows="4" placeholder="Beautiful home featuring…"></textarea></div>
+          <div id="ohf-feats-wrap" hidden>
+            <div class="ohf-hint" style="margin-bottom:8px">Tap to add (up to 8). You can edit the wording after.</div>
+            <div class="ohf-sugs" id="ohf-sugs"></div>
+            <div class="ohf-feat-list" id="ohf-feat-list"></div>
+          </div>
+        </div>
+
+        <div class="ohf-card">
+          <label class="ohf-switch-row">
+            <input type="checkbox" id="ohf-loans-on">
+            <span class="ohf-switch" aria-hidden="true"></span>
+            <span><span class="ohf-card-title" style="margin:0">Include Loan Options</span><span class="ohf-muted ohf-block">Adds a financing comparison table to the flyer.</span></span>
+          </label>
+          <div id="ohf-loans-body" hidden>
+            <div class="pal-row" style="margin-top:16px">
+              <div class="pal-field"><label class="pal-label" for="ohf-taxes">Annual Taxes $</label><input class="pal-input ohf-money" id="ohf-taxes" type="text" inputmode="decimal" placeholder="$5,000"></div>
+              <div class="pal-field"><label class="pal-label" for="ohf-ins">Annual Insurance $</label><input class="pal-input ohf-money" id="ohf-ins" type="text" inputmode="decimal" placeholder="$1,200"></div>
+            </div>
+            <div class="pal-field"><label class="pal-label" for="ohf-hoa">HOA / Month</label><input class="pal-input ohf-money" id="ohf-hoa" type="text" inputmode="decimal" placeholder="$0"></div>
+            <div class="ohf-loan-tabs" id="ohf-loan-tabs" role="tablist"></div>
+            <div id="ohf-loan-forms"></div>
+          </div>
+        </div>
+
+        <div class="ohf-card">
+          <div class="ohf-card-title">Loan Officer</div>
+          <div class="ohf-lo">
+            <img id="ohf-lo-photo" alt="Katie Pastor Trinidad">
+            <div>
+              <div class="ohf-lo-name">Katie Pastor Trinidad</div>
+              <div class="ohf-muted">Senior Mortgage Advisor · NMLS #885654</div>
+              <div class="ohf-muted">(916) 850-5956 · kpastor@partnersmortgage.com</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ohf-card">
+          <div class="ohf-card-title">Your Info · Co-Brand</div>
+          <div class="ohf-agent-row">
+            <label class="ohf-agent-photo" id="ohf-agent-photo-area" title="Upload your headshot">
+              <input type="file" id="ohf-agent-photo-input" accept="image/*" hidden>
+              <span id="ohf-agent-photo-ph">Add<br>Photo</span>
+              <img id="ohf-agent-photo" alt="" hidden>
+            </label>
+            <div style="flex:1;min-width:0">
+              <div class="pal-row">
+                <div class="pal-field"><label class="pal-label" for="ohf-a-name">Agent Name</label><input class="pal-input ohf-agent" id="ohf-a-name" type="text" autocomplete="name" placeholder="Elizabeth Smith"></div>
+                <div class="pal-field"><label class="pal-label" for="ohf-a-title">Title</label><input class="pal-input ohf-agent" id="ohf-a-title" type="text" placeholder="REALTOR®"></div>
+              </div>
+              <div class="pal-row">
+                <div class="pal-field"><label class="pal-label" for="ohf-a-lic-label">License Label</label><input class="pal-input ohf-agent" id="ohf-a-lic-label" type="text" value="DRE"></div>
+                <div class="pal-field"><label class="pal-label" for="ohf-a-lic">License #</label><input class="pal-input ohf-agent" id="ohf-a-lic" type="text" placeholder="01234567"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pal-row">
+            <div class="pal-field"><label class="pal-label" for="ohf-a-phone">Phone</label><input class="pal-input ohf-agent" id="ohf-a-phone" type="tel" autocomplete="tel" placeholder="(916) 555-1234"></div>
+            <div class="pal-field"><label class="pal-label" for="ohf-a-email">Email</label><input class="pal-input ohf-agent" id="ohf-a-email" type="email" autocomplete="email" placeholder="you@brokerage.com"></div>
+          </div>
+          <div class="pal-row">
+            <div class="pal-field"><label class="pal-label" for="ohf-a-web">Website</label><input class="pal-input ohf-agent" id="ohf-a-web" type="text" placeholder="yoursite.com"></div>
+            <div class="pal-field"><label class="pal-label" for="ohf-a-brok">Brokerage</label><input class="pal-input ohf-agent" id="ohf-a-brok" type="text" autocomplete="organization" placeholder="Premier Realty Group"></div>
+          </div>
+          <label class="ohf-switch-row ohf-switch-sm"><input type="checkbox" id="ohf-cobrand" checked><span class="ohf-switch" aria-hidden="true"></span><span>Show my info on the flyer</span></label>
+          <label class="ohf-switch-row ohf-switch-sm"><input type="checkbox" id="ohf-agent-first"><span class="ohf-switch" aria-hidden="true"></span><span>Put my info on the left</span></label>
+          <label class="ohf-switch-row ohf-switch-sm"><input type="checkbox" id="ohf-remember" checked><span class="ohf-switch" aria-hidden="true"></span><span>Remember my info on this device</span></label>
+        </div>
+
+        <button type="button" class="pal-download-btn" id="ohf-print-btn">&#11015; &nbsp;Download as PDF</button>
+        <div class="ohf-hint" style="text-align:center;margin-top:8px">In the print window, choose <strong>Save as PDF</strong> as the destination.</div>
+      </div>
+
+      <div class="pal-preview-card ohf-preview-card">
+        <div class="pal-preview-label">Live Preview</div>
+        <div class="ohf-stage" id="ohf-stage"><div class="ohf-scale" id="ohf-scale"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: TODAY'S RATES -->
+  <div class="tab-panel" id="tab-rates">
+    <div class="rates-wrap">
+      <div class="rates-header">
+        <h3>Today's Mortgage Rates</h3>
+        <p>Live market rate indices updated daily — powered by Optimal Blue OBMMI™</p>
+      </div>
+      <div class="rates-iframe-wrap">
+        <iframe src="https://www2.optimalblue.com/OBMMI/widgetConfig.php" width="750" height="462" frameBorder="0" style="width:100%;max-width:100%;"></iframe>
+      </div>
+      <div class="rates-cta">
+        <p><strong>Want a personalized rate?</strong><br>For a rate quote tailored to your client's specific scenario, contact Katie directly.</p>
+        <div class="rates-contact-btns">
+          <a href="tel:9168505956" class="rates-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+            Call Katie
+          </a>
+          <a href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com&subject=Rate%20Quote%20Request" class="rates-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email Katie
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end portal-wrap -->
+
+<script>
+var REALTOR_SECRET = '';
+
+/* ---- PURCHASE SCENARIO REQUEST ---- */
+function scNum(v) { var n = parseFloat(String(v || '').replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; }
+function scFmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function scCalc() {
+  var price = scNum(document.getElementById('sc-price').value);
+  var dp = scNum(document.getElementById('sc-dp').value);
+  var pctEl = document.getElementById('sc-dp-pct'), loanEl = document.getElementById('sc-loan');
+  var pctH = document.getElementById('sc-dp-pct-h'), loanH = document.getElementById('sc-loan-h');
+  if (price > 0 && dp <= price) {
+    var pct = (Math.round(dp / price * 10000) / 100) + '%';
+    pctEl.textContent = pct; loanEl.textContent = scFmt(price - dp);
+    pctH.value = pct; loanH.value = scFmt(price - dp);
+  } else {
+    pctEl.textContent = (price > 0 && dp > price) ? 'Exceeds purchase price' : '—';
+    loanEl.textContent = '—'; pctH.value = ''; loanH.value = '';
+  }
+}
+document.querySelectorAll('.sc-money').forEach(function(el) {
+  el.addEventListener('input', scCalc);
+  el.addEventListener('blur', function() { if (el.value.trim()) el.value = scFmt(scNum(el.value)); scCalc(); });
+});
+document.getElementById('scenarioForm').addEventListener('input', function() { document.getElementById('scError').style.display = 'none'; });
+var scForm = document.getElementById('scenarioForm');
+function scSetMode(mode) {
+  scForm.classList.remove('mode-new', 'mode-existing');
+  scForm.classList.add('mode-' + mode);
+}
+document.querySelectorAll('input[name="client-type"]').forEach(function(r) { r.addEventListener('change', function() { scSetMode(r.dataset.mode); }); });
+document.getElementById('sc-extras-other').addEventListener('change', function() {
+  var t = document.getElementById('sc-extras-other-text');
+  t.classList.toggle('show', this.checked);
+  if (this.checked) t.focus(); else t.value = '';
+});
+function scVisible(el) { return el.offsetParent !== null; }
+function scBody(form) {
+  var fd = new FormData(form), skip = {};
+  if (form.classList.contains('mode-existing')) {
+    form.querySelectorAll('.sc-new-only [name]').forEach(function(el) { skip[el.name] = 1; });
+  }
+  var out = new URLSearchParams();
+  fd.forEach(function(v, k) { if (!skip[k]) out.append(k, v); });
+  return out.toString();
+}
+function scChecked(id) {
+  return Array.prototype.map.call(document.querySelectorAll('#' + id + ' input:checked'), function(c) { return c.value; }).join(', ');
+}
+document.getElementById('scenarioForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = e.target, err = document.getElementById('scError'), btn = document.getElementById('scSubmitBtn');
+  err.style.display = 'none';
+  var missing = Array.prototype.filter.call(form.querySelectorAll('[required]'), function(f) { return scVisible(f) && (!f.value.trim() || !f.checkValidity()); });
+  if (missing.length) {
+    err.textContent = 'Please complete: ' + missing.map(function(f) { return document.querySelector('label[for="' + f.id + '"]').childNodes[0].textContent.trim(); }).join(', ') + '.';
+    err.style.display = 'block'; missing[0].focus(); return;
+  }
+  var price = scNum(form['purchase-price'].value), dp = scNum(form['down-payment'].value);
+  if (price <= 0 || dp > price) { err.textContent = 'Please check the purchase price and down payment amounts.'; err.style.display = 'block'; return; }
+  scCalc();
+  document.getElementById('sc-programs-h').value = scChecked('sc-programs') || 'Katie’s Recommendation';
+  var extras = scChecked('sc-extras'), otherTxt = document.getElementById('sc-extras-other-text').value.trim();
+  if (otherTxt) extras = extras.replace('Other', 'Other: ' + otherTxt);
+  document.getElementById('sc-extras-h').value = extras || 'None';
+  document.getElementById('sc-subject').value = 'Purchase Scenario Request (' + (scForm.classList.contains('mode-new') ? 'New Client' : 'Existing Client') + '): ' + form['property-address'].value.trim() + ' (' + form['agent-name'].value.trim() + ')';
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: scBody(form) })
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      form.style.display = 'none';
+      document.getElementById('scSuccess').style.display = 'block';
+    })
+    .catch(function() {
+      err.textContent = 'That didn’t go through. Please try again, or email kpastor@partnersmortgage.com.';
+      err.style.display = 'block';
+    })
+    .finally(function() { btn.textContent = 'Send Scenario Request →'; btn.disabled = false; });
+});
+function resetScenario() {
+  var form = document.getElementById('scenarioForm');
+  var keep = ['agent-name', 'agent-email', 'agent-phone', 'preferred-reply'];
+  var mode = (form.querySelector('input[name="client-type"]:checked') || {dataset: {}}).dataset.mode;
+  var saved = {}; keep.forEach(function(k) { saved[k] = form[k].value; });
+  form.reset(); keep.forEach(function(k) { form[k].value = saved[k]; });
+  if (mode) { form.querySelector('input[name="client-type"][data-mode="' + mode + '"]').checked = true; scSetMode(mode); }
+  document.getElementById('sc-extras-other-text').classList.remove('show');
+  scCalc();
+  document.getElementById('scSuccess').style.display = 'none';
+  form.style.display = 'block';
+}
+
+/* ---- TAB SWITCHING ---- */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.portal-tab').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'flyer' && window.OHF) OHF.render();
+}
+
+/* ---- LOGIN ---- */
+function login() {
+  var code = document.getElementById('accessCode').value.trim().toUpperCase();
+  if (!code) return;
+  document.querySelector('.login-btn').textContent = 'Verifying...';
+  fetch('/.netlify/functions/pipedrive', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: code, action: 'search', query: 'test' })
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (data.error === 'Invalid access code') {
+      document.getElementById('loginError').style.display = 'block';
+      document.querySelector('.login-btn').textContent = 'Access Portal \u2192';
+    } else {
+      REALTOR_SECRET = code;
+      sessionStorage.setItem('realtorSecret', code);
+      document.getElementById('loginWrap').style.display = 'none';
+      document.getElementById('portalWrap').style.display = 'block';
+      document.querySelector('.login-btn').textContent = 'Access Portal \u2192';
+    }
+  }).catch(function() {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginError').textContent = 'Connection error. Please try again.';
+    document.querySelector('.login-btn').textContent = 'Access Portal \u2192';
+  });
+}
+
+function logout() {
+  sessionStorage.removeItem('realtorSecret');
+  REALTOR_SECRET = '';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('portalWrap').style.display = 'none';
+  document.getElementById('accessCode').value = '';
+  document.getElementById('resultsWrap').innerHTML = '';
+}
+
+var saved = sessionStorage.getItem('realtorSecret');
+if (saved) {
+  REALTOR_SECRET = saved;
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('portalWrap').style.display = 'block';
+}
+
+/* ---- PIPELINE SEARCH ---- */
+function stageClass(status) {
+  if (status === 'won') return 'stage-won';
+  if (status === 'lost') return 'stage-lost';
+  return 'stage-open';
+}
+function stageLabel(deal) {
+  if (deal.status === 'won') return 'Funded \u2713';
+  if (deal.status === 'lost') return 'Closed';
+  return deal.stage || 'In Progress';
+}
+function formatDate(str) {
+  if (!str) return null;
+  var d = new Date(str);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function searchClient() {
+  var q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  var wrap = document.getElementById('resultsWrap');
+  wrap.innerHTML = '<div class="loading"><div class="spinner"></div>Searching pipeline...</div>';
+  fetch('/.netlify/functions/pipedrive', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: REALTOR_SECRET, action: 'search', query: q })
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (data.error) {
+      wrap.innerHTML = '<div class="no-results"><p>' + data.error + '</p></div>';
+      return;
+    }
+    var results = data.results || [];
+    if (!results.length) {
+      wrap.innerHTML = '<div class="no-results"><p>No active clients found matching "' + escHtml(q) + '". Try a different name or email.</p></div>';
+      return;
+    }
+    var html = '<div class="results-wrap">';
+    results.forEach(function(person) {
+      if (!person.deals || !person.deals.length) return;
+      person.deals.forEach(function(deal) {
+        var initials = deal.title.split(' ').map(function(w){ return w[0]; }).join('').replace(/[^A-Z]/gi,'').substring(0,2).toUpperCase() || '??';
+        html += '<div class="client-card">';
+        html += '<div class="client-card-head">';
+        html += '<div class="client-avatar">' + initials + '</div>';
+        html += '<div><div class="client-name">' + escHtml(deal.title) + '</div>';
+        if (person.email) html += '<div class="client-contact">' + escHtml(person.email) + '</div>';
+        html += '</div></div>';
+        html += '<div class="deals-wrap">';
+        html += '<div class="deal-card">';
+        html += '<div class="deal-header">';
+        var pipelineBadge = deal.pipeline_id === 2
+          ? '<span class="pipeline-badge badge-loan">Loan Pipeline</span>'
+          : '<span class="pipeline-badge badge-lead">Lead Pipeline</span>';
+        html += pipelineBadge;
+        html += '<span class="deal-stage ' + stageClass(deal.status) + '">' + escHtml(stageLabel(deal)) + '</span>';
+        html += '</div>';
+        html += '<div class="deal-meta">';
+        if (deal.update_time) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Last Updated</div><div class="deal-meta-value">' + escHtml(formatDate(deal.update_time)) + '</div></div>';
+        }
+        if (deal.close_date) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Est. Close</div><div class="deal-meta-value">' + escHtml(formatDate(deal.close_date)) + '</div></div>';
+        }
+        if (deal.stage) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Current Stage</div><div class="deal-meta-value">' + escHtml(deal.stage) + '</div></div>';
+        }
+        if (deal.next_stage) {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Next Step</div><div class="deal-meta-value next-step-value">' + escHtml(deal.next_stage) + '</div></div>';
+        } else if (deal.status === 'open') {
+          html += '<div class="deal-meta-item"><div class="deal-meta-label">Next Step</div><div class="deal-meta-value">Final Stage</div></div>';
+        }
+        html += '</div>';
+        if (deal.custom_fields && Object.keys(deal.custom_fields).length) {
+          html += '<div class="deal-custom-fields">';
+          var fieldOrder = ['Locked','Appraisal Ordered/Due','Disclosed','Sub. to Processing','Sub. to UW','1st Loan Approval','COE','Loan Cont.','Appraisal Cont.'];
+          fieldOrder.forEach(function(fname) {
+            var val = deal.custom_fields[fname];
+            if (val) {
+              html += '<div class="deal-cf-item"><span class="deal-cf-label">' + escHtml(fname) + '</span><span class="deal-cf-value">' + escHtml(val) + '</span></div>';
+            }
+          });
+          html += '</div>';
+        }
+        if (deal.latest_note) {
+          html += '<div class="deal-note"><div class="deal-note-label">Latest Update</div>' + escHtml(deal.latest_note) + '</div>';
+        }
+        html += '</div>';
+        html += '</div></div>';
+      });
+    });
+    html += '</div>';
+    wrap.innerHTML = html;
+  }).catch(function(e) {
+    wrap.innerHTML = '<div class="no-results"><p>Connection error. Please try again.</p></div>';
+  });
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') searchClient();
+});
+
+/* ---- PAL LOGIC ---- */
+function parseMoney(s) {
+  if (!s) return NaN;
+  return parseFloat(String(s).replace(/[$,\s]/g,''));
+}
+function formatMoney(n) {
+  if (isNaN(n)) return '';
+  return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/* Live currency formatting as the user types: strips everything but digits/decimal,
+   keeps an optional leading "-" (for Deposit), and adds $ + thousands commas. */
+function formatCurrencyInput(el) {
+  var raw = el.value;
+  var neg = /^\s*-/.test(raw);
+  var digits = raw.replace(/[^0-9.]/g, '');
+  var firstDot = digits.indexOf('.');
+  var intPart, decPart;
+  if (firstDot === -1) {
+    intPart = digits;
+    decPart = null;
+  } else {
+    intPart = digits.slice(0, firstDot);
+    decPart = digits.slice(firstDot + 1).replace(/\./g, '').slice(0, 2);
+  }
+  intPart = intPart.replace(/^0+(?=\d)/, '');
+  if (intPart === '' && decPart === null) {
+    el.value = '';
+    return;
+  }
+  var formattedInt = intPart ? Number(intPart).toLocaleString('en-US') : '0';
+  el.value = (neg ? '-' : '') + '$' + formattedInt + (decPart !== null ? '.' + decPart : '');
+}
+
+/* Treats blank, "$0", "$0.00", "-$0.00", etc. as "no info entered". */
+function isZeroOrBlank(v) {
+  var n = parseMoney(v);
+  return isNaN(n) || n === 0;
+}
+
+/* ---- Purchase Price / Loan Amount / Down Payment $ cross-fill ----
+   Realtors typically know the down payment amount, not the loan amount, so either
+   field can be typed in and the other auto-fills off Purchase Price. Whichever field
+   the user typed into most recently is treated as the source of truth if Purchase
+   Price changes afterward. */
+var palLastEdited = 'downpayment';
+
+function onLoanChange() {
+  palLastEdited = 'loan';
+  var pp = parseMoney(document.getElementById('pal-purchase').value);
+  var la = parseMoney(document.getElementById('pal-loan').value);
+  if (!isNaN(pp) && pp > 0 && !isNaN(la)) {
+    document.getElementById('pal-downpayment').value = formatMoney(pp - la);
+  }
+}
+
+function onDownPaymentChange() {
+  palLastEdited = 'downpayment';
+  var pp = parseMoney(document.getElementById('pal-purchase').value);
+  var dpAmt = parseMoney(document.getElementById('pal-downpayment').value);
+  if (!isNaN(pp) && pp > 0 && !isNaN(dpAmt)) {
+    document.getElementById('pal-loan').value = formatMoney(pp - dpAmt);
+  }
+}
+
+function onPurchaseChange() {
+  var pp = parseMoney(document.getElementById('pal-purchase').value);
+  if (isNaN(pp) || pp <= 0) return;
+  if (palLastEdited === 'loan') {
+    var la = parseMoney(document.getElementById('pal-loan').value);
+    if (!isNaN(la)) document.getElementById('pal-downpayment').value = formatMoney(pp - la);
+  } else {
+    var dpAmt = parseMoney(document.getElementById('pal-downpayment').value);
+    if (!isNaN(dpAmt)) document.getElementById('pal-loan').value = formatMoney(pp - dpAmt);
+  }
+}
+
+function updatePAL() {
+  var date = document.getElementById('pal-date').value || '';
+  var borrowers = document.getElementById('pal-borrowers').value || '';
+  var address = document.getElementById('pal-address').value || '';
+  var expiration = document.getElementById('pal-expiration').value || '90 Days';
+  var purchase = document.getElementById('pal-purchase').value || '';
+  var loan = document.getElementById('pal-loan').value || '';
+  var downpayment = document.getElementById('pal-downpayment').value || '';
+  var term = document.getElementById('pal-term').value;
+  var type = document.getElementById('pal-type').value;
+  var seller = document.getElementById('pal-seller').value || '';
+  var deposit = document.getElementById('pal-deposit').value || '';
+
+  // Down payment % = down payment amount / purchase price. Prefer the Down Payment $
+  // field directly; fall back to (purchase - loan) if only Loan Amount was entered.
+  var pp = parseMoney(purchase);
+  var dpAmt = parseMoney(downpayment);
+  if (isNaN(dpAmt)) {
+    var la = parseMoney(loan);
+    if (!isNaN(pp) && !isNaN(la)) dpAmt = pp - la;
+  }
+  var dpPct = '';
+  if (!isNaN(pp) && pp > 0 && !isNaN(dpAmt)) {
+    dpPct = ((dpAmt / pp) * 100).toFixed(2) + '%';
+  }
+  document.getElementById('pal-dp-display').textContent = dpPct || '—';
+
+  // Letter shows the dollar amount with the percent in parentheses, e.g. "$120,000.00 (20.00%)"
+  var dpDisplay = downpayment;
+  if (dpDisplay && dpPct) dpDisplay = dpDisplay + ' (' + dpPct + ')';
+
+  // Update preview
+  document.getElementById('doc-date').textContent = date;
+  document.getElementById('doc-borrowers').textContent = borrowers;
+  document.getElementById('doc-address').textContent = address;
+  document.getElementById('doc-expiration').textContent = expiration;
+  document.getElementById('doc-purchase').textContent = purchase;
+  document.getElementById('doc-loan').textContent = loan;
+  document.getElementById('doc-dp').textContent = dpDisplay;
+  document.getElementById('doc-term').textContent = term;
+  document.getElementById('doc-type').textContent = type;
+  document.getElementById('doc-seller').textContent = seller;
+  document.getElementById('doc-deposit').textContent = deposit;
+
+  // Seller Credits / Deposit: only show the row on the letter if a real amount was entered
+  document.getElementById('row-seller').style.display = isZeroOrBlank(seller) ? 'none' : '';
+  document.getElementById('row-deposit').style.display = isZeroOrBlank(deposit) ? 'none' : '';
+}
+
+function downloadPAL() {
+  var palContent = document.getElementById('palDoc').innerHTML;
+  var win = window.open('', '_blank', 'width=900,height=1200');
+  win.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pre-Approval Letter</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Times New Roman', Times, serif; font-size: 12px; color: #000; background: white; padding: 48px 60px; }
+  .pal-doc-logo { margin-bottom: 20px; }
+  .pal-doc-logo svg { height: 60px; width: auto; }
+  .pal-doc-title { text-align: center; font-size: 14px; font-weight: bold; text-decoration: underline; margin-bottom: 18px; }
+  .pal-doc-meta { margin-bottom: 16px; }
+  .pal-doc-meta table { border-collapse: collapse; }
+  .pal-doc-meta td { padding: 2px 0; vertical-align: top; font-size: 12px; }
+  .pal-doc-meta td:first-child { font-weight: bold; width: 150px; padding-right: 12px; }
+  .pal-doc-congrats { font-size: 13px; font-weight: bold; margin-bottom: 10px; }
+  .pal-doc-body { margin-bottom: 14px; font-size: 12px; line-height: 1.55; }
+  .pal-doc-terms-label { font-weight: bold; font-size: 12px; margin-bottom: 8px; }
+  .pal-doc-terms { margin-bottom: 14px; }
+  .pal-doc-terms table { border-collapse: collapse; }
+  .pal-doc-terms td { padding: 2px 0; font-size: 12px; vertical-align: top; }
+  .pal-doc-terms td:first-child { width: 170px; }
+  .pal-doc-closing { margin-bottom: 14px; font-size: 12px; line-height: 1.55; }
+  .pal-doc-sig { margin-top: 16px; font-size: 12px; }
+  .pal-doc-sig-name { font-weight: bold; text-transform: uppercase; font-size: 11px; letter-spacing: .05em; margin-top: 4px; }
+  .pal-doc-sig-line { font-size: 11px; line-height: 1.8; }
+  .pal-doc-disclaimer { font-size: 9.5px; color: #444; line-height: 1.4; border-top: 1px solid #ccc; padding-top: 10px; margin-top: 20px; }
+  .pal-doc-footer { text-align: center; font-size: 10px; font-weight: bold; margin-top: 12px; padding-top: 10px; border-top: 1px solid #000; }
+  @media print {
+    body { padding: 36px 52px; }
+    @page { margin: 0; size: letter portrait; }
+  }
+</style>
+</head>
+<body>${palContent}</body>
+</html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(function() { win.print(); win.close(); }, 500);
+}
+
+// Set today's date on load
+(function() {
+  var today = new Date();
+  var mm = String(today.getMonth()+1).padStart(2,'0');
+  var dd = String(today.getDate()).padStart(2,'0');
+  var yyyy = today.getFullYear();
+  document.getElementById('pal-date').value = mm + '/' + dd + '/' + yyyy;
+  updatePAL();
+})();
+
+/* ---- OPEN HOUSE FLYER ---- */
+var OHF = (function () {
+  var KATIE_PHOTO = "data:image/jpeg;base64,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";
+  var LO = {
+    name: 'Katie Pastor Trinidad', title: 'Senior Mortgage Advisor', nmls: '885654',
+    phone: '(916) 850-5956', email: 'kpastor@partnersmortgage.com', web: '',
+    photo: KATIE_PHOTO
+  };
+  var PROGRAMS = ['FHA 30 Yr Fixed','FHA 20 Yr Fixed','FHA 15 Yr Fixed','FHA 5/1 ARM','VA 30 Yr Fixed','VA 20 Yr Fixed','VA 15 Yr Fixed',
+    'USDA 30 Yr Fixed','Conv 30yr 3% Dn','Conv 30yr 5% Dn','Conv 30yr 10% Dn','Conv 30yr 20% Dn','Conv 30yr 25% Dn',
+    'FHA 203(k) Reno','HomeStyle Reno','80-10-10','80-15-5'];
+  var DEFAULT_LOANS = [
+    { enabled:true,  program:'FHA 30 Yr Fixed',  title:'FHA',     notes:'Fixed Rate', down:3.5, rate:6.750, apr:7.918, points:0, term:30, closingCosts:8500, prepaids:3200, sellerCredit:0, miMode:'auto', miMonthly:0 },
+    { enabled:true,  program:'VA 30 Yr Fixed',   title:'VA',      notes:'Fixed Rate', down:0,   rate:6.500, apr:6.721, points:0, term:30, closingCosts:7200, prepaids:3000, sellerCredit:0, miMode:'auto', miMonthly:0 },
+    { enabled:true,  program:'Conv 30yr 5% Dn',  title:'CONV',    notes:'Fixed Rate', down:5,   rate:7.000, apr:7.285, points:0, term:30, closingCosts:9000, prepaids:3400, sellerCredit:0, miMode:'auto', miMonthly:0 },
+    { enabled:false, program:'Conv 30yr 20% Dn', title:'CONV 20', notes:'Fixed Rate', down:20,  rate:6.875, apr:7.012, points:0, term:30, closingCosts:8000, prepaids:3000, sellerCredit:0, miMode:'auto', miMonthly:0 },
+    { enabled:false, program:'USDA 30 Yr Fixed', title:'USDA',    notes:'Fixed Rate', down:0,   rate:6.625, apr:6.892, points:0, term:30, closingCosts:7500, prepaids:3100, sellerCredit:0, miMode:'auto', miMonthly:0 }
+  ];
+  var LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="140 130 920 950" style="height:30px;width:auto;margin-left:auto;flex:none"><path style="fill:var(--logo1)" d="M596.662 144.389c34.998-3.172 61.633 12.496 92.264 26.447l92.646 42.659 148.298 67.771c24.231 11.112 55.887 23.912 77.53 38.258 13.33 8.839 24.72 33.444 25.74 49.353 1.78 27.628.95 59.551.93 87.73l-.04 172.002-.01 232.228.09 70.326c.13 33.766 7.63 85.057-38.179 90.057-15.486 1.69-29.669 1.15-45.212 1.13l-74.309-.02-285.711-.03-86.45.01c-14.861.01-38.143-.55-52.35 1.07l-.046-165.707c19.573 1.577 50.149.697 70.701.7l127.415-.019 121.152.044c21.565.013 43.424.502 64.903-.442 18.695-.822 32.803-15.317 34.427-33.722 1.872-21.221 1.396-42.176 1.37-63.418l-.058-96.799.038-113.437c.027-24.681.763-55.347-1.605-79.567-12.076-45.993-37.565-49.775-76.888-67.799l-72.36-33.097-54.019-24.848c-9.531-4.383-22.948-10.989-32.496-14.364a96.2 96.2 0 0 0-33.498-5.572c-25.078.388-42.907 10.519-65.353 20.392l-64.644 28.356-71.674 31.049c-12.541 5.403-30.558 12.592-42.119 18.702a78.6 78.6 0 0 0-19.741 14.962c-9.545 10.062-13.98 19.273-14.725 32.864-1.192 21.728-.655 45.343-.657 67.163l-.011 131.777.001 230.009c.004 39.353-.966 83.426.274 122.493-42.124-2.7-86.002 1.52-128.054-1.62-21.241-1.59-34.093-22.682-35.179-42.768-1.814-33.543-.949-67.966-.947-101.836l-.018-196.325-.042-204.259.009-63.039c.024-39.48-2.981-79.379 39.039-100.877 17.503-8.954 35.936-16.19 53.963-24.053l106.559-46.34 136.739-59.616c29.428-12.846 71.164-34.849 102.307-37.978"/><path style="fill:var(--logo2)" d="M595.645 451.22c1.691-.129 3.383-.179 5.078-.229 6.631-.197 13.421-.426 19.841 1.531 14.632 4.461 114.164 49.015 123.352 57.864 10.183 9.808 11.358 21.62 11.657 35.051.863 38.733-.121 77.697-.053 116.46.032 18.651 2.007 48.461-.496 65.954-.65 4.537-2.584 8.555-5.811 11.837-3.556 3.615-7.359 5.308-12.282 6.235-14.533 2.736-30.894 1.266-45.713 1.252l-78.718-.093-88.692.097c-16.25.029-32.393.216-48.658-.311-20.876-.677-25.795-12.942-25.444-31.885.12-6.488-.041-13.959-.045-20.49l.023-61.993-.042-64.309c.007-25.725-5.239-51.071 22.278-64.213 31.426-15.009 63.719-28.079 95.559-42.207 8.45-3.75 19.332-8.5 28.166-10.551"/></svg>';
+
+  var FLYER_CSS = ".oh-flyer{--teal:#00818D;--teal-dark:#005760;--gold:#FFAC27;--hdr:#002B45;--hdr-ink:#fff;--hdr-sub:rgba(255,255,255,.7);--gold-ink:#0B2027;--pill-ink:#fff;--tint1:#eef6f7;--tint1-l:#d4edef;--tint2:#eef7f0;--tint2-l:#c8edd0;--tint2-ink:#1a6b2e;--foot:#f8f9fb;--logo1:#00818D;--logo2:#8D807A;--taupe:#8A7E78;--dark:#0B2027;--text:#2B363C;--text-light:#6B7378;--light-gray:#E4DDD2; width:8.5in;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.15);font-family:Barlow,'Helvetica Neue',Arial,sans-serif;position:relative;overflow:hidden;color:var(--text);line-height:normal;text-align:left} .oh-flyer *{box-sizing:border-box} .oh-hdr{background:var(--hdr);padding:14px 24px;text-align:center;position:relative} .oh-hdr::after{content:\"\";position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--teal),var(--gold))} .oh-hdr-addr{font-size:18px;font-weight:800;color:var(--hdr-ink);letter-spacing:.5px;text-transform:uppercase} .oh-hdr-sub{font-size:12px;color:var(--hdr-sub);margin-top:2px} .oh-photos{display:flex;gap:2px;height:2.5in;overflow:hidden} .oh-flyer.no-loans{min-height:11in;display:flex;flex-direction:column} .oh-flyer.no-loans .oh-photos{height:5.4in;flex:none} .oh-flyer.no-loans .oh-prop-info{flex:1;flex-direction:column;gap:12px} .oh-photos .oh-photo.main{flex:1 1 58%;min-width:0} .oh-photos.count-0 .oh-photo.main,.oh-photos.count-1 .oh-photo.main{flex:1 1 100%} .oh-thumbs{flex:1 1 42%;display:grid;gap:2px;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;min-width:0} .oh-photos.count-2 .oh-thumbs,.oh-photos.count-3 .oh-thumbs{grid-template-columns:1fr} .oh-photo{overflow:hidden} .oh-photo img{width:100%;height:100%;object-fit:cover;display:block} .oh-photo-placeholder{width:100%;height:100%;min-height:140px;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-dark) 100%);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-size:64px} .oh-prop-info{padding:14px 24px;border-bottom:1px solid var(--light-gray);display:flex;align-items:flex-start;gap:20px} .oh-flyer.no-loans .oh-prop-info{padding:24px 32px} .oh-flyer.no-loans .oh-prop-title{font-size:26px} .oh-prop-title{font-size:20px;font-weight:900;color:var(--teal);text-transform:uppercase;letter-spacing:-.3px;min-width:160px} .oh-prop-desc{font-size:11.5px;line-height:1.6;color:var(--text);flex:1 1 0%} .oh-flyer.no-loans .oh-prop-desc{font-size:14px;line-height:1.7} .oh-loan-section{padding:0 0 6px} .oh-loan-table{width:100%;border-collapse:collapse} .oh-loan-table th,.oh-loan-table td{padding:7px 10px;font-size:11px;text-align:center;border:1px solid #e5e5e5} .oh-loan-table th{background:var(--hdr);color:var(--hdr-ink);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:10px} .oh-loan-table th.accent{background:var(--teal);color:var(--pill-ink)} .oh-loan-table td.row-label{font-weight:700;font-size:10px;text-align:left;background:#f8f8f8;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;padding-left:12px;min-width:140px} .oh-loan-table td.val{font-weight:600;color:var(--dark)} .oh-loan-table tr.ctc-row td{background:var(--tint1)} .oh-loan-table tr.ctc-row td.row-label{background:var(--tint1-l);color:var(--teal-dark)} .oh-loan-table tr.he-row td{background:var(--tint2)} .oh-loan-table tr.he-row td.row-label{background:var(--tint2-l);color:var(--tint2-ink)} .oh-loan-table tr.total-row td{font-weight:800;font-size:12px;color:var(--teal-dark)} .oh-loan-table tr.total-row td.row-label{color:var(--teal-dark)} .oh-loan-table tr.section-header td{background:var(--teal);color:var(--pill-ink);font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:5px 10px} .oh-loan-table tr.section-header td.row-label{background:var(--teal-dark);text-align:left} .oh-compliance{padding:8px 16px;font-size:7.5px;color:var(--text-light);line-height:1.5;border-top:1px solid var(--light-gray)} .oh-cobrand{display:grid;grid-template-columns:1fr 1px 1fr;border-top:3px solid var(--gold);background:var(--foot)} .oh-cobrand-divider{background:var(--light-gray)} .oh-agent-card{padding:16px 20px;display:flex;flex-direction:column;gap:10px} .oh-agent-top{display:flex;gap:12px;align-items:center} .oh-agent-photo{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--teal);flex-shrink:0} .oh-agent-photo-ph{width:56px;height:56px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--pill-ink);font-weight:900;flex-shrink:0} .oh-agent-name{font-size:15px;font-weight:800;color:var(--teal)} .oh-agent-title{font-size:10px;color:var(--taupe);font-weight:600;text-transform:uppercase} .oh-agent-id{font-size:10px;color:var(--text-light)} .oh-agent-contacts{font-size:11px;line-height:1.8} .oh-agent-contacts span{font-weight:700;color:var(--teal)} .oh-company-row{display:flex;align-items:center;gap:8px;border-top:1px solid var(--light-gray);padding-top:10px;margin-top:4px} .oh-company-name{font-size:10px;color:var(--text-light);line-height:1.4} .oh-card-label{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--taupe);margin-bottom:6px} .oh-youmatter{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--teal);font-size:14px;font-weight:600;text-align:right;margin-top:auto} .fl-pill{display:inline-block;background:var(--teal);color:var(--pill-ink);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:20px;margin:2px} .fl-pill.gold{background:var(--gold);color:var(--gold-ink)} .oh-feats{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;flex:1 1 0%} .oh-feat{display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3} .oh-feat-ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--teal);color:var(--pill-ink);display:flex;align-items:center;justify-content:center} .oh-feat-ic svg{width:17px;height:17px} .oh-flyer.no-loans .oh-feat{font-size:13.5px} .oh-flyer.no-loans .oh-feat-ic{width:38px;height:38px} .oh-flyer.no-loans .oh-feat-ic svg{width:21px;height:21px} .oh-flyer.no-loans .oh-feats{gap:14px 24px;width:100%} .oh-facts{font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:.5px;text-transform:uppercase;margin-top:8px}";
+  var loans = JSON.parse(JSON.stringify(DEFAULT_LOANS));
+  var activeLoan = 0;
+  var photos = [];      // data URLs, [0] is the main photo
+  var agentPhoto = '';
+  var STORE_KEY = 'kptFlyerAgent_v1';
+  var $ = function (id) { return document.getElementById(id); };
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); }
+  function money(v) { return parseFloat(String(v || '').replace(/[^0-9.]/g, '')) || 0; }
+  function fmt$(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function fmtPct(n) { return (+n).toFixed(3) + '%'; }
+  function fmtPhone(raw) {
+    if (!raw) return '';
+    var d = String(raw).replace(/\D/g, '');
+    if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+    if (d.length === 10) return '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    return String(raw).trim();
+  }
+  function fmtWeb(raw) { return String(raw || '').trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/+$/, ''); }
+  function fmtLicense(v, label) {
+    v = (v || '').trim(); if (!v) return '';
+    label = (label || '').trim();
+    if (!label || /[A-Za-z]/.test(v)) return v;
+    return label + ' #' + v;
+  }
+  function status(msg) { var el = $('ohf-status'); el.textContent = msg; clearTimeout(status.t); status.t = setTimeout(function () { el.textContent = ''; }, 4000); }
+
+  /* ---------- Themes ---------- */
+  var THEMES = [
+    { id:'teal',    name:'Teal & Gold',     v:{ teal:'#00818D', 'teal-dark':'#005760', gold:'#FFAC27', hdr:'#002B45', 'hdr-ink':'#fff', 'hdr-sub':'rgba(255,255,255,.7)', 'gold-ink':'#0B2027', 'pill-ink':'#fff', tint1:'#eef6f7', 'tint1-l':'#d4edef', tint2:'#eef7f0', 'tint2-l':'#c8edd0', 'tint2-ink':'#1a6b2e', foot:'#f8f9fb', logo1:'#00818D', logo2:'#8D807A' } },
+    { id:'blkgold', name:'Black & Gold',    v:{ teal:'#A8843C', 'teal-dark':'#6E5424', gold:'#D4AF37', hdr:'#111111', 'hdr-ink':'#F4E3B2', 'hdr-sub':'rgba(244,227,178,.7)', 'gold-ink':'#111', 'pill-ink':'#fff', tint1:'#f8f4ea', 'tint1-l':'#efe4c8', tint2:'#f4f1ea', 'tint2-l':'#e3dccb', 'tint2-ink':'#4a3b1a', foot:'#faf8f3', logo1:'#A8843C', logo2:'#555' } },
+    { id:'goldwht', name:'Gold & White',    v:{ teal:'#B08D46', 'teal-dark':'#7D6230', gold:'#D9BC7A', hdr:'#FFFFFF', 'hdr-ink':'#7D6230', 'hdr-sub':'#9A8B6E', 'gold-ink':'#3B2F17', 'pill-ink':'#fff', tint1:'#fbf8f1', 'tint1-l':'#f1e7d0', tint2:'#fdfbf6', 'tint2-l':'#efe6d2', 'tint2-ink':'#6b5428', foot:'#fdfbf7', logo1:'#B08D46', logo2:'#9A8B6E' } },
+    { id:'goldslv', name:'Gold & Silver',   v:{ teal:'#9C7A3C', 'teal-dark':'#5E6166', gold:'#C0C4C9', hdr:'#4A4E54', 'hdr-ink':'#fff', 'hdr-sub':'rgba(255,255,255,.72)', 'gold-ink':'#2C2F33', 'pill-ink':'#fff', tint1:'#f6f4ef', 'tint1-l':'#e9e3d5', tint2:'#f3f4f6', 'tint2-l':'#dfe2e6', 'tint2-ink':'#3d4147', foot:'#f7f8f9', logo1:'#9C7A3C', logo2:'#8A8F96' } },
+    { id:'navygold',name:'Navy & Gold',     v:{ teal:'#0C2340', 'teal-dark':'#081830', gold:'#C9A45C', hdr:'#0C2340', 'hdr-ink':'#fff', 'hdr-sub':'rgba(255,255,255,.7)', 'gold-ink':'#0C2340', 'pill-ink':'#fff', tint1:'#eef1f6', 'tint1-l':'#d8dfeb', tint2:'#f7f3ea', 'tint2-l':'#ede2c8', 'tint2-ink':'#5b4520', foot:'#f7f8fa', logo1:'#0C2340', logo2:'#C9A45C' } },
+    { id:'rose',    name:'Charcoal & Rose Gold', v:{ teal:'#B76E79', 'teal-dark':'#8A4F58', gold:'#E8C4B8', hdr:'#2F2F33', 'hdr-ink':'#fff', 'hdr-sub':'rgba(255,255,255,.7)', 'gold-ink':'#2F2F33', 'pill-ink':'#fff', tint1:'#fbf3f1', 'tint1-l':'#f2dcd7', tint2:'#f5f4f4', 'tint2-l':'#e4e1e1', 'tint2-ink':'#4a3f41', foot:'#faf8f8', logo1:'#B76E79', logo2:'#6b6b70' } },
+    { id:'sage',    name:'Sage & Cream',    v:{ teal:'#6F8A6B', 'teal-dark':'#4B6148', gold:'#D8C9A3', hdr:'#3F4F3D', 'hdr-ink':'#FBF7EE', 'hdr-sub':'rgba(251,247,238,.72)', 'gold-ink':'#3F4F3D', 'pill-ink':'#fff', tint1:'#f3f5f0', 'tint1-l':'#dfe6da', tint2:'#faf7ef', 'tint2-l':'#eee6d2', 'tint2-ink':'#5a4e2f', foot:'#fbfaf5', logo1:'#6F8A6B', logo2:'#A89B7C' } },
+    { id:'burg',    name:'Burgundy & Gold', v:{ teal:'#7A2335', 'teal-dark':'#551624', gold:'#C9A45C', hdr:'#4A1420', 'hdr-ink':'#fff', 'hdr-sub':'rgba(255,255,255,.7)', 'gold-ink':'#4A1420', 'pill-ink':'#fff', tint1:'#f8eff1', 'tint1-l':'#ecd6db', tint2:'#f8f4ea', 'tint2-l':'#ece2c8', 'tint2-ink':'#5b4520', foot:'#faf7f7', logo1:'#7A2335', logo2:'#C9A45C' } }
+  ];
+  var theme = THEMES[0];
+  function themeStyle() { return Object.keys(theme.v).map(function (k) { return '--' + k + ':' + theme.v[k]; }).join(';'); }
+  function drawThemes() {
+    $('ohf-themes').innerHTML = THEMES.map(function (t) {
+      return '<label class="ohf-theme"><input type="radio" name="ohf-theme" value="' + t.id + '"' + (t === theme ? ' checked' : '') + '>' +
+        '<span class="ohf-theme-sw"><i style="background:' + t.v.hdr + '"></i><i style="background:' + t.v.teal + '"></i><i style="background:' + t.v.gold + '"></i></span>' +
+        '<span class="ohf-theme-name">' + t.name + '</span></label>';
+    }).join('');
+  }
+
+  /* ---------- Highlight icons ---------- */
+  var IC = {
+    school: '<path d="M3 10l9-5 9 5-9 5-9-5z"/><path d="M7 12v4c0 1.5 2.2 3 5 3s5-1.5 5-3v-4"/><path d="M21 10v5"/>',
+    grocery: '<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2l2.4 11h10.2l2-8H6.2"/>',
+    shopping: '<path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    dining: '<path d="M7 3v8a2 2 0 0 0 2 2v8"/><path d="M5 3v6M9 3v6"/><path d="M17 21V3c-2 1.5-3 4-3 7h3"/>',
+    coffee: '<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v3M12 3v3"/>',
+    park: '<path d="M12 22v-6"/><path d="M12 3l6 9H6l6-9z"/><path d="M12 8l7 9H5l7-9z"/>',
+    walk: '<path d="M8 14c-1.5 0-2.5-1.8-2.5-4S6.5 5 8 5s2.5 2.3 2.5 5-1 4-2.5 4z"/><path d="M6.5 17h3v2a1.5 1.5 0 0 1-3 0v-2z"/><path d="M16 10c1.5 0 2.5-1.8 2.5-4S17.5 1.5 16 1.5 13.5 3.8 13.5 6.5 14.5 10 16 10z"/><path d="M14.5 13h3v2a1.5 1.5 0 0 1-3 0v-2z"/>',
+    road: '<path d="M8 3L4 21M16 3l4 18"/><path d="M12 4v3M12 10v3M12 16v4"/>',
+    entertainment: '<path d="M3 8a2 2 0 0 0 0 4v6h18v-6a2 2 0 0 0 0-4V6H3v2z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
+    transit: '<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14"/><circle cx="9" cy="14" r=".8"/><circle cx="15" cy="14" r=".8"/><path d="M8 20l-1.5 2M16 20l1.5 2"/>',
+    fitness: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+    medical: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/>',
+    water: '<path d="M2 12c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/><path d="M2 17c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/><path d="M2 7c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/>',
+    golf: '<path d="M8 21V3l9 4-9 4"/><path d="M4 21h10"/>',
+    views: '<path d="M2 20l7-11 4 6 3-4 6 9H2z"/><circle cx="17" cy="6" r="2"/>',
+    home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+    kitchen: '<path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3z"/>',
+    yard: '<path d="M4 21V11M9 21V11M15 21V11M20 21V11"/><path d="M2 14h20M2 18h20"/><path d="M4 11l0-2M9 11V9M15 11V9M20 11V9"/>',
+    pool: '<path d="M8 17V5a2 2 0 0 1 4 0M16 17V5a2 2 0 0 0-4 0"/><path d="M8 9h8M8 13h8"/><path d="M2 20c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0"/>',
+    garage: '<path d="M3 10l9-6 9 6v10H3V10z"/><path d="M7 20v-7h10v7M7 16h10"/>',
+    solar: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    pets: '<circle cx="5.5" cy="10" r="1.8"/><circle cx="9.5" cy="5.5" r="1.8"/><circle cx="14.5" cy="5.5" r="1.8"/><circle cx="18.5" cy="10" r="1.8"/><path d="M12 11c-3 0-5.5 4-5.5 6.5 0 1.7 1.3 2.5 3 2.5 1 0 1.6-.5 2.5-.5s1.5.5 2.5.5c1.7 0 3-.8 3-2.5C17.5 15 15 11 12 11z"/>',
+    star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3z"/>'
+  };
+  var IC_NAMES = { school:'School', grocery:'Grocery', shopping:'Shopping', dining:'Dining', coffee:'Coffee', park:'Park', walk:'Walking', road:'Road', entertainment:'Entertainment', transit:'Transit', fitness:'Fitness', medical:'Medical', water:'Water', golf:'Golf', views:'Views', home:'Home', kitchen:'Sparkle', yard:'Yard', pool:'Pool', garage:'Garage', solar:'Solar', pets:'Pets', star:'Star' };
+  var SUGGEST = [
+    ['school','Top-rated local schools'], ['grocery','Grocery stores close by'], ['shopping','Shopping & local businesses'], ['dining','Restaurants & cafés nearby'],
+    ['park','Parks & walking trails'], ['walk','Highly walkable neighborhood'], ['road','Easy freeway access'], ['entertainment','Entertainment & nightlife'],
+    ['transit','Close to public transit'], ['fitness','Gyms & recreation nearby'], ['medical','Near medical centers'], ['water','Lakes & outdoor recreation'],
+    ['golf','Golf courses nearby'], ['views','Beautiful views'], ['home','Quiet, family-friendly street'], ['kitchen','Updated kitchen'],
+    ['yard','Large private backyard'], ['pool','Sparkling pool'], ['garage','Attached garage'], ['solar','Owned solar'], ['pets','Pet-friendly community']
+  ];
+  var feats = [];
+  function icon(k) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (IC[k] || IC.star) + '</svg>'; }
+  function drawSugs() {
+    $('ohf-sugs').innerHTML = SUGGEST.map(function (s, i) {
+      var used = feats.some(function (f) { return f.text === s[1]; });
+      return '<button type="button" class="ohf-sug" data-sug="' + i + '"' + (used || feats.length >= 8 ? ' disabled' : '') + '><span class="ohf-ic">' + icon(s[0]) + '</span>' + s[1] + '</button>';
+    }).join('') + '<button type="button" class="ohf-sug" data-sug="custom"' + (feats.length >= 8 ? ' disabled' : '') + '><span class="ohf-ic">' + icon('star') + '</span>Custom…</button>';
+  }
+  function drawFeats() {
+    var opts = function (sel) { return Object.keys(IC).map(function (k) { return '<option value="' + k + '"' + (k === sel ? ' selected' : '') + '>' + IC_NAMES[k] + '</option>'; }).join(''); };
+    $('ohf-feat-list').innerHTML = feats.map(function (f, i) {
+      return '<div class="ohf-feat-row"><span class="ohf-ic">' + icon(f.icon) + '</span>' +
+        '<select class="pal-select" data-feat="' + i + '" data-fk="icon" aria-label="Icon for highlight ' + (i + 1) + '">' + opts(f.icon) + '</select>' +
+        '<input class="pal-input" type="text" data-feat="' + i + '" data-fk="text" value="' + esc(f.text) + '" aria-label="Highlight ' + (i + 1) + '" maxlength="48">' +
+        '<button type="button" data-feat-rm="' + i + '" aria-label="Remove highlight">&#10005;</button></div>';
+    }).join('');
+    drawSugs();
+  }
+
+  /* ---------- Address suggestions (OpenStreetMap) ---------- */
+  var addrTimer = null, addrReq = 0, addrResults = [];
+  function titleCase(s) { return String(s || '').toLowerCase().replace(/\b([a-z])/g, function (m) { return m.toUpperCase(); }); }
+  var STATE_AB = { California:'CA', Nevada:'NV', Oregon:'OR', Arizona:'AZ', Washington:'WA', Texas:'TX', Idaho:'ID', Utah:'UT', Colorado:'CO', Florida:'FL' };
+  function addrFormat(a) {
+    var street = [a.house_number, a.road || a.pedestrian || a.footway].filter(Boolean).join(' ');
+    var city = a.city || a.town || a.village || a.hamlet || a.suburb || '';
+    var st = STATE_AB[a.state] || a.state || '';
+    return [street, city, [st, (a.postcode || '').split('-')[0]].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+  }
+  function addrClose() { $('ohf-addr-list').hidden = true; $('ohf-address').setAttribute('aria-expanded', 'false'); }
+  function addrSearch(q) {
+    var id = ++addrReq;
+    fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=6&countrycodes=us&q=' + encodeURIComponent(q), { headers: { 'Accept-Language': 'en-US' } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (res) {
+        if (id !== addrReq) return;
+        addrResults = (res || []).filter(function (r) { return r.address && (r.address.road || r.address.house_number); });
+        var list = $('ohf-addr-list');
+        if (!addrResults.length) { addrClose(); return; }
+        list.innerHTML = addrResults.map(function (r, i) {
+          return '<div class="ohf-addr-item" role="option" data-addr="' + i + '"><div class="ohf-addr-main">' + esc(addrFormat(r.address)) + '</div><div class="ohf-addr-sub">' + esc(r.address.county || '') + '</div></div>';
+        }).join('') + '<div class="ohf-addr-foot">Suggestions © OpenStreetMap contributors</div>';
+        list.hidden = false; $('ohf-address').setAttribute('aria-expanded', 'true');
+      }).catch(addrClose);
+  }
+  function addrPick(i) {
+    var r = addrResults[i]; if (!r) return;
+    $('ohf-address').value = addrFormat(r.address);
+    if (r.address.county && !$('ohf-county').value.trim()) $('ohf-county').value = r.address.county;
+    addrClose(); render();
+  }
+
+  /* ---------- Listing link lookup ---------- */
+  function slugAddress(url) {
+    try {
+      var u = new URL(url), p = decodeURIComponent(u.pathname);
+      var m = p.match(/homedetails\/([^\/]+?)-(\d{5})(?:-\d+)?\//) || p.match(/homedetails\/([^\/]+)\//);
+      if (m && /zillow/.test(u.hostname)) {
+        var parts = m[1].split('-'), zip = m[2] || '';
+        var st = parts.length > 2 && /^[A-Z]{2}$/.test(parts[parts.length - 1]) ? parts.pop() : '';
+        var words = parts.join(' ');
+        return titleCase(words) + (st ? ' ' + st : '') + (zip ? ' ' + zip : '');
+      }
+      m = p.match(/^\/([A-Z]{2})\/([^\/]+)\/([^\/]+?)-(\d{5})\/(?:unit-[^\/]+\/)?home/);
+      if (m) return titleCase(m[3].replace(/-/g, ' ')) + ', ' + titleCase(m[2].replace(/-/g, ' ')) + ', ' + m[1] + ' ' + m[4];
+      m = p.match(/realestateandhomes-detail\/([^\/]+?)_([^_]+)_([A-Z]{2})_(\d{5})/);
+      if (m) return titleCase(m[1].replace(/-/g, ' ')) + ', ' + titleCase(m[2].replace(/-/g, ' ')) + ', ' + m[3] + ' ' + m[4];
+    } catch (e) {}
+    return '';
+  }
+  function fillFromUrl() {
+    var url = $('ohf-url').value.trim(), btn = $('ohf-url-btn');
+    if (!/^https?:\/\/\S*(zillow\.com|redfin\.com|realtor\.com|trulia\.com|homes\.com)/i.test(url)) { status('Paste a Zillow, Redfin or Realtor.com listing link.'); return; }
+    var a = slugAddress(url);
+    if (a && !$('ohf-address').value.trim()) $('ohf-address').value = a;
+    btn.disabled = true; btn.textContent = 'Looking up…';
+    fetch('/.netlify/functions/fetch-listing?url=' + encodeURIComponent(url))
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (m) {
+        var got = [];
+        if (m.address && !$('ohf-address').value.trim()) $('ohf-address').value = m.address;
+        if (m.price) { $('ohf-price').value = fmt$(m.price); got.push('price'); }
+        if (m.beds) { $('ohf-beds').value = m.beds; got.push('beds'); }
+        if (m.baths) { $('ohf-baths').value = m.baths; got.push('baths'); }
+        if (m.sqft) { $('ohf-sqft').value = Number(m.sqft).toLocaleString('en-US'); got.push('sq ft'); }
+        if (m.propType) { $('ohf-ptype').value = m.propType; }
+        if (m.photo && photos.length < 7) { photos.unshift(m.photo); drawGallery(); got.push('photo'); }
+        status(got.length ? 'Filled in ' + got.join(', ') + '. Double-check before printing.' : (a ? 'Filled in the address. The listing site blocked the other details, so type those in.' : 'The listing site blocked the lookup. Type the details in.'));
+      })
+      .catch(function () { status(a ? 'Filled in the address. Type the other details in.' : 'Lookup failed. Type the details in.'); })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Fill Details'; render(); });
+  }
+
+  /* ---------- Photos ---------- */
+  function shrink(dataUrl, maxDim, cb) {
+    var img = new Image();
+    img.onload = function () {
+      var s = Math.min(1, maxDim / Math.max(img.width, img.height));
+      var c = document.createElement('canvas');
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      cb(c.toDataURL('image/jpeg', 0.86));
+    };
+    img.onerror = function () { cb(null); };
+    img.src = dataUrl;
+  }
+  function addFiles(files) {
+    var list = Array.prototype.filter.call(files || [], function (f) { return /^image\//.test(f.type); });
+    if (!list.length) { status('No images found. Try copying the photo again.'); return; }
+    list.forEach(function (f) {
+      if (photos.length >= 7) { status('Up to 7 photos. Remove one to add another.'); return; }
+      var r = new FileReader();
+      r.onload = function (e) { shrink(e.target.result, 1600, function (d) { if (d && photos.length < 7) { photos.push(d); drawGallery(); render(); } }); };
+      r.readAsDataURL(f);
+    });
+  }
+  function drawGallery() {
+    $('ohf-gallery').innerHTML = photos.map(function (p, i) {
+      return '<div class="ohf-thumb' + (i === 0 ? ' main' : '') + '"><img src="' + p + '" alt="Listing photo ' + (i + 1) + '">' +
+        (i === 0 ? '<span class="ohf-thumb-tag">MAIN</span>' : '') +
+        '<div class="ohf-thumb-actions">' + (i > 0 ? '<button type="button" title="Make main photo" data-main="' + i + '">&#9733;</button>' : '') +
+        '<button type="button" title="Remove photo" data-rm="' + i + '">&#10005;</button></div></div>';
+    }).join('');
+  }
+  function pasteButton() {
+    if (!navigator.clipboard || !navigator.clipboard.read) { status('Press Ctrl+V (Cmd+V on Mac) to paste the copied photo.'); return; }
+    navigator.clipboard.read().then(function (items) {
+      var found = false;
+      items.forEach(function (it) {
+        var t = it.types.find(function (x) { return /^image\//.test(x); });
+        if (t) { found = true; it.getType(t).then(function (b) { addFiles([new File([b], 'paste', { type: t })]); }); }
+      });
+      if (!found) status('No image on the clipboard. Right-click a photo and choose Copy Image first.');
+    }).catch(function () { status('Press Ctrl+V (Cmd+V on Mac) to paste the copied photo.'); });
+  }
+
+  /* ---------- Loans ---------- */
+  function drawLoanTabs() {
+    $('ohf-loan-tabs').innerHTML = loans.map(function (l, i) {
+      return '<button type="button" role="tab" class="ohf-loan-tab' + (i === activeLoan ? ' active' : '') + (l.enabled ? ' on' : '') + '" data-tab="' + i + '" aria-selected="' + (i === activeLoan) + '">Loan ' + (i + 1) + '</button>';
+    }).join('');
+  }
+  function num(i, key, label, step) {
+    return '<div class="pal-field"><label class="pal-label" for="ohf-l' + i + '-' + key + '">' + label + '</label><input class="pal-input" type="number" id="ohf-l' + i + '-' + key + '" data-loan="' + i + '" data-key="' + key + '" value="' + loans[i][key] + '"' + (step ? ' step="' + step + '"' : '') + ' min="0"></div>';
+  }
+  function txt(i, key, label) {
+    return '<div class="pal-field"><label class="pal-label" for="ohf-l' + i + '-' + key + '">' + label + '</label><input class="pal-input" type="text" id="ohf-l' + i + '-' + key + '" data-loan="' + i + '" data-key="' + key + '" value="' + esc(loans[i][key]) + '"></div>';
+  }
+  function drawLoanForms() {
+    $('ohf-loan-forms').innerHTML = loans.map(function (l, i) {
+      var opts = PROGRAMS.map(function (p) { return '<option' + (l.program === p ? ' selected' : '') + '>' + p + '</option>'; }).join('');
+      return '<div class="ohf-loan-form" data-form="' + i + '"' + (i === activeLoan ? '' : ' hidden') + '>' +
+        '<label class="ohf-switch-row"><input type="checkbox" data-loan="' + i + '" data-key="enabled"' + (l.enabled ? ' checked' : '') + '><span class="ohf-switch" aria-hidden="true"></span><span>Show Loan ' + (i + 1) + ' on the flyer</span></label>' +
+        '<div class="pal-row">' + txt(i, 'title', 'Column Title') + txt(i, 'notes', 'Notes') + '</div>' +
+        '<div class="pal-field"><label class="pal-label" for="ohf-l' + i + '-program">Loan Program</label><select class="pal-select" id="ohf-l' + i + '-program" data-loan="' + i + '" data-key="program">' + opts + '</select></div>' +
+        '<div class="pal-row">' + num(i, 'down', '% Down', '0.5') + num(i, 'term', 'Term (Yrs)', '1') + '</div>' +
+        '<div class="pal-row">' + num(i, 'rate', 'Rate (%)', '0.125') + num(i, 'apr', 'APR (%)', '0.001') + '</div>' +
+        '<div class="pal-row">' + num(i, 'closingCosts', 'Closing Costs $', '1') + num(i, 'prepaids', 'Prepaids $', '1') + '</div>' +
+        '<div class="pal-row">' + num(i, 'sellerCredit', 'Seller Credit $', '1') + num(i, 'points', 'Points / Credit %', '0.125') + '</div>' +
+        '<div class="pal-row"><div class="pal-field"><label class="pal-label" for="ohf-l' + i + '-miMode">Mortgage Insurance</label><select class="pal-select" id="ohf-l' + i + '-miMode" data-loan="' + i + '" data-key="miMode">' +
+          '<option value="auto"' + (l.miMode === 'auto' ? ' selected' : '') + '>Auto estimate</option><option value="manual"' + (l.miMode === 'manual' ? ' selected' : '') + '>Manual amount</option><option value="off"' + (l.miMode === 'off' ? ' selected' : '') + '>None</option></select></div>' +
+          '<div class="pal-field"><label class="pal-label" for="ohf-l' + i + '-miMonthly">MI $ / Month</label><input class="pal-input" type="number" id="ohf-l' + i + '-miMonthly" data-loan="' + i + '" data-key="miMonthly" value="' + l.miMonthly + '" min="0"' + (l.miMode === 'manual' ? '' : ' disabled style="opacity:.5"') + '></div></div>' +
+        '</div>';
+    }).join('');
+  }
+  function programDefaults(i) {
+    var p = loans[i].program;
+    if (p.indexOf('FHA') > -1) loans[i].down = 3.5;
+    else if (p.indexOf('VA') > -1 || p.indexOf('USDA') > -1) loans[i].down = 0;
+    else if (p.indexOf('3%') > -1) loans[i].down = 3;
+    else if (p.indexOf('5%') > -1 && p.indexOf('25%') === -1) loans[i].down = 5;
+    else if (p.indexOf('10%') > -1) loans[i].down = 10;
+    else if (p.indexOf('25%') > -1) loans[i].down = 25;
+    else if (p.indexOf('20%') > -1) loans[i].down = 20;
+  }
+  function calc() {
+    var price = money($('ohf-price').value) || 500000;
+    var taxes = (money($('ohf-taxes').value) || 5000) / 12;
+    var ins = (money($('ohf-ins').value) || 1200) / 12;
+    var hoa = money($('ohf-hoa').value);
+    loans.forEach(function (l) {
+      var dp = price * (l.down / 100), amt = price - dp, r = l.rate / 100 / 12, n = l.term * 12;
+      var pi = r > 0 ? amt * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : amt / (n || 1);
+      var mi = 0;
+      if (l.miMode === 'manual') mi = +l.miMonthly || 0;
+      else if (l.miMode === 'off') mi = 0;
+      else if (l.program.indexOf('FHA') > -1) mi = amt * 0.0055 / 12;
+      else if (l.program.indexOf('VA') > -1 || l.program.indexOf('USDA') > -1) mi = 0;
+      else if (l.down < 20) {
+        var ltv = 100 - l.down;
+        mi = amt * (ltv > 95 ? 0.0058 : ltv > 90 ? 0.0042 : ltv > 85 ? 0.0028 : 0.0019) / 12;
+      }
+      var cc = l.closingCosts - (l.sellerCredit || 0);
+      l._c = { price: price, dp: dp, amt: amt, pi: pi, ti: taxes + ins, hoa: hoa, mi: mi, cc: cc, pre: l.prepaids, ctc: dp + cc + l.prepaids, monthly: pi + taxes + ins + mi + hoa };
+    });
+  }
+
+  /* ---------- Flyer HTML ---------- */
+  function loanTable() {
+    var act = loans.filter(function (l) { return l.enabled; });
+    if (!act.length) return '';
+    var w = Math.floor(80 / act.length) + '%';
+    function rows(defs) {
+      return defs.map(function (d) {
+        return '<tr class="' + (d[2] || '') + '"><td class="row-label">' + d[0] + '</td>' + act.map(function (l) { return '<td class="val">' + esc(d[1](l)) + '</td>'; }).join('') + '</tr>';
+      }).join('');
+    }
+    var info = [['Loan Program', function (l) { return l.program; }], ['Notes', function (l) { return l.notes; }],
+      ['Sales Price', function (l) { return fmt$(l._c.price); }], ['% Down', function (l) { return fmtPct(l.down); }],
+      ['Loan Amount', function (l) { return fmt$(l._c.amt); }], ['Term', function (l) { return l.term + ' Years'; }],
+      ['Rate', function (l) { return fmtPct(l.rate); }], ['APR *', function (l) { return fmtPct(l.apr); }]];
+    var ctc = [['Down Payment', function (l) { return fmt$(l._c.dp); }, 'ctc-row'], ['Closing Costs', function (l) { return fmt$(l._c.cc); }, 'ctc-row'],
+      ['Prepaids / Impounds', function (l) { return fmt$(l._c.pre); }, 'ctc-row'], ['TOTAL CASH TO CLOSE', function (l) { return fmt$(l._c.ctc); }, 'ctc-row total-row']];
+    var he = [['Principal &amp; Interest', function (l) { return fmt$(l._c.pi); }, 'he-row'], ['Taxes &amp; Insurance', function (l) { return fmt$(l._c.ti); }, 'he-row'],
+      ['HOA', function (l) { return fmt$(l._c.hoa); }, 'he-row'], ['MI / MIP / PMI', function (l) { return l._c.mi > 0 ? fmt$(l._c.mi) : '—'; }, 'he-row'],
+      ['TOTAL MONTHLY PMT', function (l) { return fmt$(l._c.monthly); }, 'he-row total-row']];
+    var th = act.map(function (l, i) { return '<th class="' + (i === 0 ? 'accent' : '') + '" style="width:' + w + '">' + esc(l.title) + '</th>'; }).join('');
+    return '<div class="oh-loan-section"><table class="oh-loan-table"><thead><tr><th style="text-align:left;min-width:140px;">FINANCING</th>' + th + '</tr></thead><tbody>' +
+      rows(info) + '<tr class="section-header"><td class="row-label" colspan="' + (act.length + 1) + '">&#9660; CASH TO CLOSE</td></tr>' + rows(ctc) +
+      '<tr class="section-header"><td class="row-label" colspan="' + (act.length + 1) + '">&#9660; MONTHLY HOUSING EXPENSE</td></tr>' + rows(he) + '</tbody></table></div>';
+  }
+  function card(p, label, isLO) {
+    var photo = p.photo ? '<img class="oh-agent-photo" src="' + p.photo + '" alt="">' : '<div class="oh-agent-photo-ph">' + esc((p.name || '?').charAt(0)) + '</div>';
+    var id = isLO ? 'NMLS #' + p.nmls : fmtLicense(p.lic, p.licLabel);
+    return '<div class="oh-agent-card"><div class="oh-card-label">' + label + '</div><div class="oh-agent-top">' + photo +
+      '<div><div class="oh-agent-name">' + esc(p.name || 'Your Name') + '</div><div class="oh-agent-title">' + esc(p.title || '') + '</div>' + (id ? '<div class="oh-agent-id">' + esc(id) + '</div>' : '') + '</div>' +
+      (isLO ? LOGO_SVG : '') + '</div><div class="oh-agent-contacts">' +
+      (p.phone ? '<span>P:</span> ' + esc(fmtPhone(p.phone)) + '<br>' : '') + (p.email ? '<span>E:</span> ' + esc(p.email) + '<br>' : '') + (p.web ? '<span>W:</span> ' + esc(fmtWeb(p.web)) : '') + '</div>' +
+      (!isLO && p.brokerage ? '<div class="oh-company-row"><div class="oh-company-name">' + esc(p.brokerage) + '</div></div>' : '') +
+      (isLO ? '<div class="oh-youmatter">You matter.</div>' : '') + '</div>';
+  }
+  function agentData() {
+    return { name: $('ohf-a-name').value.trim(), title: $('ohf-a-title').value.trim() || 'REALTOR®', licLabel: $('ohf-a-lic-label').value, lic: $('ohf-a-lic').value,
+      phone: $('ohf-a-phone').value, email: $('ohf-a-email').value.trim(), web: $('ohf-a-web').value, brokerage: $('ohf-a-brok').value.trim(), photo: agentPhoto };
+  }
+  function flyerHTML() {
+    var addr = $('ohf-address').value.trim() || 'Property Address';
+    var priceN = money($('ohf-price').value);
+    var price = priceN ? fmt$(priceN) : '$0';
+    var type = $('ohf-ptype').value, county = $('ohf-county').value.trim();
+    var headline = $('ohf-headline').value.trim() || 'BEAUTIFUL HOME';
+    var desc = $('ohf-desc').value.trim() || 'Contact me for more information about this wonderful property.';
+    var featMode = document.querySelector('input[name="ohf-dmode"]:checked').value === 'feats';
+    var beds = $('ohf-beds').value.trim(), baths = $('ohf-baths').value.trim(), sqft = $('ohf-sqft').value.trim();
+    var facts = [beds && beds + ' Beds', baths && baths + ' Baths', sqft && sqft + ' Sq Ft'].filter(Boolean).join('  •  ');
+    var right = featMode && feats.length
+      ? '<div class="oh-feats">' + feats.map(function (f) { return '<div class="oh-feat"><span class="oh-feat-ic">' + icon(f.icon) + '</span><span>' + esc(f.text) + '</span></div>'; }).join('') + '</div>'
+      : '<div class="oh-prop-desc">' + esc(desc).replace(/\n/g, '<br>') + '</div>';
+    var ph = photos.slice(0, 7), photosHTML;
+    if (!ph.length) photosHTML = '<div class="oh-photo main"><div class="oh-photo-placeholder">&#8962;</div></div>';
+    else {
+      photosHTML = '<div class="oh-photo main"><img src="' + ph[0] + '" alt=""></div>';
+      if (ph.length > 1) photosHTML += '<div class="oh-thumbs">' + ph.slice(1).map(function (u) { return '<div class="oh-photo"><img src="' + u + '" alt=""></div>'; }).join('') + '</div>';
+    }
+    var loansOn = $('ohf-loans-on').checked;
+    var table = loansOn ? (calc(), loanTable()) : '';
+    var compliance = table ? '*APR = Annual Percentage Rate. Rates based on 700 FICO. Financing as shown for comparison only. This is not an offer of credit or commitment to lend. Loans are subject to buyer and property qualification. Rates and fees subject to change without notice.' : '';
+    var a = agentData(), lo = card(LO, 'LOAN OFFICER', true), foot;
+    if ($('ohf-cobrand').checked) {
+      var ac = card(a, 'REALTOR® / AGENT', false), agentFirst = $('ohf-agent-first').checked;
+      foot = '<div class="oh-cobrand">' + (agentFirst ? ac : lo) + '<div class="oh-cobrand-divider"></div>' + (agentFirst ? lo : ac) + '</div>';
+    } else foot = '<div class="oh-cobrand" style="grid-template-columns:1fr">' + lo + '</div>';
+    return '<div class="oh-flyer' + (table ? '' : ' no-loans') + '" style="' + themeStyle() + '">' +
+      '<div class="oh-hdr"><div class="oh-hdr-addr">' + esc(addr) + '</div><div class="oh-hdr-sub">' + (county ? esc(county) + ' &bull; ' : '') + esc(type) + ' &bull; Listed at ' + price + '</div></div>' +
+      '<div class="oh-photos count-' + ph.length + '">' + photosHTML + '</div>' +
+      '<div class="oh-prop-info"><div><div class="oh-prop-title">' + esc(headline) + '</div><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">' +
+        '<span class="fl-pill">Sales Price: ' + price + '</span><span class="fl-pill gold">' + esc(type) + '</span>' + (county ? '<span class="fl-pill">' + esc(county) + '</span>' : '') + '</div>' +
+        (facts ? '<div class="oh-facts">' + esc(facts).replace(/  •  /g, ' &nbsp;&bull;&nbsp; ') + '</div>' : '') + '</div>' +
+        right + '</div>' +
+      table + (compliance ? '<div class="oh-compliance">' + compliance + '</div>' : '') + foot + '</div>';
+  }
+
+  /* ---------- Render / print ---------- */
+  function fit() {
+    var stage = $('ohf-stage'), box = $('ohf-scale'), fl = box.firstElementChild;
+    if (!fl || !stage.clientWidth) return;
+    var avail = stage.clientWidth - parseFloat(getComputedStyle(stage).paddingLeft) * 2;
+    var s = Math.min(1, avail / fl.offsetWidth);
+    box.style.transform = 'scale(' + s + ')';
+    stage.style.height = (fl.offsetHeight * s + parseFloat(getComputedStyle(stage).paddingTop) * 2) + 'px';
+  }
+  function render() { $('ohf-scale').innerHTML = flyerHTML(); fit(); }
+
+  function print() {
+    if (!$('ohf-address').value.trim() || !money($('ohf-price').value)) {
+      status('Add the property address and sales price first.');
+      (!$('ohf-address').value.trim() ? $('ohf-address') : $('ohf-price')).focus();
+      return;
+    }
+    var old = document.getElementById('ohf-print-frame'); if (old) old.remove();
+    var f = document.createElement('iframe');
+    f.id = 'ohf-print-frame'; f.setAttribute('aria-hidden', 'true');
+    f.style.cssText = 'position:fixed;right:0;bottom:0;width:8.5in;height:11in;border:0;opacity:0;pointer-events:none;';
+    document.body.appendChild(f);
+    var d = f.contentWindow.document;
+    d.open();
+    d.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Open House Flyer</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">' +
+      '<style>' + FLYER_CSS + '*{box-sizing:border-box;margin:0;padding:0}html,body{background:#fff}.page{width:8.5in;height:11in;overflow:hidden}.oh-flyer{box-shadow:none;transform-origin:top center}' +
+      '@page{size:letter portrait;margin:0}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body><div class="page">' + flyerHTML() + '</div></body></html>');
+    d.close();
+    var btn = $('ohf-print-btn'); btn.disabled = true; btn.textContent = 'Preparing PDF…';
+    function go() {
+      var fl = d.querySelector('.oh-flyer'), page = d.querySelector('.page');
+      var s = Math.min(1, page.clientHeight / fl.scrollHeight * 0.99, page.clientWidth / fl.scrollWidth);
+      if (s < 1) { fl.style.transform = 'scale(' + s + ')'; fl.style.marginLeft = ((page.clientWidth - fl.scrollWidth * s) / 2) + 'px'; fl.style.transformOrigin = 'top left'; }
+      btn.disabled = false; btn.innerHTML = '&#11015; &nbsp;Download as PDF';
+      try { f.contentWindow.focus(); f.contentWindow.print(); } catch (e) { status('Printing was blocked. Please try again.'); }
+    }
+    var imgs = Array.prototype.slice.call(d.images);
+    var ready = Promise.all(imgs.map(function (im) { return im.complete ? 0 : new Promise(function (r) { im.onload = im.onerror = r; }); }));
+    var fonts = d.fonts && d.fonts.ready ? d.fonts.ready : Promise.resolve();
+    Promise.all([ready, Promise.race([fonts, new Promise(function (r) { setTimeout(r, 2500); })])]).then(function () { setTimeout(go, 150); });
+  }
+
+  /* ---------- Remember agent info ---------- */
+  var AGENT_IDS = ['ohf-a-name', 'ohf-a-title', 'ohf-a-lic-label', 'ohf-a-lic', 'ohf-a-phone', 'ohf-a-email', 'ohf-a-web', 'ohf-a-brok'];
+  function saveAgent() {
+    try {
+      if (!$('ohf-remember').checked) { localStorage.removeItem(STORE_KEY); return; }
+      var o = { photo: agentPhoto }; AGENT_IDS.forEach(function (id) { o[id] = $(id).value; });
+      localStorage.setItem(STORE_KEY, JSON.stringify(o));
+    } catch (e) {}
+  }
+  function loadAgent() {
+    try {
+      var o = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); if (!o) return;
+      AGENT_IDS.forEach(function (id) { if (o[id] != null) $(id).value = o[id]; });
+      if (o.photo) setAgentPhoto(o.photo);
+    } catch (e) {}
+  }
+  function setAgentPhoto(d) {
+    agentPhoto = d; $('ohf-agent-photo').src = d; $('ohf-agent-photo').hidden = !d; $('ohf-agent-photo-ph').hidden = !!d;
+  }
+
+  /* ---------- Wire up ---------- */
+  function init() {
+    $('ohf-lo-photo').src = LO.photo;
+    var st = document.createElement('style'); st.textContent = FLYER_CSS; document.head.appendChild(st);
+    drawLoanTabs(); drawLoanForms(); loadAgent(); drawThemes(); drawFeats();
+    $('ohf-themes').addEventListener('change', function (e) { theme = THEMES.filter(function (t) { return t.id === e.target.value; })[0] || THEMES[0]; render(); });
+    $('ohf-sugs').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-sug]'); if (!b || b.disabled || feats.length >= 8) return;
+      var sg = b.dataset.sug === 'custom' ? ['star', ''] : SUGGEST[+b.dataset.sug];
+      feats.push({ icon: sg[0], text: sg[1] }); drawFeats(); render();
+      if (b.dataset.sug === 'custom') { var ins = $('ohf-feat-list').querySelectorAll('input'); ins[ins.length - 1].focus(); }
+    });
+    $('ohf-feat-list').addEventListener('click', function (e) { var b = e.target.closest('[data-feat-rm]'); if (!b) return; feats.splice(+b.dataset.featRm, 1); drawFeats(); render(); });
+    $('ohf-feat-list').addEventListener('input', function (e) { var t = e.target; if (t.dataset.fk === 'text') { feats[+t.dataset.feat].text = t.value; drawSugs(); } });
+    $('ohf-feat-list').addEventListener('change', function (e) { var t = e.target; if (t.dataset.fk === 'icon') { feats[+t.dataset.feat].icon = t.value; drawFeats(); render(); } });
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="ohf-dmode"]'), function (r) {
+      r.addEventListener('change', function () { var f = r.value === 'feats' && r.checked; if (r.checked) { $('ohf-feats-wrap').hidden = !f; $('ohf-desc-wrap').hidden = f; } });
+    });
+    var addr = $('ohf-address'), addrActive = -1;
+    addr.addEventListener('input', function () {
+      var v = addr.value.trim(); clearTimeout(addrTimer); addrActive = -1;
+      if (/^https?:\/\//i.test(v)) { $('ohf-url').value = v; addr.value = ''; addrClose(); fillFromUrl(); return; }
+      if (v.length >= 5) addrTimer = setTimeout(function () { addrSearch(v); }, 450); else addrClose();
+    });
+    addr.addEventListener('keydown', function (e) {
+      var items = $('ohf-addr-list').querySelectorAll('.ohf-addr-item'); if ($('ohf-addr-list').hidden || !items.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); addrActive = Math.max(0, Math.min(items.length - 1, addrActive + (e.key === 'ArrowDown' ? 1 : -1))); items.forEach(function (it, i) { it.classList.toggle('active', i === addrActive); }); }
+      else if (e.key === 'Enter' && addrActive > -1) { e.preventDefault(); addrPick(addrActive); }
+      else if (e.key === 'Escape') addrClose();
+    });
+    addr.addEventListener('blur', function () { setTimeout(addrClose, 180); });
+    $('ohf-addr-list').addEventListener('mousedown', function (e) { var it = e.target.closest('[data-addr]'); if (it) { e.preventDefault(); addrPick(+it.dataset.addr); } });
+    $('ohf-url-btn').onclick = fillFromUrl;
+
+    var tab = $('tab-flyer');
+    tab.addEventListener('input', function (e) {
+      var t = e.target;
+      if (t.dataset && t.dataset.loan != null && t.type !== 'checkbox' && t.tagName !== 'SELECT') {
+        var k = t.dataset.key; loans[+t.dataset.loan][k] = t.type === 'number' ? (+t.value || 0) : t.value;
+      }
+      if (t.classList.contains('ohf-agent')) saveAgent();
+      render();
+    });
+    tab.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.dataset && t.dataset.loan != null) {
+        var i = +t.dataset.loan, k = t.dataset.key;
+        if (t.type === 'checkbox') { loans[i].enabled = t.checked; drawLoanTabs(); }
+        else if (k === 'program') { loans[i].program = t.value; programDefaults(i); drawLoanForms(); }
+        else if (k === 'miMode') { loans[i].miMode = t.value; drawLoanForms(); }
+      }
+      if (t.id === 'ohf-loans-on') $('ohf-loans-body').hidden = !t.checked;
+      if (t.id === 'ohf-remember') saveAgent();
+      render();
+    });
+    $('ohf-loan-tabs').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-tab]'); if (!b) return;
+      activeLoan = +b.dataset.tab; drawLoanTabs();
+      Array.prototype.forEach.call(document.querySelectorAll('.ohf-loan-form'), function (f) { f.hidden = +f.dataset.form !== activeLoan; });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.ohf-money'), function (el) {
+      el.addEventListener('blur', function () { if (el.value.trim()) el.value = fmt$(money(el.value)); render(); });
+    });
+    ['ohf-a-phone'].forEach(function (id) { $(id).addEventListener('blur', function () { $(id).value = fmtPhone($(id).value); saveAgent(); render(); }); });
+
+    $('ohf-browse-btn').onclick = function () { $('ohf-photo-input').click(); };
+    $('ohf-photo-input').onchange = function (e) { addFiles(e.target.files); e.target.value = ''; };
+    $('ohf-paste-btn').onclick = pasteButton;
+    var drop = $('ohf-drop');
+    drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('drag'); });
+    drop.addEventListener('dragleave', function () { drop.classList.remove('drag'); });
+    drop.addEventListener('drop', function (e) { e.preventDefault(); drop.classList.remove('drag'); addFiles(e.dataTransfer.files); });
+    document.addEventListener('paste', function (e) {
+      if (!tab.classList.contains('active')) return;
+      var files = Array.prototype.map.call(e.clipboardData ? e.clipboardData.items : [], function (it) { return it.kind === 'file' ? it.getAsFile() : null; }).filter(Boolean);
+      if (files.length) { e.preventDefault(); addFiles(files); }
+    });
+    $('ohf-gallery').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.rm != null) photos.splice(+b.dataset.rm, 1);
+      if (b.dataset.main != null) photos.unshift(photos.splice(+b.dataset.main, 1)[0]);
+      drawGallery(); render();
+    });
+    $('ohf-agent-photo-input').onchange = function (e) {
+      var f = e.target.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function (ev) { shrink(ev.target.result, 400, function (d) { if (d) { setAgentPhoto(d); saveAgent(); render(); } }); };
+      r.readAsDataURL(f);
+    };
+    $('ohf-print-btn').onclick = print;
+    window.addEventListener('resize', fit);
+    render();
+  }
+  return { init: init, fit: fit, render: render };
+})();
+OHF.init();
+</script>
+</body>
+</html>
