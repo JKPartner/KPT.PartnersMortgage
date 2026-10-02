@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Monthly Home Value Report | Katie Pastor Trinidad</title>
+<meta name="description" content="Free monthly report with your home's estimated value, equity, refinance savings and local market trends. From Katie Pastor Trinidad, Partners Mortgage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{--bg:#0b0b0b;--panel:#141311;--line:#2e2716;--gold:#e8c77f;--gold-d:#c9a25e;--ink:#ffffff;--text:#e6e0d4;--mute:#b8ac94}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(70% 50% at 85% -5%,rgba(232,199,127,.18),rgba(11,11,11,0) 70%),var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 16px 48px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .who{display:flex;align-items:center;gap:12px}
+  .who img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-d)}
+  .who b{display:block;color:var(--ink);font-size:14px}
+  .who span{font-size:12.5px;color:var(--mute)}
+  .kpt{font-family:'Outfit',sans-serif;font-weight:800;font-size:22px;color:var(--gold);text-decoration:none;letter-spacing:1px}
+  .hero{padding:44px 0 8px;max-width:680px}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+  h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:-1px;color:var(--ink);margin:12px 0 0;text-wrap:balance}
+  h1 span{color:var(--gold)}
+  .lede{font-size:18px;line-height:1.6;margin:16px 0 0;color:var(--text)}
+  .perks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:26px 0 0}
+  .perk{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .perk b{display:block;color:var(--ink);font-size:15px}
+  .perk span{display:block;font-size:13px;color:var(--mute);margin-top:4px;line-height:1.45}
+  .widget{margin:28px 0 0;background:#0d0d0c;border:1px solid var(--gold-d);border-radius:18px;padding:20px;box-shadow:0 0 50px rgba(232,199,127,.15);min-height:320px}
+  .widget h2{font-family:'Outfit',sans-serif;font-size:24px;color:var(--ink);margin:4px 4px 14px}
+  .fine{font-size:12px;color:#8f8676;line-height:1.6;margin-top:28px}
+  .contact{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 28px;font-size:14px;color:var(--mute)}
+  .contact strong{color:var(--ink);font-family:'Outfit',sans-serif;font-size:19px;display:block}
+  @media (max-width:760px){.perks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="who"><img src="https://assets.cdn.filesafe.space/kvxpeTIt0Zy55URtDBeP/media/66abd4127152fd86a88631c5.jpeg" alt="Katie Pastor Trinidad"><div><b>Katie Pastor Trinidad</b><span>Partners Mortgage &middot; NMLS 885654</span></div></div>
+    <a class="kpt" href="https://kpt-partnersmortgage.netlify.app/">kpt</a>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Free &middot; Monthly &middot; No spam</div>
+    <h1>Know what your home is worth. <span>Every month.</span></h1>
+    <p class="lede">Enter your address below and I'll send you a private monthly report on your home: its estimated value, your equity, and whether refinancing or tapping equity could save you money.</p>
+    <div class="perks">
+      <div class="perk"><b>Home value</b><span>Your estimated value, updated monthly</span></div>
+      <div class="perk"><b>Equity</b><span>How much you've built and how it's growing</span></div>
+      <div class="perk"><b>Refinance check</b><span>Savings and cash-out scenarios on your loan</span></div>
+      <div class="perk"><b>Your market</b><span>Neighborhood sales and price trends</span></div>
+    </div>
+  </section>
+
+  <section class="widget">
+    <h2>Get your report: enter your address</h2>
+    <div id="homebot_homeowner"></div>
+  </section>
+
+  <div class="contact">
+    <div>Questions? Call or text Katie<strong>916.850.5956</strong></div>
+    <div>Jonathan, Katie's Refinance Specialist<strong>916.770.5899</strong></div>
+  </div>
+
+  <p class="fine">Home value estimates are automated and for informational purposes only; they are not an appraisal. Refinance and cash-out scenarios are estimates, not an offer of credit or a commitment to lend. Partners Mortgage, a division of Finance of America Mortgage LLC, NMLS #1071. 1687 Eureka Rd. Ste 100, Roseville, CA 95661. Equal Housing Opportunity.</p>
+</div>
+
+<script>
+(function (h,b) { var w = window, d = document, s = 'script', x, y; w['__hb_namespace'] = h; w[h] = w[h] || function () { (w[h].q=w[h].q||[]).push(arguments) }; y = d.createElement(s); x = d.getElementsByTagName(s)[0]; y.async = 1; y.src = b; x.parentNode.insertBefore(y,x) })('Homebot','https://embed.homebotapp.com/lgw/v1/widget.js'); Homebot('#homebot_homeowner', 'b60102813af903adc25b7ab42319b8946323543a27ffc57a',{'theme':'dark-mode-theme'})
+</script>
+</body>
+</html>
