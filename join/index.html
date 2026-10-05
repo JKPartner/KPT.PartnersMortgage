@@ -65,4 +65,48 @@
     <div class="step now"><div class="num">1</div><div>
       <b>Send your mortgage statement <span class="tag">Do this now</span></b>
       <span>An email to Katie just opened. Attach your statement and hit send. It&rsquo;s how I run your numbers.</span>
-      <a id="mail" class="btn
+      <a id="mail" class="btn gold" href="#">Open the email again &rarr;</a>
+      <p class="small">Using Gmail or Outlook in your browser? Copy Katie&rsquo;s email and send from your inbox (please CC jkarabinus@partnersmortgage.com):</p>
+      <div class="row"><code>kpastor@partnersmortgage.com</code><button id="copy" type="button">Copy</button></div>
+      <p class="small">On your phone? Text a photo of your statement to <a class="t" href="sms:+19168505956">916.850.5956</a></p>
+    </div></div>
+
+    <div class="step"><div class="num">2</div><div>
+      <b>We&rsquo;ll reach out to set a time</b>
+      <span>Katie or Jonathan will contact you to pick a day and time to review your current and future savings together.</span>
+      <a class="t" href="https://calendly.com/katiepastortrinidad/home-loan-refinance-consultation" style="display:inline-block;margin-top:6px;font-size:14.5px">Rather pick a time now? Book here &rarr;</a>
+    </div></div>
+
+    <div class="step"><div class="num">3</div><div>
+      <b>We start your application</b>
+      <span>About 15 minutes. No cost, no obligation. Your file is ready before rates move.</span>
+      <a class="btn ghost" href="https://partnersmortgage.my1003app.com/885654/register">Get a head start: apply now &rarr;</a>
+    </div></div>
+
+    <div class="step"><div class="num">4</div><div>
+      <b>Your strike rate hits, we call you</b>
+      <span>We lock it in and you start saving first. Nothing locks until you say go.</span>
+    </div></div>
+  </section>
+
+  <div class="contact">
+    <div>Questions? Call or text Katie<a href="tel:+19168505956">916.850.5956</a></div>
+    <div>Jonathan, Katie&rsquo;s Refinance Specialist<a href="tel:+19167705899">916.770.5899</a></div>
+  </div>
+
+  <p class="fine">Joining the Strike Rate List does not lock a rate or obligate you to proceed. There is no fee to submit an application, and submitting one does not obligate you to obtain a loan. This is not an offer of credit or a commitment to lend. Loan terms and eligibility depend on credit, income, property value and underwriting review. Partners Mortgage, a division of Finance of America Mortgage LLC, NMLS #1071. 1687 Eureka Rd. Ste 100, Roseville, CA 95661. Equal Housing Opportunity.</p>
+</div>
+<script>
+  var mailto = 'mailto:kpastor@partnersmortgage.com'
+    + '?cc=' + encodeURIComponent('jkarabinus@partnersmortgage.com')
+    + '&subject=' + encodeURIComponent('Join My Strike Rate List')
+    + '&body=' + encodeURIComponent('Hi Katie,\r\n\r\nPlease add me to your Strike Rate List. My mortgage statement is attached.\r\n\r\nBest number to reach me: \r\n\r\nThanks!');
+  document.getElementById('mail').href = mailto;
+  setTimeout(function(){ window.location.href = mailto; }, 800);
+  document.getElementById('copy').addEventListener('click', function(){
+    var b = this;
+    try { navigator.clipboard.writeText('kpastor@partnersmortgage.com').then(function(){ b.textContent = 'Copied'; }); } catch (e) {}
+  });
+</script>
+</body>
+</html>
