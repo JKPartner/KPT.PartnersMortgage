@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Thank You | Katie Pastor Trinidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3ece1;font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif;color:#2e211a}
+.wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px}
+.card{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 14px 40px rgba(46,33,26,.14)}
+.hero{text-align:center;padding:30px 24px 30px;color:#fff;background:#2e211a;background-image:radial-gradient(circle at 50% 0%,rgba(255,200,87,.28) 0%,rgba(255,200,87,0) 55%),linear-gradient(170deg,#241912 0%,#3d2b20 55%,#5a3f2c 100%)}
+.hero img{width:112px;height:112px;border-radius:50%;object-fit:cover;border:4px solid #e9cf9a;box-shadow:0 0 0 6px rgba(233,207,154,.18),0 10px 28px rgba(0,0,0,.35)}
+.name{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:28px;padding-top:14px}
+.title{font-size:11.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#e9cf9a;padding-top:6px}
+.body{padding:28px 24px 26px;text-align:center}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:30px;line-height:1.15;margin:0}
+h1 em{color:#a0683c}
+p{font-size:15.5px;line-height:1.6;color:#5e4d42;margin:12px 0 0}
+.btn{display:block;margin-top:20px;padding:16px 18px;border-radius:12px;background:#ffb020;background-image:linear-gradient(180deg,#ffc444,#ffa812);box-shadow:0 8px 22px rgba(255,176,32,.45);color:#2e211a;font-weight:800;font-size:16.5px;text-decoration:none}
+.btn2{display:block;margin-top:12px;padding:14px 18px;border-radius:12px;border:2px solid #4a3426;color:#4a3426;font-weight:800;font-size:15.5px;text-decoration:none}
+.small{font-size:12.5px;color:#8d7b6c;margin-top:8px}
+.phones{display:flex;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid #ebdfcd}
+.phones div{flex:1;font-size:12.5px;color:#8d7b6c}
+.phones a{display:block;font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#2e211a;text-decoration:none;padding-top:2px}
+.foot{font-size:10.5px;line-height:1.6;color:#a08f80;text-align:center;padding:18px 8px 0}
+@media(max-width:420px){.phones{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="hero">
+      <img width="112" height="112" src="https://assets.cdn.filesafe.space/kvxpeTIt0Zy55URtDBeP/media/66abd4127152fd86a88631c5.jpeg" alt="Katie Pastor Trinidad">
+      <div class="name">Katie Pastor Trinidad</div>
+      <div class="title">Senior Mortgage Advisor &middot; NMLS 885654</div>
+    </div>
+    <div class="body">
+      <h1>Thank you!<br><em>Let&rsquo;s find a time to talk.</em></h1>
+      <p>Your email to me should be opening now. Just hit send and I&rsquo;ll reach out to schedule a time.</p>
+      <a id="send" class="btn" href="#">Email Katie &rarr;</a>
+      <div class="small">If your email didn&rsquo;t open, tap the button above.</div>
+      <a class="btn2" href="https://kpt-partnersmortgage.netlify.app/debt-calculator">Open the Debt Calculator &rarr;</a>
+      <div class="phones">
+        <div>Call or text Katie<a href="tel:+19168505956">916.850.5956</a></div>
+        <div>Jonathan, Katie&rsquo;s Refinance Specialist<a href="tel:+19167705899">916.770.5899</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">Equal Housing Opportunity. Partners Mortgage, 1805 E. Garry Avenue, Santa Ana, CA 92705 | Corporate NMLS #236669 | Corporate DRE #01845041. Katie Pastor Trinidad, NMLS #885654.</div>
+</div>
+<script>
+(function(){
+  var subject="I'm Interested in My Home Equity Options";
+  var body="Hi Katie,\n\nI'm interested in my options to access my home equity. Would you please reach out to schedule a time to talk?\n\nBest number to reach me:\nBest time to reach me:\n\nThank you!";
+  var href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com&subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  document.getElementById('send').href=href;
+  setTimeout(function(){ try{ window.location.href=href; }catch(e){} },600);
+})();
+</script>
+</body>
+</html>
