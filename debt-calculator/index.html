@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debt Calculator | Katie Pastor Trinidad</title>
+<meta name="description" content="See how much you could save by combining credit cards, personal loans and auto loans into one home equity loan or line. Free calculator from Katie Pastor Trinidad, Partners Mortgage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{--navy:#2e211a;--navy2:#4a3426;--blue:#a0683c;--amber:#ffb020;--gold:#ffc857;--ink:#2e211a;--text:#5e4d42;--mute:#8d7b6c;--line:#ebdfcd;--soft:#fbf7f0;--red:#c8383c}
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#f6efe4 0%,#ede2d1 100%) fixed;color:var(--text);font-family:'Plus Jakarta Sans',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .hero{background:radial-gradient(circle at 50% 0%,rgba(255,200,87,.28) 0%,rgba(255,200,87,0) 55%),linear-gradient(170deg,#241912 0%,#3d2b20 55%,#5a3f2c 100%);padding:30px 16px 96px;color:#fff;text-align:center}
+  .top{max-width:880px;margin:0 auto}
+  .kp{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #e9cf9a;box-shadow:0 0 0 6px rgba(233,207,154,.18),0 10px 28px rgba(0,0,0,.35);background:#5a3f2c;display:block;margin:0 auto}
+  .kname{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:32px;margin-top:14px}
+  .ktitle{font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:#e9cf9a;margin-top:6px}
+  .top .pills{justify-content:center;margin-top:16px}
+  .orn{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;color:#e9cf9a;font-size:12px}
+  .orn i{display:block;width:60px;height:1px;background:#e9cf9a}
+  .head{max-width:760px;margin:16px auto 0}
+  .eyebrow{font-size:11.5px;font-weight:700;text-transform:uppercase}
+  .head .eyebrow{letter-spacing:3px;color:#d8c3a5}
+  h1{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(32px,6vw,46px);line-height:1.12;letter-spacing:-.3px;margin:12px 0 0}
+  h1 em{font-style:italic;font-weight:600;color:#ffd27a;text-shadow:0 0 24px rgba(255,200,87,.45)}
+  .head p{font-size:16.5px;line-height:1.6;color:#f1e6d6;max-width:620px;margin:14px auto 0}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;color:#fff;text-decoration:none}
+  .pill span{color:var(--gold)}
+  .wrap{max-width:880px;margin:-62px auto 0;padding:0 16px 56px}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 12px 34px rgba(46,33,26,.10);padding:26px 26px;margin-bottom:18px}
+  .ph{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .num{flex:0 0 32px;height:32px;border-radius:50%;background:linear-gradient(180deg,#6b4a33,#2e211a);color:var(--gold);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(46,33,26,.25)}
+  h2{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:23px;color:var(--ink);margin:0}
+  .sub{font-size:14px;color:var(--mute);margin:4px 0 16px 44px;line-height:1.5}
+  label{display:block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+  .f{position:relative}
+  .f input,.f select{width:100%;font:inherit;font-size:16px;font-weight:600;color:var(--ink);background:#fff;border:1.5px solid #e2d5c2;border-radius:12px;padding:11px 12px;outline:none;transition:border-color .15s,box-shadow .15s}
+  .f input:focus,.f select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(160,104,60,.12)}
+  .f.d input{padding-left:24px}.f.d::before{content:'$';position:absolute;left:11px;bottom:12px;font-weight:700;color:var(--mute)}
+  .f.p input{padding-right:28px}.f.p::after{content:'%';position:absolute;right:11px;bottom:12px;font-weight:700;color:var(--mute)}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .equity{margin-top:14px;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:14px;color:var(--text);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .equity b{font-family:'Playfair Display',Georgia,serif;font-size:22px;color:var(--ink)}
+  .drow{display:grid;grid-template-columns:1.1fr 1.1fr 1fr .8fr 1fr 34px;gap:10px;align-items:end;padding:12px 0;border-bottom:1px solid var(--line)}
+  .x{width:34px;height:44px;border:0;background:transparent;color:#b6c0cf;font-size:22px;cursor:pointer;border-radius:10px}
+  .x:hover{background:#fdeceb;color:var(--red)}
+  .adds{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .add{font:inherit;font-weight:800;font-size:13.5px;color:var(--navy2);background:#f4ebdd;border:1px solid #e6d8c3;border-radius:999px;padding:9px 14px;cursor:pointer}
+  .add:hover{background:#efe3d1}
+  .tot{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px;font-size:14px}
+  .tot b{font-family:'Playfair Display',Georgia,serif;font-size:21px;color:var(--ink);display:block}
+  .seg{display:flex;background:#f3ece1;border-radius:14px;padding:4px;gap:4px;margin-bottom:16px}
+  .seg button{flex:1;font:inherit;font-weight:800;font-size:14px;border:0;border-radius:11px;padding:11px 8px;background:transparent;color:var(--mute);cursor:pointer}
+  .seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(46,33,26,.10)}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--text);margin-top:8px;cursor:pointer;text-transform:none;letter-spacing:0}
+  .chk input{width:18px;height:18px;accent-color:var(--navy2)}
+  .hint{font-size:12.5px;color:var(--mute);line-height:1.5;margin-top:6px}
+  .strat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .opt{display:block;font-size:14px;font-weight:700;color:var(--ink);border:1.5px solid #e2d5c2;border-radius:14px;padding:12px 14px;cursor:pointer;text-transform:none;letter-spacing:0;margin:0}
+  .opt input{accent-color:var(--navy2);margin-right:6px}
+  .opt.on{border-color:var(--navy2);background:var(--soft)}
+  .opt small{display:block;color:var(--mute);font-weight:500;margin-top:3px;font-size:12.5px}
+  .warn{background:#fff7e6;border:1px solid #ffd98a;color:#7a4b00;border-radius:12px;padding:10px 14px;font-size:13.5px;margin-top:12px;display:none;line-height:1.5}
+  .relief{border-radius:22px;padding:30px 22px 26px;text-align:center;color:#fff;background:radial-gradient(circle at 50% 0%,rgba(255,200,87,.35) 0%,rgba(255,200,87,0) 60%),linear-gradient(160deg,#241912 0%,#4a3426 55%,#6b4a33 100%);box-shadow:0 0 0 4px rgba(255,200,87,.25),0 16px 38px rgba(46,33,26,.30)}
+  .badge{display:inline-block;background:linear-gradient(180deg,#ffc444,#ffa812);color:var(--navy);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;box-shadow:0 0 18px rgba(255,176,32,.6)}
+  .relief .from{font-size:16px;color:#f1e6d6;margin-top:14px}
+  .relief .nums{margin-top:6px;font-family:'Playfair Display',Georgia,serif}
+  .relief .old{font-size:30px;color:#d8c3a5;text-decoration:line-through;text-decoration-color:#ff8a80}
+  .relief .arr{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;color:var(--gold);font-weight:800;padding:0 12px}
+  .relief .new{font-size:clamp(46px,9vw,62px);font-weight:700;text-shadow:0 0 24px rgba(255,255,255,.35)}
+  .relief .msg{font-size:17px;font-weight:700;line-height:1.5;margin-top:8px}
+  .relief .msg span{color:var(--gold);text-shadow:0 0 16px rgba(255,200,87,.6)}
+  .relief.flat{background:linear-gradient(160deg,#5e4d42,#3d2b20);box-shadow:none}
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .card{border-radius:16px;padding:18px 18px}
+  .card.now{background:linear-gradient(180deg,#fff7f6,#fdeeee);border:1px solid #f3d9d9}
+  .card.eq{background:linear-gradient(180deg,#fbf6ee,#f3eadc);border:2px solid #6b4a33;box-shadow:0 8px 22px rgba(107,74,51,.15)}
+  .card h3{margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+  .card.now h3{color:var(--red)}.card.eq h3{color:var(--blue)}
+  .r{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-top:1px solid rgba(46,33,26,.07);font-size:14px}
+  .r b{font-family:'Playfair Display',Georgia,serif;font-size:20px;color:var(--ink)}
+  .long{margin-top:14px;border-radius:16px;padding:18px 20px;background:linear-gradient(135deg,#fffaf0 0%,#ffefc7 100%);border:1px solid #ffd98a;box-shadow:0 8px 22px rgba(255,176,32,.18);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .long p{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink);flex:1 1 300px}
+  .long b.big{font-family:'Playfair Display',Georgia,serif;font-size:42px;color:#b26b00}
+  .bars{margin-top:18px}
+  .bar2 .t{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--ink);margin:10px 0 5px}
+  .track{height:14px;border-radius:10px;background:#f0e8dc;overflow:hidden;box-shadow:inset 0 1px 2px rgba(46,33,26,.08)}
+  .fill{height:100%;border-radius:10px;transition:width .45s ease}
+  .send{margin-top:22px;text-align:center}
+  .btn{display:block;width:100%;text-align:center;font:inherit;font-weight:800;font-size:17.5px;text-decoration:none;border:0;border-radius:14px;padding:18px;cursor:pointer;color:var(--navy);background:linear-gradient(180deg,#ffc444,#ffa812);box-shadow:0 8px 22px rgba(255,176,32,.5)}
+  .btn:hover{filter:brightness(1.03)}
+  .send p{font-size:13.5px;color:var(--mute);margin:10px 0 0}
+  .phones{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:18px;font-size:13px;color:var(--mute);text-align:center}
+  .phones a{display:block;font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:var(--ink);text-decoration:none}
+  .fine{font-size:11px;line-height:1.6;color:#a08f80;margin-top:8px}
+  @media(max-width:700px){
+    .drow{grid-template-columns:1fr 1fr;row-gap:10px}
+    .drow .x{grid-column:2;justify-self:end;margin-top:-6px}
+    .g2,.g3,.cmp,.strat{grid-template-columns:1fr}
+    .panel{padding:22px 16px}
+    .sub{margin-left:0}
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<style>.btn2{display:block;width:100%;margin-top:10px;text-align:center;font:inherit;font-weight:800;font-size:16px;border-radius:14px;padding:15px;cursor:pointer;color:#4a3426;background:#fff;border:2px solid #4a3426}.btn2:hover{background:#fbf7f0}.cf{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.cf div{border-radius:16px;padding:18px 16px;text-align:center;background:linear-gradient(135deg,#fffaf0 0%,#ffefc7 100%);border:1px solid #ffd98a;box-shadow:0 8px 22px rgba(255,176,32,.18)}.cf small{display:block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9a6200}.cf b{display:block;font-family:"Playfair Display",Georgia,serif;font-size:38px;color:#2e211a;line-height:1.15;margin-top:4px}.cf span{font-size:13px;color:#7a5a20}@media(max-width:700px){.cf{grid-template-columns:1fr}}
+  .chart{margin-top:16px;border:1px solid #ebdfcd;border-radius:18px;padding:20px 20px 18px;background:#fff;box-shadow:0 6px 18px rgba(46,33,26,.06)}
+  .chart h4{margin:0 0 12px;font-family:'Playfair Display',Georgia,serif;font-size:18px;color:#2e211a}
+  .cols{display:flex;justify-content:center;gap:48px;align-items:flex-end}
+  .col{width:140px;text-align:center}
+  .col .amt{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#c8383c;margin-bottom:6px}
+  .col .amt.blue{color:#a0683c}
+  .area{height:230px;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+  .stackbar{width:100%;border-radius:12px 12px 4px 4px;overflow:hidden;display:flex;flex-direction:column-reverse;transition:height .45s ease}
+  .stackbar div{width:100%;transition:height .45s ease}
+  .newbar{background:linear-gradient(180deg,#d9a877,#a0683c);box-shadow:0 0 16px rgba(160,104,60,.35)}
+  .ghost{width:100%;border:2px dashed #ffb020;border-bottom:0;border-radius:12px 12px 0 0;background:repeating-linear-gradient(45deg,rgba(255,200,87,.18) 0 8px,rgba(255,200,87,.06) 8px 16px);display:flex;align-items:center;justify-content:center;transition:height .45s ease}
+  .ghost span{font-size:13px;font-weight:800;color:#9a6200;background:#fff;border-radius:999px;padding:4px 10px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+  .col .lbl{margin-top:8px;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#8d7b6c}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin-top:12px;font-size:12.5px;color:#5e4d42}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .hb{display:grid;grid-template-columns:100px 1fr 90px;gap:10px;align-items:center;margin:8px 0;font-size:13px;font-weight:700;color:#2e211a}
+  .hb b{font-family:'Playfair Display',Georgia,serif;font-size:17px;text-align:right}
+  .htrack{height:16px;border-radius:10px;background:#f0e8dc;overflow:hidden}
+  .hfill{height:100%;border-radius:10px;transition:width .45s ease}
+  .hfill.red{background:linear-gradient(90deg,#f4a59d,#d9534f)}.hfill.blue{background:linear-gradient(90deg,#d9a877,#a0683c)}
+  @media(max-width:700px){.cols{gap:24px}.col{width:120px}.area{height:190px}.hb{grid-template-columns:86px 1fr 78px}}  #strat,#long{display:none !important}
+  .thanks{background:linear-gradient(135deg,#fffaf0 0%,#ffefc7 100%);border:1px solid #ffd98a;border-radius:18px;padding:18px 20px;margin-bottom:18px;box-shadow:0 10px 28px rgba(255,176,32,.25);font-size:15px;line-height:1.55;color:#2e211a;text-align:center}.thanks b{font-family:"Playfair Display",Georgia,serif;font-size:21px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="top">
+    <img class="kp" src="https://assets.cdn.filesafe.space/kvxpeTIt0Zy55URtDBeP/media/66abd4127152fd86a88631c5.jpeg" alt="Katie Pastor Trinidad">
+    <div class="kname">Katie Pastor Trinidad</div>
+    <div class="ktitle">Senior Mortgage Advisor &middot; NMLS 885654</div>
+    <div class="pills">
+      <a class="pill" href="tel:+19168505956">&#128222; Call or text: <span>916.850.5956</span></a>
+      <a class="pill" href="mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com">&#9993; <span>kpastor@partnersmortgage.com</span></a>
+    </div>
+    <div class="orn"><i></i><b>&#10022;</b><i></i></div>
+  </div>
+  <div class="head">
+    <div class="eyebrow">Your Private Debt Calculator</div>
+    <h1>See where your debt stands, <em>and how you could save.</em></h1>
+    <p>This tool is just for you. Enter your debts and home details to see how combining them could lower your monthly payments. Nothing is shared unless you choose to send it.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="panel">
+    <div class="ph"><div class="num">1</div><h2>Your home</h2></div>
+    <p class="sub">Your first mortgage stays exactly as it is. This helps estimate how much equity you can use.</p>
+    <div class="g2">
+      <div><label for="hv">Estimated home value</label><div class="f d"><input id="hv" inputmode="decimal" value="680,000"></div></div>
+      <div><label for="mb">What you owe on your mortgage</label><div class="f d"><input id="mb" inputmode="decimal" value="400,000"></div></div>
+    </div>
+    <div class="equity"><div>Estimated equity you could use<div class="hint" style="margin:2px 0 0">based on 90% of your home&rsquo;s value. Some lenders go up to 95%.</div></div><b id="avail">$0</b></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><div class="num">2</div><h2>Your debts</h2></div>
+    <p class="sub">Add each credit card, personal loan, auto loan or other debt. Use the balance, interest rate and monthly payment from your statements. Example numbers are filled in to start; replace them with yours.</p>
+    <div id="debts"></div>
+    <div class="adds">
+      <button class="add" type="button" data-t="Credit card">+ Credit card</button>
+      <button class="add" type="button" data-t="Personal loan">+ Personal loan</button>
+      <button class="add" type="button" data-t="Auto loan">+ Auto loan</button>
+      <button class="add" type="button" data-t="Student loan">+ Student loan</button>
+      <button class="add" type="button" data-t="Other">+ Other debt</button>
+    </div>
+    <div class="tot"><div>Total you owe<b id="tBal">$0</b></div><div>You pay each month<b id="tPay">$0</b></div></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><div class="num">3</div><h2>Your home equity option</h2></div>
+    <p class="sub">One payment that pays off the debts above. Adjust the amount, rate and term any way you like.</p>
+    <div class="seg" id="type">
+      <button type="button" data-v="loan" class="on">Home equity loan (fixed)</button>
+      <button type="button" data-v="line">HELOC (line of credit)</button>
+    </div>
+    <div class="g3">
+      <div>
+        <label for="amt">Loan amount</label>
+        <div class="f d"><input id="amt" inputmode="decimal" value="0"></div>
+        <label class="chk"><input type="checkbox" id="match" checked> Match my total debt</label>
+      </div>
+      <div>
+        <label for="rate">Example rate (APR)</label>
+        <div class="f p"><input id="rate" inputmode="decimal" value="9"></div>
+        <div class="hint">An example you can change. Your actual rate depends on credit, equity and loan type.</div>
+      </div>
+      <div>
+        <label for="term">Repayment term</label>
+        <div class="f"><select id="term"><option value="5">5 years</option><option value="10">10 years</option><option value="15">15 years</option><option value="20">20 years</option><option value="30" selected>30 years</option></select></div>
+        <div class="hint" id="typeNote">Fixed rate and fixed payment for the full term.</div>
+      </div>
+    </div>
+    <div class="strat" id="strat">
+      <label class="opt on"><input type="radio" name="s" value="req" checked> Lowest monthly payment <small id="reqTxt">Free up cash every month</small></label>
+      <label class="opt"><input type="radio" name="s" value="keep"> Keep paying what I pay now <small id="keepTxt">Pay it off faster and save more</small></label>
+    </div>
+    <div class="warn" id="ltv"></div>
+  </section>
+
+  <section class="panel">
+    <div class="ph"><div class="num">4</div><h2>Your results</h2></div>
+    <p class="sub">Updates as you type.</p>
+    <div class="relief" id="relief">
+      <span class="badge" id="badge">Lower monthly payment</span>
+      <div class="from" id="from">Your monthly debt payments could drop from</div>
+      <div class="nums"><span class="old" id="oldPay">$0</span><span class="arr">&rarr;</span><span class="new" id="newPay">$0</span></div>
+      <div class="msg" id="msg"></div>
+    </div>
+    <div class="cf" id="cf"><div><small>Monthly savings</small><b id="cfM">$0</b><span>more cash flow every month</span></div><div><small>Annual savings</small><b id="cfY">$0</b><span>more cash flow every year</span></div></div>
+    <div class="chart">
+      <h4>Your monthly payments, side by side</h4>
+      <div class="cols">
+        <div class="col"><div class="amt" id="chNow">$0</div><div class="area"><div class="stackbar" id="stackNow"></div></div><div class="lbl">Today</div></div>
+        <div class="col"><div class="amt blue" id="chNew">$0</div><div class="area"><div class="ghost" id="ghost"><span id="ghostTxt"></span></div><div class="stackbar newbar" id="stackNew"></div></div><div class="lbl">Consolidated</div></div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <h4 style="margin-top:22px">Per year</h4>
+      <div class="hb"><span>Today</span><div class="htrack"><div class="hfill red" id="yNowBar"></div></div><b id="yNow">$0</b></div>
+      <div class="hb"><span>Consolidated</span><div class="htrack"><div class="hfill blue" id="yNewBar"></div></div><b id="yNew">$0</b></div>
+    </div>
+    <div class="warn" id="warn"></div>
+    <div class="cmp">
+      <div class="card now">
+        <h3>Your debts today</h3>
+        <div class="r"><span>Monthly payments</span><b id="nPay">$0</b></div>
+        <div class="r" id="nTotRow"><span>Total you&rsquo;d pay</span><b id="nTot">$0</b></div>
+      </div>
+      <div class="card eq">
+        <h3 id="eqH">With one home equity loan</h3>
+        <div class="r"><span>Monthly payment</span><b id="ePay">$0</b></div>
+        <div class="r" id="eTotRow"><span>Total you&rsquo;d pay</span><b id="eTot">$0</b></div>
+      </div>
+    </div>
+    <div class="long" id="long"><p id="longTxt"></p><b class="big" id="longNum"></b></div>
+    <div class="send">
+      <a class="btn" id="mailBtn" href="#">&#9993;&nbsp; Email My Results to Katie &rarr;</a>
+      <button class="btn2" id="pdfBtn" type="button">&#128196;&nbsp; Download My Results (PDF)</button>
+      <p>Want a second set of eyes? Email your results and I&rsquo;ll get right back to you with your real options. Or download the PDF and keep it for yourself.</p>
+    </div>
+    <div class="phones">
+      <div>Call or text Katie<a href="tel:+19168505956">916.850.5956</a></div>
+      <div>Jonathan, Katie&rsquo;s Refinance Specialist<a href="tel:+19167705899">916.770.5899</a></div>
+    </div>
+  </section>
+
+  <p class="fine">This calculator is for illustration and education only. It is not a loan estimate, rate quote, approval or offer of credit. Results are estimates based on the numbers you enter and assume no new charges, on-time payments, and a rate that does not change. Each current debt is assumed to be paid at the monthly payment you enter until it is paid off. The 9% example rate is not an offer; actual rates, terms, loan amounts and closing costs depend on credit, income, home value, equity, property type and underwriting. Available equity is a rough estimate at 90% combined loan-to-value; some lenders allow up to 95%, and limits vary by lender, credit and property. HELOC rates are typically variable and can change, and many HELOCs begin with an interest-only draw period; this calculator assumes principal-and-interest payments. Closing costs, if any, can be added to the loan amount. A lower monthly payment over a longer term can increase the total interest you pay. Consolidating debt into a loan secured by your home puts your home at risk if you cannot make payments. Equal Housing Opportunity. Partners Mortgage, 1805 E. Garry Avenue, Santa Ana, CA 92705 | Corporate NMLS #236669 | Corporate DRE #01845041. Katie Pastor Trinidad, NMLS #885654. Partners Mortgage is a mortgage lender and broker, not a debt settlement or credit counseling service.</p>
+</div>
+
+<script>
+(function(){
+  var debts = [
+    {type:'Credit card',  name:'Credit card',   bal:'10,895', apr:'22.36', pay:'312'},
+    {type:'Personal loan',name:'Personal loan', bal:'11,697', apr:'11.90', pay:'307'},
+    {type:'Auto loan',    name:'Car',           bal:'38,245', apr:'11.19', pay:'835'}
+  ];
+  var TYPES = ['Credit card','Personal loan','Auto loan','Student loan','Medical','Other'];
+  var st = {type:'loan', strat:'req', match:true};
+  var $ = function(id){ return document.getElementById(id); };
+  function n(v){ v = String(v == null ? '' : v).replace(/[^0-9.]/g,''); var x = parseFloat(v); return isNaN(x) ? 0 : x; }
+  function $$(x){ return '$' + Math.round(x).toLocaleString('en-US'); }
+  function dur(m){ if(m === Infinity) return 'Never'; var y = Math.floor(m/12), r = m % 12; if(y && r) return y + ' yr ' + r + ' mo'; if(y) return y + (y === 1 ? ' year' : ' years'); return r + (r === 1 ? ' month' : ' months'); }
+  function payEst(d){ var b = n(d.bal), r = n(d.apr)/1200; if(!b) return 0; if(d.type === 'Credit card' || d.type === 'Other' || d.type === 'Medical') return Math.max(25, Math.ceil(b*r + b*0.01)); var k = 60; return r ? Math.ceil(b*r/(1 - Math.pow(1+r, -k))) : Math.ceil(b/k); }
+  function payOf(d){ return String(d.pay).trim() === '' ? payEst(d) : n(d.pay); }
+  function sim(bal, apr, pay){
+    var r = apr/1200, m = 0, I = 0;
+    if(bal <= 0) return {m:0, I:0};
+    if(pay <= bal*r + 0.005) return {m:Infinity, I:Infinity};
+    while(bal > 0.005 && m < 1200){ var i = bal*r; I += i; var p = Math.min(pay, bal + i); bal = bal + i - p; m++; }
+    return {m:m, I:I};
+  }
+  function pmt(P, apr, k){ var r = apr/1200; if(!r) return P/k; return P*r/(1 - Math.pow(1+r, -k)); }
+  function fmtInput(el){ var v = n(el.value); el.value = v ? Math.round(v).toLocaleString('en-US') : ''; }
+
+  function render(){
+    var box = $('debts'); box.innerHTML = '';
+    debts.forEach(function(d, i){
+      var row = document.createElement('div'); row.className = 'drow';
+      var opts = TYPES.map(function(t){ return '<option' + (t === d.type ? ' selected' : '') + '>' + t + '</option>'; }).join('');
+      row.innerHTML =
+        '<div><label>Type</label><div class="f"><select data-k="type">' + opts + '</select></div></div>' +
+        '<div><label>Name</label><div class="f"><input data-k="name" value="' + String(d.name).replace(/"/g,'&quot;') + '"></div></div>' +
+        '<div><label>Balance</label><div class="f d"><input data-k="bal" inputmode="decimal" value="' + d.bal + '"></div></div>' +
+        '<div><label>Rate</label><div class="f p"><input data-k="apr" inputmode="decimal" value="' + d.apr + '"></div></div>' +
+        '<div><label>Monthly pmt</label><div class="f d"><input data-k="pay" inputmode="decimal" value="' + d.pay + '" placeholder="est. ' + (payEst(d) || '') + '"></div></div>' +
+        '<button class="x" type="button" title="Remove" aria-label="Remove debt">&times;</button>';
+      row.querySelectorAll('input,select').forEach(function(el){
+        var k = el.getAttribute('data-k');
+        el.addEventListener('input', function(){ d[k] = el.value; row.querySelector('[data-k="pay"]').placeholder = 'est. ' + (payEst(d) || ''); calc(); });
+        el.addEventListener('change', function(){ d[k] = el.value; calc(); });
+        if(k === 'bal' || k === 'pay') el.addEventListener('blur', function(){ if(el.value.trim() !== ''){ fmtInput(el); d[k] = el.value; } });
+      });
+      row.querySelector('.x').addEventListener('click', function(){ debts.splice(i,1); render(); calc(); });
+      box.appendChild(row);
+    });
+  }
+
+  function calc(){
+    var bal = 0, pay = 0, I = 0, M = 0, stuck = false;
+    debts.forEach(function(d){
+      var b = n(d.bal), a = n(d.apr), p = payOf(d);
+      if(!b) return;
+      bal += b; pay += p;
+      var r = sim(b, a, p);
+      if(r.m === Infinity) stuck = true; else { I += r.I; M = Math.max(M, r.m); }
+    });
+    $('tBal').textContent = $$(bal); $('tPay').textContent = $$(pay) + '/mo';
+
+    var hv = n($('hv').value), mb = n($('mb').value);
+    var avail = Math.max(0, hv*0.9 - mb);
+    $('avail').textContent = hv ? $$(avail) : '–';
+
+    if(st.match) $('amt').value = Math.round(bal).toLocaleString('en-US');
+    var L = n($('amt').value), apr = n($('rate').value), k = n($('term').value)*12;
+    var req = L > 0 ? pmt(L, apr, k) : 0;
+    $('reqTxt').textContent = 'About ' + $$(req) + '/mo, frees up cash every month';
+    $('keepTxt').textContent = 'Put ' + $$(pay) + '/mo toward it and pay it off faster';
+
+    var ePay, eM, eI;
+    if(st.strat === 'keep' && pay > req){ ePay = pay; var s2 = sim(L, apr, ePay); eM = s2.m; eI = s2.I; }
+    else { ePay = req; eM = k; eI = req*k - L; }
+
+    var ltv = $('ltv');
+    if(hv > 0 && L > 0){
+      var cltv = (mb + L)/hv*100;
+      if(cltv > 95){ ltv.style.display = 'block'; ltv.textContent = 'Heads up: your mortgage plus this loan would be about ' + Math.round(cltv) + '% of your home’s value, which is more than most lenders allow. I can help you find the right amount.'; }
+      else if(cltv > 90){ ltv.style.display = 'block'; ltv.textContent = 'Your mortgage plus this loan would be about ' + Math.round(cltv) + '% of your home’s value. Some lenders allow up to 95%, and I’ll check what you qualify for.'; }
+      else ltv.style.display = 'none';
+    } else ltv.style.display = 'none';
+
+    var warn = $('warn');
+    if(stuck){ warn.style.display = 'block'; warn.textContent = 'At least one payment doesn’t cover that debt’s monthly interest, so it would never be paid off at that payment. It’s left out of the totals below.'; }
+    else if(st.strat === 'keep' && pay <= req && L > 0){ warn.style.display = 'block'; warn.textContent = 'Your current payments are lower than this loan’s required payment, so the results use the required payment.'; }
+    else warn.style.display = 'none';
+
+    $('nPay').textContent = $$(pay) + '/mo';
+    $('nTot').textContent = $$(bal + I);
+    $('eqH').textContent = st.type === 'loan' ? 'With one home equity loan' : 'With one HELOC';
+    $('ePay').textContent = $$(ePay) + '/mo';
+    $('eTot').textContent = $$(L + eI);
+
+    var rel = $('relief'), monthly = pay - ePay, nTot = bal + I, eTot = L + eI, saveTot = nTot - eTot;
+    $('oldPay').textContent = $$(pay); $('newPay').textContent = $$(ePay);
+    if(bal <= 0 || L <= 0){ rel.className = 'relief flat'; $('badge').textContent = 'Your results'; $('from').textContent = 'Add at least one debt to see your savings.'; $('msg').textContent = ''; }
+    else if(monthly > 0.5){
+      rel.className = 'relief';
+      $('badge').textContent = Math.round(monthly/pay*100) + '% lower monthly payment';
+      $('from').textContent = 'Your monthly debt payments could drop from';
+      $('msg').innerHTML = 'That’s <span>' + $$(monthly) + ' a month</span>, or <span>' + $$(monthly*12) + ' a year</span>, back in your pocket.';
+    } else {
+      rel.className = 'relief';
+      $('badge').textContent = saveTot > 0 ? 'Same payment, less interest' : 'Your results';
+      $('from').textContent = 'Keeping your monthly payment the same:';
+      $('msg').innerHTML = saveTot > 0 ? 'You’d save about <span>' + $$(saveTot) + '</span>' + ' overall.' : 'With these numbers, the total cost is about the same. Let’s look for a better fit together.';
+    }
+
+    if(bal > 0 && L > 0 && monthly > 0.5){ $('cf').style.display = 'grid'; $('cfM').textContent = $$(monthly) + '/mo'; $('cfY').textContent = $$(monthly*12) + '/yr'; } else $('cf').style.display = 'none';
+    var showTot = bal > 0 && L > 0 && eTot < nTot; $('nTotRow').style.display = showTot ? 'flex' : 'none'; $('eTotRow').style.display = showTot ? 'flex' : 'none';
+    var COLORS = ['#c8383c','#e06666','#ef9a9a','#a8495a','#d77a8a','#8c3a4a'];
+    var top = Math.max(pay, ePay, 1), H = 200, sn = $('stackNow'); sn.innerHTML = ''; var leg = '';
+    debts.filter(function(d){ return n(d.bal); }).forEach(function(d, idx){ var c = COLORS[idx % COLORS.length], h = payOf(d)/top*H; var seg = document.createElement('div'); seg.style.height = h + 'px'; seg.style.background = c; seg.title = d.type + ': ' + $$(payOf(d)); sn.appendChild(seg); leg += '<span><i style="background:' + c + '"></i>' + d.type + (d.name && d.name !== d.type ? ' (' + d.name + ')' : '') + ' ' + $$(payOf(d)) + '</span>'; });
+    leg += '<span><i style="background:#a0683c"></i>One home equity payment ' + $$(ePay) + '</span>';
+    $('legend').innerHTML = leg;
+    sn.style.height = (pay/top*H) + 'px'; $('stackNew').style.height = (ePay/top*H) + 'px';
+    var gap = pay - ePay; $('ghost').style.height = gap > 0.5 ? (gap/top*H) + 'px' : '0px'; $('ghost').style.borderWidth = gap > 0.5 ? '2px' : '0';
+    $('ghostTxt').textContent = gap > 0.5 ? $$(gap) + ' saved' : ''; $('ghostTxt').style.display = gap > 0.5 ? 'inline-block' : 'none';
+    $('chNow').textContent = $$(pay); $('chNew').textContent = $$(ePay);
+    var ytop = Math.max(pay, ePay, 1)*12; $('yNow').textContent = $$(pay*12); $('yNew').textContent = $$(ePay*12);
+    $('yNowBar').style.width = (pay*12/ytop*100) + '%'; $('yNewBar').style.width = (ePay*12/ytop*100) + '%';
+    var k2 = sim(L, apr, Math.max(pay, req)), keepSave = nTot - (L + k2.I), sooner = M - k2.m, lb = $('long');
+    if(st.strat === 'req' && L > 0 && bal > 0 && keepSave > 0){
+      lb.style.display = 'flex';
+      $('longTxt').innerHTML = '<strong>Want to save even more?</strong><br>Keep paying ' + $$(pay) + '/mo toward the new loan and you\u2019d save about this much overall. The lowest payment costs more over ' + (k/12) + ' years.';
+      $('longNum').textContent = $$(keepSave);
+    } else lb.style.display = 'none';
+
+
+    window._R = {hv:hv, mb:mb, avail:avail, bal:bal, pay:pay, nTot:nTot, L:L, apr:apr, yrs:k/12, type:st.type, strat:st.strat, ePay:ePay, eTot:eTot, monthly:monthly, req:req, keepSave:keepSave, debts:debts.filter(function(d){ return n(d.bal); }).map(function(d){ return {type:d.type, name:d.name, bal:n(d.bal), apr:n(d.apr), pay:payOf(d)}; })};
+    var lines = debts.filter(function(d){ return n(d.bal); }).map(function(d){ return '- ' + d.type + (d.name && d.name !== d.type ? ' (' + d.name + ')' : '') + ': ' + $$(n(d.bal)) + ' at ' + n(d.apr) + '%, paying ' + $$(payOf(d)) + '/mo'; }).join('\r\n');
+    var body = 'Hi Katie,\r\n\r\nI used your debt calculator. Here are my numbers:\r\n\r\nMY HOME\r\n- Estimated home value: ' + $$(hv) + '\r\n- Mortgage balance: ' + $$(mb) + '\r\n\r\nMY DEBTS\r\n' + lines +
+      '\r\n- Total: ' + $$(bal) + ', paying ' + $$(pay) + '/mo\r\n\r\nWHAT I LOOKED AT\r\n- ' + (st.type === 'loan' ? 'Home equity loan' : 'HELOC') + ': ' + $$(L) + ', ' + (k/12) + '-year term, ' + apr + '% example rate\r\n- Estimated payment: ' + $$(ePay) + '/mo (' + (st.strat === 'keep' ? 'keep paying my current amount' : 'lowest payment') + ')' +
+      '\r\n\r\nPlease run my real numbers and let me know my options.\r\n\r\nBest number to reach me: \r\nBest time to call: \r\n\r\nThanks!';
+    $('mailBtn').href = 'mailto:kpastor@partnersmortgage.com?cc=jkarabinus@partnersmortgage.com&subject=' + encodeURIComponent('My Debt Calculator Results') + '&body=' + encodeURIComponent(body);
+  }
+
+  document.querySelectorAll('.add').forEach(function(b){ b.addEventListener('click', function(){ var t = b.getAttribute('data-t'); debts.push({type:t, name:t, bal:'', apr:'', pay:''}); render(); calc(); var rows = document.querySelectorAll('.drow'); var last = rows[rows.length-1]; if(last) last.querySelector('[data-k="bal"]').focus(); }); });
+  ['hv','mb'].forEach(function(id){ $(id).addEventListener('input', calc); $(id).addEventListener('blur', function(){ fmtInput($(id)); calc(); }); });
+  $('amt').addEventListener('input', function(){ st.match = false; $('match').checked = false; calc(); });
+  $('amt').addEventListener('blur', function(){ fmtInput($('amt')); });
+  $('match').addEventListener('change', function(){ st.match = this.checked; calc(); });
+  $('rate').addEventListener('input', calc);
+  $('term').addEventListener('change', calc);
+  document.querySelectorAll('#type button').forEach(function(b){ b.addEventListener('click', function(){
+    document.querySelectorAll('#type button').forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on');
+    st.type = b.getAttribute('data-v');
+    $('typeNote').textContent = st.type === 'loan' ? 'Fixed rate and fixed payment for the full term.' : 'HELOC rates are usually variable. This assumes the rate stays the same and you pay principal and interest.';
+    calc();
+  }); });
+  document.querySelectorAll('#strat input').forEach(function(r){ r.addEventListener('change', function(){
+    st.strat = r.value;
+    document.querySelectorAll('#strat .opt').forEach(function(l){ l.classList.toggle('on', l.querySelector('input').checked); });
+    calc();
+  }); });
+
+  function makePDF(){
+    var R = window._R; if(!R || !window.jspdf) return null;
+    var doc = new window.jspdf.jsPDF({unit:'pt', format:'letter'});
+    var W = 612, x = 48, y = 0, NAVY = [46,33,26], GOLD = [255,200,87], BLUE = [160,104,60], RED = [200,56,60], TXT = [94,77,66];
+    function m(v){ return '$' + Math.round(v).toLocaleString('en-US'); }
+    doc.setFillColor.apply(doc, NAVY); doc.rect(0,0,W,108,'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(22); doc.text('Your Debt Savings Results', x, 46);
+    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(241,230,214);
+    doc.text('Prepared ' + new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) + ' with Katie Pastor Trinidad’s Debt Calculator', x, 66);
+    doc.setTextColor.apply(doc, GOLD); doc.setFont('helvetica','bold'); doc.text('Katie Pastor Trinidad  |  916.850.5956  |  kpastor@partnersmortgage.com', x, 88);
+    y = 140;
+    // savings banner
+    doc.setFillColor(251,247,240); doc.setDrawColor(235,223,205); doc.roundedRect(x, y-24, W-2*x, 92, 10, 10, 'FD');
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor.apply(doc, BLUE); doc.text('YOUR MONTHLY DEBT PAYMENTS', x+18, y-4);
+    doc.setFontSize(26); doc.setTextColor(170,150,130); doc.text(m(R.pay), x+18, y+30);
+    var w1 = doc.getTextWidth(m(R.pay)); doc.setDrawColor(255,138,128); doc.setLineWidth(2); doc.line(x+18, y+21, x+18+w1, y+21);
+    doc.setTextColor.apply(doc, NAVY); doc.text('   now  ' + m(R.ePay) + '/mo', x+18+w1, y+30);
+    doc.setFontSize(12); doc.setTextColor.apply(doc, TXT);
+    var line = R.monthly > 0.5 ? 'That’s ' + m(R.monthly) + ' a month (' + m(R.monthly*12) + ' a year) back in your budget.' : (R.nTot - R.eTot > 0 ? 'Same payment, about ' + m(R.nTot - R.eTot) + ' saved overall.' : 'See notes below.');
+    doc.text(line, x+18, y+54);
+    y += 92;
+    function head(t){ y += 14; doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor.apply(doc, NAVY); doc.text(t, x, y); doc.setDrawColor(255,176,32); doc.setLineWidth(2); doc.line(x, y+6, x+28, y+6); y += 20; }
+    function row(a, b, bold, color){ doc.setFont('helvetica', bold ? 'bold' : 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, TXT); doc.text(a, x, y); doc.setTextColor.apply(doc, color || NAVY); doc.text(b, W-x, y, {align:'right'}); doc.setDrawColor(240,232,220); doc.setLineWidth(0.5); doc.line(x, y+6, W-x, y+6); y += 19; }
+    head('Your home');
+    row('Estimated home value', m(R.hv)); row('Mortgage balance (stays the same)', m(R.mb)); row('Estimated equity you could use (90% of value)', m(R.avail));
+    head('Your debts today');
+    R.debts.forEach(function(d){ row(d.type + (d.name && d.name !== d.type ? ' (' + d.name + ')' : '') + '  ·  ' + m(d.bal) + ' at ' + d.apr + '%', m(d.pay) + '/mo'); });
+    row('Total: ' + m(R.bal), m(R.pay) + '/mo', true, RED);
+    head('With one ' + (R.type === 'loan' ? 'home equity loan' : 'HELOC'));
+    row('Loan amount  ·  example rate (APR)  ·  term', m(R.L) + '  ·  ' + R.apr + '%  ·  ' + R.yrs + ' yrs');
+    row('Monthly payment (' + (R.strat === 'keep' ? 'keep paying current amount' : 'lowest payment') + ')', m(R.ePay) + '/mo', true, BLUE);
+    head('Side by side');
+    if(R.monthly > 0.5){ row('Monthly savings (more cash flow)', m(R.monthly) + '/mo', true, [178,107,0]); row('Annual savings (more cash flow)', m(R.monthly*12) + '/yr', true, [178,107,0]); }
+    if(R.eTot < R.nTot) row('Total you’d pay: today vs. consolidated', m(R.nTot) + '  vs.  ' + m(R.eTot));
+    // next steps
+    y += 12; if(y > 655){ doc.addPage(); y = 60; } doc.setFillColor.apply(doc, NAVY); doc.roundedRect(x, y, W-2*x, 78, 10, 10, 'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.text('Next step: let’s run your real numbers.', x+16, y+24);
+    doc.setFont('helvetica','normal'); doc.setFontSize(10.5); doc.setTextColor(241,230,214);
+    doc.text('Katie: 916.850.5956  |  kpastor@partnersmortgage.com', x+16, y+44);
+    doc.text('Jonathan, Katie’s Refinance Specialist: 916.770.5899', x+16, y+61);
+    y += 92; if(y > 740){ doc.addPage(); y = 60; }
+    doc.setFontSize(7.5); doc.setTextColor(160,143,128);
+    var disc = 'For illustration only. Not a loan estimate, rate quote, approval or offer of credit. Estimates are based on the numbers entered and assume no new charges, on-time payments and a rate that does not change. The example rate is not an offer; actual rates, terms, loan amounts and closing costs depend on credit, income, home value, equity and underwriting. HELOC rates are typically variable. A lower payment over a longer term can increase the total you pay. Consolidating debt into a loan secured by your home puts your home at risk if you cannot make payments. Equal Housing Opportunity. Partners Mortgage, 1805 E. Garry Avenue, Santa Ana, CA 92705 | Corporate NMLS #236669 | Corporate DRE #01845041. Katie Pastor Trinidad, NMLS #885654.';
+    doc.text(doc.splitTextToSize(disc, W-2*x), x, y);
+    return doc;
+  }
+  $('pdfBtn').addEventListener('click', function(){
+    var doc = makePDF();
+    if(!doc){ alert('One moment, the PDF tool is still loading. Please try again.'); return; }
+    var name = 'My-Debt-Savings-Results.pdf';
+    try{
+      var file = new File([doc.output('blob')], name, {type:'application/pdf'});
+      if(navigator.canShare && navigator.canShare({files:[file]}) && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
+        navigator.share({files:[file], title:'My Debt Savings Results'}).catch(function(){ doc.save(name); });
+        return;
+      }
+    }catch(e){}
+    doc.save(name);
+  });
+  render(); calc();
+})();
+</script>
+</body>
+</html>
